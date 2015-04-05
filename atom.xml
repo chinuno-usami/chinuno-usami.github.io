@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-04-04T13:08:38.010Z</updated>
+  <updated>2015-04-05T03:54:35.980Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[迁移到Github上了]]></title>
+    <link href="http://chinuno-usami.github.io/2015/04/05/hexo/"/>
+    <id>http://chinuno-usami.github.io/2015/04/05/hexo/</id>
+    <published>2015-04-05T02:10:58.000Z</published>
+    <updated>2015-04-05T03:54:35.980Z</updated>
+    <content type="html"><![CDATA[<h3 id="0x00">0x00</h3><p>原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。</p>
+<h3 id="0x01">0x01</h3><p>树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了<br>所以直接在树莓派上面搞了个<a href="http://hexo.io" target="_blank" rel="external">hexo</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="0x02">0x02</h3><p>路由器加了<code>DDNS</code>和<code>ssh</code>,<code>4000端口</code>的端口轉發<br>這樣就可以在任何地方連接到樹莓派進行寫作和部署了</p>
+<h3 id="0x03">0x03</h3><p>把该设置的东西设置好之后就把原来wordpress的文章给导过来<br>要用到<a href="https://github.com/hexojs/hexo-migrator-wordpress" target="_blank" rel="external">hexo-migrator-wordpress</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-migrator-wordpress --save</span><br></pre></td></tr></table></figure></p>
+<p>在wordpress后台导出数据后就可以用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo migrate wordpress &lt;<span class="built_in">source</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p>导入了<br>需要注意的是导入会把所有的文章页面全部导入，连已经删除放到回收站的都会被导进去，所以不要的文章页面还需要手动删除。<br>另外插件会把文章转换成markdown，有些地方还需要修改，比如<a href="http://chinuno-usami.github.io/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/" target="_blank" rel="external">关于vs2013宏</a>的那篇文章中的/*…*/就没有转换好，正常情况需要转义字符来表示*而不是变成斜体文字<br>另外还有原来wordpress使用各种代码高亮插件，转换成markdown后不能正常使用。hexo可以使用<a href="https://help.github.com/articles/github-flavored-markdown/" target="_blank" rel="external">GitHub Flavored Markdown</a><br>所以可以用</p>
+<blockquote>
+<p>``` ruby<br>require ‘redcarpet’<br>markdown = Redcarpet.new(“Hello World!”)<br>puts markdown.to_html<br>```</p>
+</blockquote>
+<p>这样的方式进行代码高亮，这些地方也需要手动修改</p>
+<h3 id="0x04">0x04</h3><p>不得不说这初代树莓派的性能确实捉急，npm安装需要的东西时就觉得特别慢了，在<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure></p>
+<p>的时候要等好久本地服务器才能起来，而查看页面的时候也是要等好久<br>还好在生成页面和部署的时候虽然也花了好长时间，不过速度不是很慢。对于没有vps的我来说已经是最好的方案了</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="0x00">0x00</h3><p>原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。</p>
+<h3 id="0x01">0x01</h3><p>树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了<br>所以直接在树莓派上面搞了个<a href="http://hexo.io">hexo</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure></p>]]>
+    
+    </summary>
+    
+      <category term="Github" scheme="http://chinuno-usami.github.io/tags/Github/"/>
+    
+      <category term="hexo" scheme="http://chinuno-usami.github.io/tags/hexo/"/>
+    
+      <category term="树莓派" scheme="http://chinuno-usami.github.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[坑爹的魅蓝note调试adb问题]]></title>

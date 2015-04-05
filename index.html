@@ -116,6 +116,101 @@
           
           
             
+              <a class="post-title-link" href="/2015/04/05/hexo/">
+                迁移到Github上了
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          
+            發表於 2015-04-05
+          
+        </span>
+
+        
+          
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/04/05/hexo/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/05/hexo/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <h3 id="0x00">0x00</h3><p>原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。</p>
+<h3 id="0x01">0x01</h3><p>树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了<br>所以直接在树莓派上面搞了个<a href="http://hexo.io">hexo</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure></p>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/04/05/hexo/#more">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Github/">
+                #Github
+              </a>
+            
+              <a href="/tags/hexo/">
+                #hexo
+              </a>
+            
+              <a href="/tags/树莓派/">
+                #树莓派
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/28/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98/">
                 坑爹的魅蓝note调试adb问题
               </a>
@@ -901,98 +996,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/">
-                搭建arm交叉編譯環境Part.1
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-04
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用win8自帶的虛擬機hyper-v裝個archlinux作為交叉編譯的系統平臺，然後使用ssh連接過去進行操作。archlinux可以除去不需要的東西做到最小化的編譯環境搭建。</p>
-<p>首先到archlinux的官網從163的鏡像下載了最新的archlinux安裝鏡像archlinux-2015.03.01-dual.iso</p>
-<p>啟用hyper-v並且重啟後hyper-v虛擬機就可以用了，在hyper-v管理器中新建虛擬交換機用於虛擬機跟外界的網路連接，然後新建archlinux的虛擬機<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptnvihf4aj20iq0hytcd.jpg" alt=""></p>
-<p>啟動虛擬機進行系統的安裝</p>
-<p><img src="http://ww2.sinaimg.cn/large/4ec84d23gw1eptuldez6fj20ut0m1aga.jpg" alt=""></p>
-<p>安裝完系統裝上必要的網路服務工具和openssh就能ssh到archlinux進行操作了，archlinux使用systemctl就能添加系統服務開機運行了還是很方便的。</p>
-<p>archlinux的安裝花的時間不長，但是需要仔細一點，中間漏了某一步可能就需要重來了，最好還是跟著官方wiki上的步驟來做，在安裝環境的/root/下面也有一份簡易的安裝步驟。</p>
-<p>這一p就先到這裡吧，更新下一p的時候再繼續後面的步驟。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1026,7 +1029,7 @@
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <a href="/archives">
-            <span class="site-state-item-count">15</span>
+            <span class="site-state-item-count">16</span>
             <span class="site-state-item-name">文章</span>
           </a>
         </div>
@@ -1040,7 +1043,7 @@
 
         <div class="site-state-item site-state-tags">
           <a href="/tags">
-            <span class="site-state-item-count">2</span>
+            <span class="site-state-item-count">3</span>
             <span class="site-state-item-name">標籤</span>
           </a>
         </div>

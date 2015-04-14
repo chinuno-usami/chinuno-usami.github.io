@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://chinuno-usami.github.io/2015/04/14/android-studio-add-library/</loc>
+    <lastmod>2015-04-14T13:24:10.545Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://chinuno-usami.github.io/2015/04/06/surface-pro-3/</loc>
     <lastmod>2015-04-07T07:28:56.850Z</lastmod>
   </url>
@@ -27,11 +32,6 @@
   </url>
   
   <url>
-    <loc>http://chinuno-usami.github.io/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/</loc>
-    <lastmod>2015-04-04T13:08:38.010Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://chinuno-usami.github.io/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/</loc>
     <lastmod>2015-04-04T13:08:38.010Z</lastmod>
   </url>
@@ -42,13 +42,8 @@
   </url>
   
   <url>
-    <loc>http://chinuno-usami.github.io/2015/03/25/e8-b0-b7-e6-ad-8c-e7-a7-b0cnnic-e5-8f-91-e5-b8-83-e4-b8-ad-e9-97-b4-e4-ba-ba-e6-94-bb-e5-87-bb-e8-af-81-e4-b9-a6/</loc>
+    <loc>http://chinuno-usami.github.io/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/</loc>
     <lastmod>2015-04-04T13:08:38.010Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
   </url>
   
   <url>
@@ -62,12 +57,12 @@
   </url>
   
   <url>
-    <loc>http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/</loc>
+    <loc>http://chinuno-usami.github.io/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/</loc>
     <lastmod>2015-04-04T13:08:38.000Z</lastmod>
   </url>
   
   <url>
-    <loc>http://chinuno-usami.github.io/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/</loc>
+    <loc>http://chinuno-usami.github.io/2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/</loc>
     <lastmod>2015-04-04T13:08:38.000Z</lastmod>
   </url>
   
@@ -82,8 +77,8 @@
   </url>
   
   <url>
-    <loc>http://chinuno-usami.github.io/2015/02/28/e6-96-b0-e7-9a-84-e6-8a-80-e6-9c-af-e5-8d-9a-e5-ae-a2/</loc>
-    <lastmod>2015-04-04T13:08:37.990Z</lastmod>
+    <loc>http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/</loc>
+    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
   </url>
   
   <url>

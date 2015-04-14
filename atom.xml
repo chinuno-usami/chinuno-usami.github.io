@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-04-07T07:28:56.850Z</updated>
+  <updated>2015-04-14T13:24:10.545Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Android Studio引用Library]]></title>
+    <link href="http://chinuno-usami.github.io/2015/04/14/android-studio-add-library/"/>
+    <id>http://chinuno-usami.github.io/2015/04/14/android-studio-add-library/</id>
+    <published>2015-04-14T12:19:08.000Z</published>
+    <updated>2015-04-14T13:24:10.545Z</updated>
+    <content type="html"><![CDATA[<p>使用微博sdk需要引入sdk的library，现在用的<code>Android Studio</code>不知道该怎么引所以网上查了一下。好像基本上没人在说这个问题。先把它记录下来免得以后忘了。</p>
+<ul>
+<li>点击<code>File-&gt;Import Module</code><br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1er5ds0om4aj20bm06pdge.jpg" alt=""></li>
+<li>填入路径next就行<br><img src="http://ww1.sinaimg.cn/large/4ec84d23gw1er5dyufhxzj215o0qo41g.jpg" alt=""></li>
+<li>好了。添加进去了<br><img src="http://ww4.sinaimg.cn/large/4ec84d23gw1er5erwtnbyj20et09x0tg.jpg" alt=""></li>
+<li>最后记得添加dependencies就行<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1er5eyvlvpdj20rv0940u3.jpg" alt=""></li>
+</ul>
+<p>= =好吧今天这篇真是短。内容有用就行啦。<br>嗯顺便清理了几篇比较羞耻的文章，感觉萌萌哒【【【。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>使用微博sdk需要引入sdk的library，现在用的<code>Android Studio</code>不知道该怎么引所以网上查了一下。好像基本上没人在说这个问题。先把它记录下来免得以后忘了。</p>
+<ul>
+<li>点击<code>File-&gt;Import M]]>
+    </summary>
+    
+      <category term="Android" scheme="http://chinuno-usami.github.io/tags/Android/"/>
+    
+      <category term="Android Studio" scheme="http://chinuno-usami.github.io/tags/Android-Studio/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Surface Pro 3 购买参考与使用感受]]></title>
@@ -135,22 +162,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。<br>已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[谷歌称CNNIC发布中间人攻击证书]]></title>
-    <link href="http://chinuno-usami.github.io/2015/03/25/e8-b0-b7-e6-ad-8c-e7-a7-b0cnnic-e5-8f-91-e5-b8-83-e4-b8-ad-e9-97-b4-e4-ba-ba-e6-94-bb-e5-87-bb-e8-af-81-e4-b9-a6/"/>
-    <id>http://chinuno-usami.github.io/2015/03/25/e8-b0-b7-e6-ad-8c-e7-a7-b0cnnic-e5-8f-91-e5-b8-83-e4-b8-ad-e9-97-b4-e4-ba-ba-e6-94-bb-e5-87-bb-e8-af-81-e4-b9-a6/</id>
-    <published>2015-03-24T16:35:42.000Z</published>
-    <updated>2015-04-04T13:08:38.010Z</updated>
-    <content type="html"><![CDATA[<p><a href="http://www.williamlong.info/archives/4183.html" target="_blank" rel="external">http://www.williamlong.info/archives/4183.html</a><br>具体情况还是看上面链接吧。。<br>CNNIC做这种事又不是第一次了，要不然怎么早就有人要把CNNIC拉黑名单了。真是肮脏- =这种东西<br>该怎么做大家应该也都知道了吧，至于那些用CNNIC发的证书的【干净】的网站，打不开也无所谓了，反正都是些没什么价值的东西，活该你用CNNIC的证书</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><a href="http://www.williamlong.info/archives/4183.html" target="_blank" rel="external">http://www.williamlong.info/archives/4183.html</a]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
@@ -392,22 +403,6 @@
     <summary type="html">
     <![CDATA[<p>既然这里搭好了就发篇文章吧</p>
 <p>在更新到android5.0之后SL4A已经不能使用了，一执行脚本就会黑掉然后崩掉。Qpython原本也是会出问题的后来很快更新了新版本已经解决了5.0的问题了，倒是SL4A一直都没有更新的动作于是现在都用Qpython来运行pyt]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[新的技术博客]]></title>
-    <link href="http://chinuno-usami.github.io/2015/02/28/e6-96-b0-e7-9a-84-e6-8a-80-e6-9c-af-e5-8d-9a-e5-ae-a2/"/>
-    <id>http://chinuno-usami.github.io/2015/02/28/e6-96-b0-e7-9a-84-e6-8a-80-e6-9c-af-e5-8d-9a-e5-ae-a2/</id>
-    <published>2015-02-27T19:06:21.000Z</published>
-    <updated>2015-04-04T13:08:37.990Z</updated>
-    <content type="html"><![CDATA[<p>把原来的东西打包丢给屌泽后终于可以把这里拿来自己用了。<br>于是现在就打算用这里来做自己的第N个技术博客，希望还能坚持下去xd<br>因为之前其实也建了好几个了但是因为各种原因没有一个是坚持写下去的<br>原本是打算简简单单的用github的介绍页面来做的，后来也觉得麻烦<br>也想过在heroku上面直接用python做一个的，不过最后想想<br>这里有个域名还有CDN加速不用也是浪费，而且wordpress主题也多，搭建也方便（主要还是懒（（<br>说起来ftp的管理方式真心蛋疼，把之前的东西都删掉还要遍历目录一个一个去删太浪费时间了<br>上传的话也不能直接压缩包丢上去部署只能一个一个传。。<br>有关原来那个网站的事情请去找屌泽吧（笑</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>把原来的东西打包丢给屌泽后终于可以把这里拿来自己用了。<br>于是现在就打算用这里来做自己的第N个技术博客，希望还能坚持下去xd<br>因为之前其实也建了好几个了但是因为各种原因没有一个是坚持写下去的<br>原本是打算简简单单的用github的介绍页面来做的，后来也觉得麻烦]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

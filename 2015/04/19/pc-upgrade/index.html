@@ -18,21 +18,9 @@
 
 
 
+	<meta name="keywords" content="pc,升级," />
 
-    <meta name="keywords" content="Hexo,next" />
-
-
-
-    <link rel="alternate" href="/atom.xml" title="Gensokyo" type="application/atom+xml" />
-
-
-
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.1" />
-
-
-
-
-  <title> 搭建arm交叉編譯環境Part.1 // Gensokyo </title>
+  <title> 旧电脑升级 // Gensokyo </title>
 </head>
 
 <body>
@@ -113,7 +101,7 @@
           
           
             
-              搭建arm交叉編譯環境Part.1
+              旧电脑升级
             
           
         </h1>
@@ -122,22 +110,11 @@
       <div class="post-meta">
         <span class="post-time">
           
-            發表於 2015-03-04
+            發表於 2015-04-18
           
         </span>
 
         
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
           
         
 
@@ -145,8 +122,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/"></span>
+            <a href="/2015/04/19/pc-upgrade/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/19/pc-upgrade/"></span>
             </a>
           </span>
           
@@ -161,14 +138,21 @@
         
 
         
-          <p>要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用win8自帶的虛擬機hyper-v裝個archlinux作為交叉編譯的系統平臺，然後使用ssh連接過去進行操作。archlinux可以除去不需要的東西做到最小化的編譯環境搭建。</p>
-<p>首先到archlinux的官網從163的鏡像下載了最新的archlinux安裝鏡像archlinux-2015.03.01-dual.iso</p>
-<p>啟用hyper-v並且重啟後hyper-v虛擬機就可以用了，在hyper-v管理器中新建虛擬交換機用於虛擬機跟外界的網路連接，然後新建archlinux的虛擬機<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptnvihf4aj20iq0hytcd.jpg" alt=""></p>
-<p>啟動虛擬機進行系統的安裝</p>
-<p><img src="http://ww2.sinaimg.cn/large/4ec84d23gw1eptuldez6fj20ut0m1aga.jpg" alt=""></p>
-<p>安裝完系統裝上必要的網路服務工具和openssh就能ssh到archlinux進行操作了，archlinux使用systemctl就能添加系統服務開機運行了還是很方便的。</p>
-<p>archlinux的安裝花的時間不長，但是需要仔細一點，中間漏了某一步可能就需要重來了，最好還是跟著官方wiki上的步驟來做，在安裝環境的/root/下面也有一份簡易的安裝步驟。</p>
-<p>這一p就先到這裡吧，更新下一p的時候再繼續後面的步驟。</p>
+          <h1 id="0x01">0x01</h1><p>家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。<br>说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。<br><a id="more"></a></p>
+<h1 id="0x02">0x02</h1><p>最后决定是这样的配置了</p>
+<ul>
+<li>CPU:i5-4590</li>
+<li>内存:金士顿8G 1600</li>
+<li>主板：阿苏斯Z97M-PLUS（原来的机箱还他喵竟然是用中板的。。）</li>
+<li>显卡：核显（核心显卡。。不是核显卡）</li>
+</ul>
+<p>这三个配件到X宝上找，半个星期后到货。</p>
+<h1 id="0x03">0x03</h1><p>把配件都装上后正常点亮，电源换了之前以为是电源故障去新买的450W电源，因为没有独立显卡所以足够用的。原来装系统的IDE接口硬盘无法接上主板后只能重新装新的系统了，把原来装xubuntu的硬盘格掉用于装新系统。本来就打算装的WIN8.1+UBUNTU双系统，因为MBR限制，硬盘分了4个主分区一个用于windows系统一个用于ubuntu一个用于存储数据一个windows隐藏分区，ubuntu只能只有一个分区挂载/了，连交换区都没有。（事实证明一开始这步就已经做错了）。</p>
+<h1 id="0x04">0x04</h1><p>顺利装上win8.1并且从主板驱动光盘装完驱动后就只有读卡器跟前面板的耳机麦克风不能用以外其他工作正常。<br>进一步从U盘安装了ubuntu并且顺利进入ubuntu系统，在系统更新完毕，该配置的东西都配置好之后发现windows系统不管怎样都进不去了，而且硬盘其他NTFS分区都被锁定无法挂载了，这才想起来可能是因为win8.1的快速启动造成的问题。然而因为是MBR分区所以windows系统也进不去了，只能格掉重新安装了otl。</p>
+<h1 id="0x05">0x05</h1><p>于是这次打算使用UEFI安装系统，使用UEFI进行系统的启动。把硬盘格掉后转换成GPT分区表，然后因为GPT分区表支持128个主分区所以也没有之前那4个主分区的限制了，除了ESP和MSR两个必须和分区外还能为ubuntu各个目录和交换区添加新的主分区了。</p>
+<h1 id="0x06">0x06</h1><p>启动方式修改为仅UEFI后选择win8.1安装U盘，结果无论如何都无法从U盘启动。后来想了想是因为U盘分区表用的还是MBR，于是转换成GPT，因为原本U盘分区前后都没有其他空间供转换GPT使用因此只能删除分区后转换为GPT了。UEFI的启动方式是从第一个FAT32分区查找EFI文件进行启动而不是MBR那样读取前512字节，这样的话就好办多了，直接从安装盘镜像提取文件放到U盘上的FAT32分区即可。最后插到电脑上用UEFI方式启动成功。接着按照原来的步骤再把系统装一遍。</p>
+<h1 id="0x07">0x07</h1><p>win8.1安装完之后第一件事就是把快速启动给关掉。然后把ubuntu安装U盘转换成GPT继续安装ubuntu。<br>在ubuntu安装完之后先试着重启看看能不能进入windows系统。在系统启动后进到grub界面，此时可以看到有一个windows boot manager选项，选择之后直接进入windows系统。重启后依然还是进到grub，选择ubuntu选项后进入到ubuntu系统，并且磁盘上的其他分区也能够自由挂载了。看来已经可以实现开机选择两个操作系统了。有人提到需要rEFInd才能进行开机选择两个操作系统应该是因为win8.1的快速启动吧。</p>
+<h1 id="0x08">0x08</h1><p><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1era7y5wkatj20sg0lc452.jpg" alt=""><br>果然还是最喜欢NUMIX主题了,另外还看到过一个还在开发中的主题<a href="http://snwh.org/paper/" target="_blank" rel="external">PAPER</a>看起来也不错<br><img src="http://www.linuxidc.com/upload/2014_12/141222195368731.png" alt=""><br><img src="http://snwh.org/paper/screenshots/9.png" alt=""><br>有点可惜的是在unity上面显得有点难看了：(</p>
 
         
       </div>
@@ -177,18 +161,28 @@
     
       <div class="post-footer">
         
+          <div class="post-tags">
+            
+              <a href="/tags/pc/">
+                #pc
+              </a>
+            
+              <a href="/tags/升级/">
+                #升级
+              </a>
+            
+          </div>
+        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/03/06/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8/">分享大觸</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/03/04/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1/">入手極路由</a>
+                <a href="/2015/04/14/android-studio-add-library/">Android Studio引用Library</a>
               
             </div>
           </div>
@@ -205,8 +199,8 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/"
-             data-title="搭建arm交叉編譯環境Part.1" data-url="http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/">
+        <div class="ds-thread" data-thread-key="2015/04/19/pc-upgrade/"
+             data-title="旧电脑升级" data-url="http://chinuno-usami.github.io/2015/04/19/pc-upgrade/">
         </div>
 
       
@@ -319,7 +313,7 @@
         <div class="post-toc">
           
           
-            <p class="post-toc-empty">此文章未包含目錄</p>
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01"><span class="nav-number">1.</span> <span class="nav-text">0x01</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02"><span class="nav-number">2.</span> <span class="nav-text">0x02</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03"><span class="nav-number">3.</span> <span class="nav-text">0x03</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x04"><span class="nav-number">4.</span> <span class="nav-text">0x04</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05"><span class="nav-number">5.</span> <span class="nav-text">0x05</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x06"><span class="nav-number">6.</span> <span class="nav-text">0x06</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x07"><span class="nav-number">7.</span> <span class="nav-text">0x07</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x08"><span class="nav-number">8.</span> <span class="nav-text">0x08</span></a></li></ol></div>
           
         </div>
         <div class="post-toc-indicator-bottom post-toc-indicator"></div>

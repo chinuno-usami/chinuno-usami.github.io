@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-04-14T13:24:10.545Z</updated>
+  <updated>2015-04-18T17:24:13.985Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,39 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[旧电脑升级]]></title>
+    <link href="http://chinuno-usami.github.io/2015/04/19/pc-upgrade/"/>
+    <id>http://chinuno-usami.github.io/2015/04/19/pc-upgrade/</id>
+    <published>2015-04-18T16:03:35.000Z</published>
+    <updated>2015-04-18T17:24:13.985Z</updated>
+    <content type="html"><![CDATA[<h1 id="0x01">0x01</h1><p>家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。<br>说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。<br><a id="more"></a></p>
+<h1 id="0x02">0x02</h1><p>最后决定是这样的配置了</p>
+<ul>
+<li>CPU:i5-4590</li>
+<li>内存:金士顿8G 1600</li>
+<li>主板：阿苏斯Z97M-PLUS（原来的机箱还他喵竟然是用中板的。。）</li>
+<li>显卡：核显（核心显卡。。不是核显卡）</li>
+</ul>
+<p>这三个配件到X宝上找，半个星期后到货。</p>
+<h1 id="0x03">0x03</h1><p>把配件都装上后正常点亮，电源换了之前以为是电源故障去新买的450W电源，因为没有独立显卡所以足够用的。原来装系统的IDE接口硬盘无法接上主板后只能重新装新的系统了，把原来装xubuntu的硬盘格掉用于装新系统。本来就打算装的WIN8.1+UBUNTU双系统，因为MBR限制，硬盘分了4个主分区一个用于windows系统一个用于ubuntu一个用于存储数据一个windows隐藏分区，ubuntu只能只有一个分区挂载/了，连交换区都没有。（事实证明一开始这步就已经做错了）。</p>
+<h1 id="0x04">0x04</h1><p>顺利装上win8.1并且从主板驱动光盘装完驱动后就只有读卡器跟前面板的耳机麦克风不能用以外其他工作正常。<br>进一步从U盘安装了ubuntu并且顺利进入ubuntu系统，在系统更新完毕，该配置的东西都配置好之后发现windows系统不管怎样都进不去了，而且硬盘其他NTFS分区都被锁定无法挂载了，这才想起来可能是因为win8.1的快速启动造成的问题。然而因为是MBR分区所以windows系统也进不去了，只能格掉重新安装了otl。</p>
+<h1 id="0x05">0x05</h1><p>于是这次打算使用UEFI安装系统，使用UEFI进行系统的启动。把硬盘格掉后转换成GPT分区表，然后因为GPT分区表支持128个主分区所以也没有之前那4个主分区的限制了，除了ESP和MSR两个必须和分区外还能为ubuntu各个目录和交换区添加新的主分区了。</p>
+<h1 id="0x06">0x06</h1><p>启动方式修改为仅UEFI后选择win8.1安装U盘，结果无论如何都无法从U盘启动。后来想了想是因为U盘分区表用的还是MBR，于是转换成GPT，因为原本U盘分区前后都没有其他空间供转换GPT使用因此只能删除分区后转换为GPT了。UEFI的启动方式是从第一个FAT32分区查找EFI文件进行启动而不是MBR那样读取前512字节，这样的话就好办多了，直接从安装盘镜像提取文件放到U盘上的FAT32分区即可。最后插到电脑上用UEFI方式启动成功。接着按照原来的步骤再把系统装一遍。</p>
+<h1 id="0x07">0x07</h1><p>win8.1安装完之后第一件事就是把快速启动给关掉。然后把ubuntu安装U盘转换成GPT继续安装ubuntu。<br>在ubuntu安装完之后先试着重启看看能不能进入windows系统。在系统启动后进到grub界面，此时可以看到有一个windows boot manager选项，选择之后直接进入windows系统。重启后依然还是进到grub，选择ubuntu选项后进入到ubuntu系统，并且磁盘上的其他分区也能够自由挂载了。看来已经可以实现开机选择两个操作系统了。有人提到需要rEFInd才能进行开机选择两个操作系统应该是因为win8.1的快速启动吧。</p>
+<h1 id="0x08">0x08</h1><p><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1era7y5wkatj20sg0lc452.jpg" alt=""><br>果然还是最喜欢NUMIX主题了,另外还看到过一个还在开发中的主题<a href="http://snwh.org/paper/" target="_blank" rel="external">PAPER</a>看起来也不错<br><img src="http://www.linuxidc.com/upload/2014_12/141222195368731.png" alt=""><br><img src="http://snwh.org/paper/screenshots/9.png" alt=""><br>有点可惜的是在unity上面显得有点难看了：(</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="0x01">0x01</h1><p>家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。<br>说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。<br>]]>
+    
+    </summary>
+    
+      <category term="pc" scheme="http://chinuno-usami.github.io/tags/pc/"/>
+    
+      <category term="升级" scheme="http://chinuno-usami.github.io/tags/%E5%8D%87%E7%BA%A7/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Android Studio引用Library]]></title>
@@ -153,18 +186,18 @@
   </entry>
   
   <entry>
-    <title><![CDATA[树莓派出问题了？！]]></title>
+    <title><![CDATA[树莓派炸了！]]></title>
     <link href="http://chinuno-usami.github.io/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/"/>
     <id>http://chinuno-usami.github.io/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/</id>
     <published>2015-03-27T15:07:15.000Z</published>
-    <updated>2015-04-04T13:08:38.010Z</updated>
+    <updated>2015-04-18T15:57:23.725Z</updated>
     <content type="html"><![CDATA[<p>一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。<br>已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边后自己睡着了。今天开了sp3才发现机子自动休眠了，已经中断的putty窗口上面的东西还没滚完。回到家后又Syu滚了一次。<br>然后蛋疼的事情来了，有个东西运行不太正常以为是机子的问题（（最后发现还是因为众所周知的原因【然后就reboot了。<br>这下好了启动后发现所有的服务都不能正常运行了，又想起好像上次滚的时候自己也没有重启过。<br>仔细看了看发现写操作都不能执行了，只能收到read-only file system的提示。<br>然后检查了下mount列表，所有的目录都是已经挂载了rw。。这下真蛋疼了，问题出在哪都不知道了<br>后来想想可能是fstab出问题了，所以想要找个原来的镜像来看看原来的fstab是怎样的。<br>之前的镜像包早就被删了，于是到官网去想要下载一个，竟然发现Archlinux的镜像早就被撤下来了<br>好吧，最后网上找了好久才找到一个14年的镜像。100+mb的zip包先下载下来了<br>自己的想法是hyper-v开个虚拟机，用把镜像传入虚拟机中挂载后查看fstab的内容<br>但是创建虚拟机后发现虚拟交换机根本就设置不了无法使用网络传输镜像了<br>最后想了个曲线的方法，创建个10G的vhd挂载到win8.1宿主机上，把镜像解压出img放到vhd虚拟硬盘中然后再挂到虚拟机上挂载<br>解压出来后1G+将近2G，不是很大w。mkdir /mnt/vhd创建挂载目录后mount /dev/sdb2 /mnt/vhd挂载上去（sda是虚拟机系统所在的磁盘，sdb是刚才的vhd磁盘，数据放在sdb2上<br>因为img是整个磁盘的镜像，/目录是在p5上面所以不能直接挂载<br>简单的方法，fdisk -lu blabla.img查看磁盘信息<br>Units = sectors of 1 * 512 = 512 bytes<br>单位大小为512字节<br>再乘上blabla.img5的Start算出位移<br>然后就可以挂载分区了<br>mkdir /mnt/archlinux_img<br>最后使用mount -o loop,offset=niconico /mnt/vhd/blabla.img /mnt/archlinux_img/<br>把分区挂载上去<br>vim /mnt/archlinux_img/etc/fstab查看内容后发现<br>里面的东西竟然是一样的！！！<br>最后只能暂时每次开机后都运行一次<br>mount -o remount,rw /来获取写入权限了（所以到底为什么remount后可以写入原来那样就不行？！！<br>然后蛋疼的还要每次都创建一个作为交换分区的文件挂到交换分区上去，这样以后没事还不能乱重启了，一来这些操作麻烦又费事，二来sd还经不起这样的折腾不知道什么时候就挂掉了。。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。<br>已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边]]>
     </summary>
     
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
+      <category term="树莓派" scheme="http://chinuno-usami.github.io/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
     
   </entry>
   

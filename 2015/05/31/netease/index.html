@@ -18,21 +18,9 @@
 
 
 
+	<meta name="keywords" content="python,命令行,树莓派,网易云音乐," />
 
-    <meta name="keywords" content="Hexo,next" />
-
-
-
-    <link rel="alternate" href="/atom.xml" title="Gensokyo" type="application/atom+xml" />
-
-
-
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.1" />
-
-
-
-
-  <title> 博客搬迁 // Gensokyo </title>
+  <title> 命令行网易云音乐 // Gensokyo </title>
 </head>
 
 <body>
@@ -113,7 +101,7 @@
           
           
             
-              博客搬迁
+              命令行网易云音乐
             
           
         </h1>
@@ -122,22 +110,11 @@
       <div class="post-meta">
         <span class="post-time">
           
-            發表於 2015-03-02
+            發表於 2015-05-31
           
         </span>
 
         
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
           
         
 
@@ -145,8 +122,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/"></span>
+            <a href="/2015/05/31/netease/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/31/netease/"></span>
             </a>
           </span>
           
@@ -161,10 +138,12 @@
         
 
         
-          <p>今天博客搬迁，顺便换了个域名。</p>
-<p>为了装逼学了ComboPinyin打字。这篇日志也是用ComboPinyin码出来的。</p>
-<p>十秒码一个字- -!</p>
-
+          <p>在家里听音乐用的方案<br><a id="more"></a><br>在家里听作业BGM，电脑开个网易云音乐的网页一个比较占用资源，一个耗电，而且电脑音箱效果也不是很好。所以就想要在客厅用音响播放。</p>
+<h1 id="方案">方案</h1><p>一个解决方案是surface pro3或者手机播放，使用电视投影功能在电视播放，从音响输出，然而这样一来占用网速，而且还要视频编码解码运算量大耗电发热音质还有损失，还要开个电视也不方便，听歌的时候也不能使用电视了。<br>所以用另一个方案，利用树莓派运行命令行的网易云音乐客户端，直接输出到音响。这样不用开电脑不用开电视，轻量级的解决方案。</p>
+<h1 id="实现">实现</h1><p>命令行网易云音乐用的<a href="https://github.com/bluetomlee/NetEase-MusicBox" target="_blank" rel="external">NetEase-MusicBox</a><br>因为之前被网易要求删除代码，所以原本的项目已经没了，在pip上面也找不到，不过有人fork了所以还能找到代码。不通过pip获取，直接clone源代码进行安装就行。<br>在A岛技术版看到有个串有人也自己用python也实现另一个命令行版本「还没完成的样子」，说是因为目前的客户端并不能提供320kbps的音乐，而且缺少推荐曲目信息。然而github上找的readme中说了支持320kbps的音乐，不知道是被修改过后的版本？  </p>
+<h1 id="使用">使用</h1><p>现在在使用sp3开Putty连到树莓派上就能进行播放控制了，使用screen可以在断开连接之后继续播放，也可以在其他终端继续控制，会方便点。当然不只是sp3可以控制，使用nexus7也可以控制了，android上也有ssh连接的app，连上之后screen -x继续回到客户端控制会话就行。  </p>
+<h1 id="本文编辑工具">本文编辑工具</h1><p>这篇文章改在linux驱动的台式机上码了，全键盘用起来比sp3舒服点，字也没那么小。用的Cmd Markdown编辑器的linux客户端，然而就只是一个包装好的web app而已并没有什么卵用，连打开本地md文件都不能够。编辑器的语法跟MarkdownPad稍微有点不一样，应该也是支持GFM的，估计hexo也能够支持这种语法。</p>
+<h1 id="以上">以上</h1>
         
       </div>
     
@@ -172,18 +151,36 @@
     
       <div class="post-footer">
         
+          <div class="post-tags">
+            
+              <a href="/tags/python/">
+                #python
+              </a>
+            
+              <a href="/tags/命令行/">
+                #命令行
+              </a>
+            
+              <a href="/tags/树莓派/">
+                #树莓派
+              </a>
+            
+              <a href="/tags/网易云音乐/">
+                #网易云音乐
+              </a>
+            
+          </div>
+        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/03/04/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92/">明天的计划</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/">Qpython执行需要root权限的脚本</a>
+                <a href="/2015/05/23/pil/">PIL无法切割图片无法保留alpha信息</a>
               
             </div>
           </div>
@@ -200,8 +197,8 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/"
-             data-title="博客搬迁" data-url="http://chinuno-usami.github.io/2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/">
+        <div class="ds-thread" data-thread-key="2015/05/31/netease/"
+             data-title="命令行网易云音乐" data-url="http://chinuno-usami.github.io/2015/05/31/netease/">
         </div>
 
       
@@ -314,7 +311,7 @@
         <div class="post-toc">
           
           
-            <p class="post-toc-empty">此文章未包含目錄</p>
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#方案"><span class="nav-number">1.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本文编辑工具"><span class="nav-number">4.</span> <span class="nav-text">本文编辑工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以上"><span class="nav-number">5.</span> <span class="nav-text">以上</span></a></li></ol></div>
           
         </div>
         <div class="post-toc-indicator-bottom post-toc-indicator"></div>

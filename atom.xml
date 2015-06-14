@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-05-31T06:35:23.495Z</updated>
+  <updated>2015-06-13T17:45:22.682Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[转用tmux替代screen]]></title>
+    <link href="http://chinuno-usami.github.io/2015/06/14/tmux/"/>
+    <id>http://chinuno-usami.github.io/2015/06/14/tmux/</id>
+    <published>2015-06-13T16:45:08.000Z</published>
+    <updated>2015-06-13T17:45:22.682Z</updated>
+    <content type="html"><![CDATA[<p>在ssh连接到机器上时经常需要中断连接，但是执行一半的操作还需要继续运行下去。<br>原来使用的是screen来解决这个问题，然而screen兼容性不太好，对于一些程序执行会出问题。然后今天换了tmux来做这件事，测试了一下原先在screen上会出问题的程序，一点问题也没有。另外，tmux会在底部显示当前会话当前窗口的信息，界面也很好看，甚至还可分割屏幕放置不同的窗口，切换窗口的方式特别多用起来也方便。已经没必要再使用screen了，目前为止的完美解决方案。嗯。这篇日志就是用来表达我激动的心情而已。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>在ssh连接到机器上时经常需要中断连接，但是执行一半的操作还需要继续运行下去。<br>原来使用的是screen来解决这个问题，然而screen兼容性不太好，对于一些程序执行会出问题。然后今天换了tmux来做这件事，测试了一下原先在screen上会出问题的程序，一点问题也没有]]>
+    </summary>
+    
+      <category term="linux" scheme="http://chinuno-usami.github.io/tags/linux/"/>
+    
+      <category term="tmux" scheme="http://chinuno-usami.github.io/tags/tmux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[堆栈溢出攻击原理分析]]></title>
+    <link href="http://chinuno-usami.github.io/2015/06/13/overflow/"/>
+    <id>http://chinuno-usami.github.io/2015/06/13/overflow/</id>
+    <published>2015-06-13T14:03:15.000Z</published>
+    <updated>2015-06-13T17:32:10.362Z</updated>
+    <content type="html"><![CDATA[<h1 id="0x01_概述">0x01 概述</h1><p>之前就听说过堆栈溢出攻击，但是一直都没仔细想过其中的原理，也不知道实际该怎么实现，今天花了一下午讨论了一下有了点自己的理解。记录下来。<br><a id="more"></a></p>
+<h1 id="0x02_分析">0x02 分析</h1><p>堆栈溢出思路是，对于不进行对用户输入数据进行检测的程序，可以把输入数据写到正常存放数据区域的后面，把函数返回地址修改掉，执行自己的代码。<br>主要有两种方式。</p>
+<h3 id="第一种">第一种</h3><p>内存中栈的结构大概是这样的</p>
+<p>栈底（高地址）寄存器ebp（64位为rbp）<br>……这里是其他数据<br>这里是函数返回地址<br>……这里是局部变量，数据放在这里<br>……这里是其他数据<br>栈顶（低地址）寄存器esp（64位为rsp）</p>
+<p>通过写入超过变量分配内存大小的数据从低地址写到高地址把返回地址修改掉<br>然后程序就会执行修改后的地址中的指令</p>
+<ol>
+<li>首先查找执行call rsp/esp指令所在的地址记为jmpAddr</li>
+<li>调试定位返回地址相对于输入数据地址的偏移量</li>
+<li>编译自定义的程序，提取shellcode</li>
+<li>用pad+jmpAddr+shellcode的形式输入数据</li>
+</ol>
+<p>运行之后应该就执行了shellcode的指令了。<br>pad用于填充前面的数据，一直到函数返回地址所在位置。<br>继续写入jmpAddr，把跳板地址写入函数返回地址所在位置，这样函数返回将会调用jmpAddr处的指令，即call rsp/esp。<br>接着继续往高地址写入shellcode的内容<br>这里要注意的是因为写入数据是一个字节一个字节的往高地址写入，所以应当以小端方式写入地址。<br>在函数返回时子程序出栈esp/rsp栈顶应当指向shellcode的位置<br>函数返回跳转到jmpAddr执行call esp/rsp，调用esp/rsp处的程序<br>此时便进行了调用shellcode的操作。</p>
+<h3 id="第二种">第二种</h3><p>windows下的程序在执行过程中遇到错误会调用错误处理程序。<br>一样的道理，写入数据的时候把错误处理程序的入口指向执行call ebx的地址，这时ebx基地址寄存器中的地址位于入口地址前4个字节。在四个字节前写入jmp 04跳过入口地址执行紧接其后的shellcode即可。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="0x01_概述">0x01 概述</h1><p>之前就听说过堆栈溢出攻击，但是一直都没仔细想过其中的原理，也不知道实际该怎么实现，今天花了一下午讨论了一下有了点自己的理解。记录下来。<br>]]>
+    
+    </summary>
+    
+      <category term="overflow" scheme="http://chinuno-usami.github.io/tags/overflow/"/>
+    
+      <category term="pwn" scheme="http://chinuno-usami.github.io/tags/pwn/"/>
+    
+      <category term="堆栈溢出" scheme="http://chinuno-usami.github.io/tags/%E5%A0%86%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[命令行网易云音乐]]></title>
@@ -475,24 +526,6 @@
 <p>为了装逼学了ComboPinyin打字。这篇日志也是用ComboPinyin码出来的。</p>
 <p>十秒码一个字- -!</p>
 ]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Qpython执行需要root权限的脚本]]></title>
-    <link href="http://chinuno-usami.github.io/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/"/>
-    <id>http://chinuno-usami.github.io/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/</id>
-    <published>2015-02-27T19:28:42.000Z</published>
-    <updated>2015-04-04T13:08:38.000Z</updated>
-    <content type="html"><![CDATA[<p>既然这里搭好了就发篇文章吧</p>
-<p>在更新到android5.0之后SL4A已经不能使用了，一执行脚本就会黑掉然后崩掉。Qpython原本也是会出问题的后来很快更新了新版本已经解决了5.0的问题了，倒是SL4A一直都没有更新的动作于是现在都用Qpython来运行python脚本了。<br>之前写了个脚本用来进行自动更新某个app的配置，因此需要修改app目录下的配置文件，但是执行配置文件修改的操作需要获得root权限，因为是在Qpython中运行的脚本因此是无法获得root权限的，在shell中搭建好python环境后直接在模拟终端sudo运行应该是可以的不过操作实在是太繁琐了。后来看到配置文件中有个指定配置文件目录的字段，尝试修改了一下发现app照样读取原来目录下的配置文件，修改了config_file字段的路径一点作用也没有，于是到github上找了项目开源的代码来看了下，发现原来配置文件的路径都已经在源码中写死了otl。。给出了config_file的字段其实是个没用的接口(?<br>既然路径是写死的那么就只能修改源码重新编译才能达到修改配置文件目录到不需root权限就能修改的路径去了。<br>修改代码重新编译实在是麻烦（其实还是懒<br>所以最后还是通过最懒的方法解决了这个问题。。直接用adb shell给su到root然后把配置文件权限配置为777这样就算不用取得root权限仍然可以达到修改配置文件的目的<br>不知道还有什么办法能达到这样的目的，当然最希望的是Qpython以后能够加入以root权限运行脚本的功能。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>既然这里搭好了就发篇文章吧</p>
-<p>在更新到android5.0之后SL4A已经不能使用了，一执行脚本就会黑掉然后崩掉。Qpython原本也是会出问题的后来很快更新了新版本已经解决了5.0的问题了，倒是SL4A一直都没有更新的动作于是现在都用Qpython来运行pyt]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

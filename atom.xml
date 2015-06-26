@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-06-13T17:45:22.682Z</updated>
+  <updated>2015-06-26T17:19:54.794Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[说说live usb吧]]></title>
+    <link href="http://chinuno-usami.github.io/2015/06/27/live-usb/"/>
+    <id>http://chinuno-usami.github.io/2015/06/27/live-usb/</id>
+    <published>2015-06-26T16:23:05.000Z</published>
+    <updated>2015-06-26T17:19:54.794Z</updated>
+    <content type="html"><![CDATA[<p>之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而…<br><a id="more"></a><br>linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。<br>目前把linux系统做到u盘里面就这么三种方法</p>
+<ol>
+<li>直接把安装盘镜像写入u盘中，当成live cd使用，读写操作在内存中运行，关机之后数据不保留。</li>
+<li>直接把u盘当成硬盘，把系统装在里面使用，就算重启数据也不会丢失。</li>
+<li>使用ubuntu的启动盘创建器或者lili之类的工具做成live usb,关机之后仍然保留数据。</li>
+</ol>
+<p>既然要做成随身系统u盘，那第一种方法就不考虑了，关键时候用用还行，比如像前几天对树莓派sd卡做fsck的时候就只能掏出好几年前烧的ubuntu光碟进live cd去做了。</p>
+<p>之前有试过把openSUSE直接安装到u盘中用，然而开机就等了快20min，好不容易进入系统了却基本上什么都做不了，卡成poi。艰难的开了top看了一下wa,基本上都是在70~90+的范围内，估计就算勉强用下去了，过不了多久这u盘也该报废了（usb2.0的u盘，3.0应该不会有这样的问题吧，不过价格稍微高了些，用来这样烧感觉也是…）</p>
+<p>第三种做成live usb之前没有试过，原先认为的是，live usb进入系统后系统跟live cd一样是在内存中运行，而必要的修改才写入u盘或者关机的时候一起写入。然而事实证明我想多了。</p>
+<p>下载了个ubuntu14.04LTS来做live usb,用ubuntu 自带的启动盘制作工具来做。创建完毕后直接重启使用。跟live cd一样开始选单就那几样，试用，安装，内存测试…。开机时间也是特别长，我猜我已经知道是什么情况了。等了好长一段时间后进入桌面了。果然还是卡出翔。开了top查看wa。呵呵。70~90+。</p>
+<p>df查看了下目录挂载情况。除了tmpfs挂在/tmp以外就看到/cow on /。原来live usb是这样的。他创建了个casper-rw文件。查看类型是<br><code>casper-rw: Linux rev 1.0 ext3 filesystem data, UUID=eaf128a8-c26c-4cd8-8f59-5ab3999619ba (needs journal recovery) (large files)</code><br>系统启动后就挂载在根目录下，这样所有的读写操作都是在这个文件中进行的，相当于wubi一样，天了撸。live usb就是为usb的读写做了点优化，把/tmp放到内存中，挂载的时候加了个noatime不在读文件的时候写入访问时间这样而已。读写都还是在一个文件里面完成的。。起码文件系统也做成ext2的把，ext3的日志更加增加了u盘的写入量。</p>
+<p>最后想想，这种东西别太在意了。有个live cd急救用就行，电视剧始终是电视剧，在虚拟世界中追求真实感的人脑子一定有问题（阿虚脸）。真要做的话或许可以搞个移动硬盘或者ssd走起（前提还是要有usb3.0接口，否则浪费那些人身就太不值了）。另外随身携带一个树莓派或许是个不错的选择（或许不。树莓派的供电是个问题，况且万一遇到需要查看硬盘的<code>审计情况</code>呢？）））</p>
+<hr>
+<p>怎么总觉得总是在这个时间点更新博客呢<br>2015年 06月 27日 星期六 01:17:09 CST<br><img src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/doge_thumb.gif" alt="doge"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而…<br>]]>
+    
+    </summary>
+    
+      <category term="linux" scheme="http://chinuno-usami.github.io/tags/linux/"/>
+    
+      <category term="live usb" scheme="http://chinuno-usami.github.io/tags/live-usb/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[转用tmux替代screen]]></title>
@@ -505,27 +537,6 @@
 <p>用archlinux做server真是作死了。。好几个月没滚今天滚下看看还能不能活得成。</p>
 <p>————————————————</p>
 <p>成功滚完，这次更新的东西真多。暂时还没发现什么]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[博客搬迁]]></title>
-    <link href="http://chinuno-usami.github.io/2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/"/>
-    <id>http://chinuno-usami.github.io/2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/</id>
-    <published>2015-03-02T12:58:20.000Z</published>
-    <updated>2015-04-04T13:08:37.990Z</updated>
-    <content type="html"><![CDATA[<p>今天博客搬迁，顺便换了个域名。</p>
-<p>为了装逼学了ComboPinyin打字。这篇日志也是用ComboPinyin码出来的。</p>
-<p>十秒码一个字- -!</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>今天博客搬迁，顺便换了个域名。</p>
-<p>为了装逼学了ComboPinyin打字。这篇日志也是用ComboPinyin码出来的。</p>
-<p>十秒码一个字- -!</p>
-]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

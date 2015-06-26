@@ -116,6 +116,96 @@
           
           
             
+              <a class="post-title-link" href="/2015/06/27/live-usb/">
+                说说live usb吧
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          
+            發表於 2015-06-26
+          
+        </span>
+
+        
+          
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/06/27/live-usb/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/27/live-usb/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <p>之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而…<br>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/06/27/live-usb/#more">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/linux/">
+                #linux
+              </a>
+            
+              <a href="/tags/live-usb/">
+                #live usb
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/06/14/tmux/">
                 转用tmux替代screen
               </a>
@@ -932,91 +1022,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/">
-                树莓派炸了！
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-27
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/树莓派/">树莓派</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。<br>已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边后自己睡着了。今天开了sp3才发现机子自动休眠了，已经中断的putty窗口上面的东西还没滚完。回到家后又Syu滚了一次。<br>然后蛋疼的事情来了，有个东西运行不太正常以为是机子的问题（（最后发现还是因为众所周知的原因【然后就reboot了。<br>这下好了启动后发现所有的服务都不能正常运行了，又想起好像上次滚的时候自己也没有重启过。<br>仔细看了看发现写操作都不能执行了，只能收到read-only file system的提示。<br>然后检查了下mount列表，所有的目录都是已经挂载了rw。。这下真蛋疼了，问题出在哪都不知道了<br>后来想想可能是fstab出问题了，所以想要找个原来的镜像来看看原来的fstab是怎样的。<br>之前的镜像包早就被删了，于是到官网去想要下载一个，竟然发现Archlinux的镜像早就被撤下来了<br>好吧，最后网上找了好久才找到一个14年的镜像。100+mb的zip包先下载下来了<br>自己的想法是hyper-v开个虚拟机，用把镜像传入虚拟机中挂载后查看fstab的内容<br>但是创建虚拟机后发现虚拟交换机根本就设置不了无法使用网络传输镜像了<br>最后想了个曲线的方法，创建个10G的vhd挂载到win8.1宿主机上，把镜像解压出img放到vhd虚拟硬盘中然后再挂到虚拟机上挂载<br>解压出来后1G+将近2G，不是很大w。mkdir /mnt/vhd创建挂载目录后mount /dev/sdb2 /mnt/vhd挂载上去（sda是虚拟机系统所在的磁盘，sdb是刚才的vhd磁盘，数据放在sdb2上<br>因为img是整个磁盘的镜像，/目录是在p5上面所以不能直接挂载<br>简单的方法，fdisk -lu blabla.img查看磁盘信息<br>Units = sectors of 1 * 512 = 512 bytes<br>单位大小为512字节<br>再乘上blabla.img5的Start算出位移<br>然后就可以挂载分区了<br>mkdir /mnt/archlinux_img<br>最后使用mount -o loop,offset=niconico /mnt/vhd/blabla.img /mnt/archlinux_img/<br>把分区挂载上去<br>vim /mnt/archlinux_img/etc/fstab查看内容后发现<br>里面的东西竟然是一样的！！！<br>最后只能暂时每次开机后都运行一次<br>mount -o remount,rw /来获取写入权限了（所以到底为什么remount后可以写入原来那样就不行？！！<br>然后蛋疼的还要每次都创建一个作为交换分区的文件挂到交换分区上去，这样以后没事还不能乱重启了，一来这些操作麻烦又费事，二来sd还经不起这样的折腾不知道什么时候就挂掉了。。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -1050,7 +1055,7 @@
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <a href="/archives">
-            <span class="site-state-item-count">21</span>
+            <span class="site-state-item-count">22</span>
             <span class="site-state-item-name">文章</span>
           </a>
         </div>
@@ -1064,7 +1069,7 @@
 
         <div class="site-state-item site-state-tags">
           <a href="/tags">
-            <span class="site-state-item-count">19</span>
+            <span class="site-state-item-count">20</span>
             <span class="site-state-item-name">標籤</span>
           </a>
         </div>

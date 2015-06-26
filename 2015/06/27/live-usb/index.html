@@ -18,9 +18,9 @@
 
 
 
-	<meta name="keywords" content="pc,升级," />
+	<meta name="keywords" content="linux,live usb," />
 
-  <title> 旧电脑升级 // Gensokyo </title>
+  <title> 说说live usb吧 // Gensokyo </title>
 </head>
 
 <body>
@@ -101,7 +101,7 @@
           
           
             
-              旧电脑升级
+              说说live usb吧
             
           
         </h1>
@@ -110,7 +110,7 @@
       <div class="post-meta">
         <span class="post-time">
           
-            發表於 2015-04-18
+            發表於 2015-06-26
           
         </span>
 
@@ -122,8 +122,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/19/pc-upgrade/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/19/pc-upgrade/"></span>
+            <a href="/2015/06/27/live-usb/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/27/live-usb/"></span>
             </a>
           </span>
           
@@ -138,21 +138,20 @@
         
 
         
-          <h1 id="0x01">0x01</h1><p>家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。<br>说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。<br><a id="more"></a></p>
-<h1 id="0x02">0x02</h1><p>最后决定是这样的配置了</p>
-<ul>
-<li>CPU:i5-4590</li>
-<li>内存:金士顿8G 1600</li>
-<li>主板：阿苏斯Z97M-PLUS（原来的机箱还他喵竟然是用中板的。。）</li>
-<li>显卡：核显（核心显卡。。不是核显卡）</li>
-</ul>
-<p>这三个配件到X宝上找，半个星期后到货。</p>
-<h1 id="0x03">0x03</h1><p>把配件都装上后正常点亮，电源换了之前以为是电源故障去新买的450W电源，因为没有独立显卡所以足够用的。原来装系统的IDE接口硬盘无法接上主板后只能重新装新的系统了，把原来装xubuntu的硬盘格掉用于装新系统。本来就打算装的WIN8.1+UBUNTU双系统，因为MBR限制，硬盘分了4个主分区一个用于windows系统一个用于ubuntu一个用于存储数据一个windows隐藏分区，ubuntu只能只有一个分区挂载/了，连交换区都没有。（事实证明一开始这步就已经做错了）。</p>
-<h1 id="0x04">0x04</h1><p>顺利装上win8.1并且从主板驱动光盘装完驱动后就只有读卡器跟前面板的耳机麦克风不能用以外其他工作正常。<br>进一步从U盘安装了ubuntu并且顺利进入ubuntu系统，在系统更新完毕，该配置的东西都配置好之后发现windows系统不管怎样都进不去了，而且硬盘其他NTFS分区都被锁定无法挂载了，这才想起来可能是因为win8.1的快速启动造成的问题。然而因为是MBR分区所以windows系统也进不去了，只能格掉重新安装了otl。</p>
-<h1 id="0x05">0x05</h1><p>于是这次打算使用UEFI安装系统，使用UEFI进行系统的启动。把硬盘格掉后转换成GPT分区表，然后因为GPT分区表支持128个主分区所以也没有之前那4个主分区的限制了，除了ESP和MSR两个必须和分区外还能为ubuntu各个目录和交换区添加新的主分区了。</p>
-<h1 id="0x06">0x06</h1><p>启动方式修改为仅UEFI后选择win8.1安装U盘，结果无论如何都无法从U盘启动。后来想了想是因为U盘分区表用的还是MBR，于是转换成GPT，因为原本U盘分区前后都没有其他空间供转换GPT使用因此只能删除分区后转换为GPT了。UEFI的启动方式是从第一个FAT32分区查找EFI文件进行启动而不是MBR那样读取前512字节，这样的话就好办多了，直接从安装盘镜像提取文件放到U盘上的FAT32分区即可。最后插到电脑上用UEFI方式启动成功。接着按照原来的步骤再把系统装一遍。</p>
-<h1 id="0x07">0x07</h1><p>win8.1安装完之后第一件事就是把快速启动给关掉。然后把ubuntu安装U盘转换成GPT继续安装ubuntu。<br>在ubuntu安装完之后先试着重启看看能不能进入windows系统。在系统启动后进到grub界面，此时可以看到有一个windows boot manager选项，选择之后直接进入windows系统。重启后依然还是进到grub，选择ubuntu选项后进入到ubuntu系统，并且磁盘上的其他分区也能够自由挂载了。看来已经可以实现开机选择两个操作系统了。有人提到需要rEFInd才能进行开机选择两个操作系统应该是因为win8.1的快速启动吧。</p>
-<h1 id="0x08">0x08</h1><p><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1era7y5wkatj20sg0lc452.jpg" alt=""><br>果然还是最喜欢NUMIX主题了,另外还看到过一个还在开发中的主题<a href="http://snwh.org/paper/" target="_blank" rel="external">PAPER</a>看起来也不错<br><img src="http://www.linuxidc.com/upload/2014_12/141222195368731.png" alt=""><br><img src="http://snwh.org/paper/screenshots/9.png" alt=""><br>有点可惜的是在unity上面显得有点难看了：(</p>
+          <p>之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而…<br><a id="more"></a><br>linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。<br>目前把linux系统做到u盘里面就这么三种方法</p>
+<ol>
+<li>直接把安装盘镜像写入u盘中，当成live cd使用，读写操作在内存中运行，关机之后数据不保留。</li>
+<li>直接把u盘当成硬盘，把系统装在里面使用，就算重启数据也不会丢失。</li>
+<li>使用ubuntu的启动盘创建器或者lili之类的工具做成live usb,关机之后仍然保留数据。</li>
+</ol>
+<p>既然要做成随身系统u盘，那第一种方法就不考虑了，关键时候用用还行，比如像前几天对树莓派sd卡做fsck的时候就只能掏出好几年前烧的ubuntu光碟进live cd去做了。</p>
+<p>之前有试过把openSUSE直接安装到u盘中用，然而开机就等了快20min，好不容易进入系统了却基本上什么都做不了，卡成poi。艰难的开了top看了一下wa,基本上都是在70~90+的范围内，估计就算勉强用下去了，过不了多久这u盘也该报废了（usb2.0的u盘，3.0应该不会有这样的问题吧，不过价格稍微高了些，用来这样烧感觉也是…）</p>
+<p>第三种做成live usb之前没有试过，原先认为的是，live usb进入系统后系统跟live cd一样是在内存中运行，而必要的修改才写入u盘或者关机的时候一起写入。然而事实证明我想多了。</p>
+<p>下载了个ubuntu14.04LTS来做live usb,用ubuntu 自带的启动盘制作工具来做。创建完毕后直接重启使用。跟live cd一样开始选单就那几样，试用，安装，内存测试…。开机时间也是特别长，我猜我已经知道是什么情况了。等了好长一段时间后进入桌面了。果然还是卡出翔。开了top查看wa。呵呵。70~90+。</p>
+<p>df查看了下目录挂载情况。除了tmpfs挂在/tmp以外就看到/cow on /。原来live usb是这样的。他创建了个casper-rw文件。查看类型是<br><code>casper-rw: Linux rev 1.0 ext3 filesystem data, UUID=eaf128a8-c26c-4cd8-8f59-5ab3999619ba (needs journal recovery) (large files)</code><br>系统启动后就挂载在根目录下，这样所有的读写操作都是在这个文件中进行的，相当于wubi一样，天了撸。live usb就是为usb的读写做了点优化，把/tmp放到内存中，挂载的时候加了个noatime不在读文件的时候写入访问时间这样而已。读写都还是在一个文件里面完成的。。起码文件系统也做成ext2的把，ext3的日志更加增加了u盘的写入量。</p>
+<p>最后想想，这种东西别太在意了。有个live cd急救用就行，电视剧始终是电视剧，在虚拟世界中追求真实感的人脑子一定有问题（阿虚脸）。真要做的话或许可以搞个移动硬盘或者ssd走起（前提还是要有usb3.0接口，否则浪费那些人身就太不值了）。另外随身携带一个树莓派或许是个不错的选择（或许不。树莓派的供电是个问题，况且万一遇到需要查看硬盘的<code>审计情况</code>呢？）））</p>
+<hr>
+<p>怎么总觉得总是在这个时间点更新博客呢<br>2015年 06月 27日 星期六 01:17:09 CST<br><img src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/doge_thumb.gif" alt="doge"></p>
 
         
       </div>
@@ -163,12 +162,12 @@
         
           <div class="post-tags">
             
-              <a href="/tags/pc/">
-                #pc
+              <a href="/tags/linux/">
+                #linux
               </a>
             
-              <a href="/tags/升级/">
-                #升级
+              <a href="/tags/live-usb/">
+                #live usb
               </a>
             
           </div>
@@ -178,13 +177,11 @@
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/05/23/pil/">PIL无法切割图片无法保留alpha信息</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/04/14/android-studio-add-library/">Android Studio引用Library</a>
+                <a href="/2015/06/14/tmux/">转用tmux替代screen</a>
               
             </div>
           </div>
@@ -201,8 +198,8 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/04/19/pc-upgrade/"
-             data-title="旧电脑升级" data-url="http://chinuno-usami.github.io/2015/04/19/pc-upgrade/">
+        <div class="ds-thread" data-thread-key="2015/06/27/live-usb/"
+             data-title="说说live usb吧" data-url="http://chinuno-usami.github.io/2015/06/27/live-usb/">
         </div>
 
       
@@ -315,7 +312,7 @@
         <div class="post-toc">
           
           
-            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0x01"><span class="nav-number">1.</span> <span class="nav-text">0x01</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x02"><span class="nav-number">2.</span> <span class="nav-text">0x02</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x03"><span class="nav-number">3.</span> <span class="nav-text">0x03</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x04"><span class="nav-number">4.</span> <span class="nav-text">0x04</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x05"><span class="nav-number">5.</span> <span class="nav-text">0x05</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x06"><span class="nav-number">6.</span> <span class="nav-text">0x06</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x07"><span class="nav-number">7.</span> <span class="nav-text">0x07</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0x08"><span class="nav-number">8.</span> <span class="nav-text">0x08</span></a></li></ol></div>
+            <p class="post-toc-empty">此文章未包含目錄</p>
           
         </div>
         <div class="post-toc-indicator-bottom post-toc-indicator"></div>

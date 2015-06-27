@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-06-26T17:19:54.794Z</updated>
+  <updated>2015-06-27T18:44:44.770Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[用树莓派进行广播FM以及SSH登录设置]]></title>
+    <link href="http://chinuno-usami.github.io/2015/06/28/pifm/"/>
+    <id>http://chinuno-usami.github.io/2015/06/28/pifm/</id>
+    <published>2015-06-27T17:15:23.000Z</published>
+    <updated>2015-06-27T18:44:44.770Z</updated>
+    <content type="html"><![CDATA[<p>因为有两个内容想要写的，都是而且都不长所以都放在同一篇里面吧。<br><a id="more"></a></p>
+<h3 id="树莓派广播FM">树莓派广播FM</h3><p>刚玩了下用树莓派广播FM。用的是<a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter" target="_blank" rel="external">PiFm</a>.<br>可以点这里<a href="http://omattos.com/pifm.tar.gz" target="_blank" rel="external">进行</a>下载（我好像下载的是旧版的。不过可以用就是了，估计没有立体声或者什么的这些特性<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf pifm.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>解压到任意位置。目录中有.c源文件，编译好的二进制文件，测试用的那个星战的wav音乐，还有python脚本。<br>python里面的使用方法是<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> PiFm</span><br><span class="line">PiFm.play_sound(<span class="string">"sound.wav"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>其实打开PiFm查看里面的代码也就是运行了编译好的二进制文件而已，或许是为了python里面调用方便所以才做成一个模块的吧。</p>
+<p>另一种使用方法是直接开pifm.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./pifm sound.wav <span class="number">100.0</span></span><br></pre></td></tr></table></figure></p>
+<p>因为查看源码的话会发现需要mmap直接操作/dev/mem所以需要root权限。<br>然而从入手树莓派到现在这几年一直都用Archlinux就只用root用户的我似乎并不知道什么是sudo<br>顺便说个悲伤的事情吧，树莓派上用Archlinux的人似乎并不多，关于树莓派的东西大多数人（99%）都是用官方那个系统吧，所以在其他发行版问题就多了，还没地方问。像之前搞摄像头的时候就遇到raspistill死活都不能正常运行的情况。google了一番才知道是Archlinux本身的问题，之前还有几个解决方案后来似乎成了遗留问题一直没能解决了？<br>参数1是要进行广播的声音文件,留空静音？设置为-表示接收stdin的数据，用于管道传入数据，参数2是广播的频率，可以从1Mhz到250Mhz,可选参数，默认是103.3。参数3是声音文件的采样率,默认22500hz。</p>
+<p>自己试了一下，默认103.3Mhz的频率信号比较弱，距离稍微近点也听不大清楚，而且似乎干扰很严重，后来设置成90Mhz之后就算保持一段距离也能够清楚的听清广播的内容:P网上有人说频率是30的倍数信号都特别强，因为普通收音机只能接收大约88 Mhz~108 Mhz的频率所以其他频率我也不能验证，不过从90Mhz的情况来看确实是这样，还是在没有加天线的情况下。</p>
+<p>其他的一些使用方式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo ./pifm left_right.wav <span class="number">103.3</span> <span class="number">22050</span> stereo</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example command lines</span></span><br><span class="line"><span class="comment"># play an MP3</span></span><br><span class="line">ffmpeg -i input.mp3 <span class="operator">-f</span> s16le -ar <span class="number">22.05</span>k -ac <span class="number">1</span> - | sudo ./pifm -</span><br><span class="line"></span><br><span class="line"><span class="comment"># Broadcast from a usb microphone (see arecord manual page for config)</span></span><br><span class="line">arecord <span class="operator">-d</span>0 -c2 <span class="operator">-f</span> S16_LE -r <span class="number">22050</span> -twav -D copy | sudo ./pifm -</span><br></pre></td></tr></table></figure></p>
+<p>他大概的一个原理是映射物理内存的外围总线(0x20000000)到虚拟地址的内存空间对外部设备进行操作，启用时钟发生器并设置GPIO4输出.这时后频率设置是100Mhz，收音机原本的噪声会突然变静音，应该是因为树莓派发射的静音信号。然后再把声音数据调制发射出来。按照这原理就算声音文件播放结束之后树莓派仍然还在发射<code>静音</code>信号，只能重启后清除内存数据才能恢复原样了，否则他就一直射下去..</p>
+<h3 id="SSH登录设置">SSH登录设置</h3><p>其实之前是设置过的。然后旧电脑升级后系统没了一直也没再去搞。现在觉得每次登录都要输密码太麻烦了就重新设置并记录下来。</p>
+<p>经常要对树莓派SSH登录进行管理，而且还经常开了好几个连接，博客更新也是通过树莓派，所以打算直接用公私鈅进行登录认证了。</p>
+<p>常用的电脑一个是sutface pro3跑windows一个是台式机跑ubuntu。先从简单的ubuntu开始吧。</p>
+<h5 id="Linux">Linux</h5><p>用ssh-keygen生成公私鈅，位于~/.ssh下面<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cirno@LoveLive:~$ ssh-keygen </span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/home/cirno/.ssh/id_rsa): </span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /home/cirno/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> /home/cirno/.ssh/id_rsa.pub.</span><br></pre></td></tr></table></figure></p>
+<p>然后把公钥id_rsa.pub里面的内容添加到树莓派用户目录下的.ssh/authorized_keys里面就行。<br>再次运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cirno@LoveLive:~/.ssh$ ssh root@<span class="number">192.168</span>.<span class="number">1.104</span></span><br><span class="line">Welcome to Arch Linux ARM</span><br><span class="line"></span><br><span class="line">     Website: http://archlinuxarm.org</span><br><span class="line">       Forum: http://archlinuxarm.org/forum</span><br><span class="line">         IRC: <span class="comment">#archlinux-arm on irc.Freenode.net</span></span><br><span class="line"></span><br><span class="line">Last login: Sun Jun <span class="number">28</span> <span class="number">01</span>:<span class="number">36</span>:<span class="number">41</span> <span class="number">2015</span> from <span class="number">192.168</span>.<span class="number">1.107</span></span><br><span class="line">[root@alarmpi ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>不用密码直接登录了。</p>
+<h5 id="Windows">Windows</h5><p>Windows 下面用的putty进行连接（话说windows接下来都要原生支持ssh了到时候是不是就可以抛弃putty了，不过感觉putty本身设置功能就特别强大了估计windows原生ssh可玩性还不高吧）。<br>运行puttygen.exe生成公私鈅。指针在空白处移动生成随机内容。生成出来的公鈅保不保存都可以反正可以载入私鈅再生出来。把私鈅保存到找的到的地方，公鈅照样添加到树莓派用户目录下的.ssh/authorized_keys里面。在putty的设置中连接-&gt;SSH-&gt;认证 中添加刚才保存的私鈅，把设置保存到树莓派的会话中就行，打开会话输入用户名就能够自动认证登录进去了。q(≧▽≦q) </p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>因为有两个内容想要写的，都是而且都不长所以都放在同一篇里面吧。<br>]]>
+    
+    </summary>
+    
+      <category term="FM" scheme="http://chinuno-usami.github.io/tags/FM/"/>
+    
+      <category term="SSH" scheme="http://chinuno-usami.github.io/tags/SSH/"/>
+    
+      <category term="putty" scheme="http://chinuno-usami.github.io/tags/putty/"/>
+    
+      <category term="树莓派" scheme="http://chinuno-usami.github.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[说说live usb吧]]></title>
@@ -514,29 +552,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>現在手上的設備大部分都能用5G的wifi了，加上學校在使用的路由器在自動設置路由表有些問題早就想換了所以入了個極路由。開箱後是這樣的 <img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptm8trsjqj219c0pidqa]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[明天的计划]]></title>
-    <link href="http://chinuno-usami.github.io/2015/03/04/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92/"/>
-    <id>http://chinuno-usami.github.io/2015/03/04/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92/</id>
-    <published>2015-03-03T16:01:08.000Z</published>
-    <updated>2015-04-04T13:08:38.000Z</updated>
-    <content type="html"><![CDATA[<p>为了编译树莓派上面运行的程序明天或许会搭建一个交叉编译环境。</p>
-<p>用archlinux做server真是作死了。。好几个月没滚今天滚下看看还能不能活得成。</p>
-<p>————————————————</p>
-<p>成功滚完，这次更新的东西真多。暂时还没发现什么异常，就怕下次重启之后挂掉otl</p>
-<p>晚安。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>为了编译树莓派上面运行的程序明天或许会搭建一个交叉编译环境。</p>
-<p>用archlinux做server真是作死了。。好几个月没滚今天滚下看看还能不能活得成。</p>
-<p>————————————————</p>
-<p>成功滚完，这次更新的东西真多。暂时还没发现什么]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

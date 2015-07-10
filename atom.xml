@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-06-27T18:44:44.770Z</updated>
+  <updated>2015-07-10T07:55:05.700Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[把hosts塞进路由器]]></title>
+    <link href="http://chinuno-usami.github.io/2015/07/10/hosts/"/>
+    <id>http://chinuno-usami.github.io/2015/07/10/hosts/</id>
+    <published>2015-07-10T07:05:20.000Z</published>
+    <updated>2015-07-10T07:55:05.700Z</updated>
+    <content type="html"><![CDATA[<p>把hosts塞进路由器实现那啥的。<br><a id="more"></a><br>路由器型号<code>TP-Link TL-WR841ND v7</code>，刷的<code>DD-WRT v24-sp2 (06/14/11) std
+(SVN revision 17201)</code>固件。原来是为了学校上网认证的，现在宿舍换了个路由器这个就留在家里用了。正好ddwrt的操作自由度也比较高方便做这件事。</p>
+<h3 id="0x01">0x01</h3><p>思路是把hosts文件放到路由器的jffs上，然后修改dnsmasq的配置文件从Hosts中解析。<br>首先还是应该去找一份hosts列表，这个一抓一大把没什么问题。</p>
+<h3 id="0x02">0x02</h3><p>第二步该把hosts文件传到路由器了，首先用的SFTP试着上传，不过路由器似乎没有开启SFTP的功能，到官方wiki上查了一下，确实是没有sftp，wiki表示应该用scp。使用scp传到<code>/jffs</code>，然而提示<code>read only system</code>。于是又去查wiki，原来现在用的这个固件把jffs给去掉了。。想要用jffs只能写其他固件。</p>
+<h3 id="0x03">0x03</h3><p>不过很快又有新的思路了，开机的时候从树莓派中获取hosts，然后再来进行操作。于是添加开机命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -P /tmp/root http://<span class="number">192.168</span>.<span class="number">1.104</span>/hosts.txt</span><br></pre></td></tr></table></figure></p>
+<p>从树莓派中获取hosts.txt放到<code>/tmp/root</code>中再进行下一步操作，这样就避免了jffs不能使用的问题，而且更新hosts的时候只要更新树莓派上的文件即可。</p>
+<h3 id="0x04">0x04</h3><p>在web管理页面中添加dnsmasq设置选项<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addn-hosts=<span class="regexp">/tmp/root</span><span class="regexp">/hosts.txt</span></span><br></pre></td></tr></table></figure></p>
+<p>这样就能从<code>/tmp/root/hosts.txt</code>进行解析了</p>
+<h3 id="0x05">0x05</h3><p>重启后进行测试，nslookup后发现返回的ip仍然是被污染过的<br>查了好久才发现，原来是hosts.txt的编码问题，修改完后再次nslookup查看已经没有问题了<br>再打开twitter，已经可以直接打开啦(&gt;_&lt;)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>把hosts塞进路由器实现那啥的。<br>]]>
+    
+    </summary>
+    
+      <category term="dnsmasq" scheme="http://chinuno-usami.github.io/tags/dnsmasq/"/>
+    
+      <category term="hosts" scheme="http://chinuno-usami.github.io/tags/hosts/"/>
+    
+      <category term="路由器" scheme="http://chinuno-usami.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[用树莓派进行广播FM以及SSH登录设置]]></title>
@@ -525,33 +554,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用wi]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[入手極路由]]></title>
-    <link href="http://chinuno-usami.github.io/2015/03/04/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1/"/>
-    <id>http://chinuno-usami.github.io/2015/03/04/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1/</id>
-    <published>2015-03-04T05:31:21.000Z</published>
-    <updated>2015-04-04T13:08:38.000Z</updated>
-    <content type="html"><![CDATA[<p>現在手上的設備大部分都能用5G的wifi了，加上學校在使用的路由器在自動設置路由表有些問題早就想換了所以入了個極路由。開箱後是這樣的 <img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptm8trsjqj219c0pidqa.jpg" alt=""></p>
-<p>之前網上看人說電源特別大，實際到手之後感覺還行，不算大的。</p>
-<p>在初始配置後能夠上網了<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptmfobzeqj20kr0hgdju.jpg" alt=""></p>
-<p>surface使用802.11ac連接，在學校宿舍各種干擾使用5g頻段還是很有必要的。</p>
-<p>極路由的後臺界面挺美的，使用起來應該說還是很方便的，內置了幾大上網認證功能，所以才打算在學校使用極路由。</p>
-<p>極路由宣傳的一個亮點是擴展插件，實際上那些插件除了標配的ddns，端口轉發其他都是用不上的，數量也不算多「話說之前貼吧看到過的ss插件怎麼沒有，難道要日更版才有？」</p>
-<p>大約看了看極路由系統的信息之後發現。。這極路由的系統其實就是個openwrt。。。不過極路由團隊進行了web界面的美化加入了點遠程操作的功能，對於不太喜歡搞七搞八的人來說還是很方便的，現在智能手機的系統大部分不還是android自己改的嘛「「「</p>
-<p>極路由的信號設置默認強的情況下隔著兩堵牆大約十米範圍2.4g頻段信號跟我原來使用的TPLINK路由器差不多，5G頻段信號只有一格，表現還行。</p>
-<p>剛到手還不能看出有什麼問題，以後如果出現了網上人說的連接不穩定之類的再在這裡更新吧。</p>
-<p>&nbsp;</p>
-<p>————————————————————————————————————</p>
-<p>2015年3月8日更新。今天是把極路由帶到學校的第一天，結果在配置路由器的時候發生了蛋疼的事情。路由器通電之後過了大約三分鐘才開始亮燈能連wifi，然後過了大約兩分鐘才能進得去後臺。然後突然後臺進不去了w(ﾟДﾟ)w！！把手頭四臺設備全都試了一遍都進不去我蛋疼了，，重啟之後又是漫長的等待，還是沒能進去。。最後把它放置play蠻長一段時間後重新啟動路由器，忐忑的等了五分鐘終於能夠進去了。。當時整個人都要炸了。。。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>現在手上的設備大部分都能用5G的wifi了，加上學校在使用的路由器在自動設置路由表有些問題早就想換了所以入了個極路由。開箱後是這樣的 <img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptm8trsjqj219c0pidqa]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

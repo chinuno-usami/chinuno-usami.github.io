@@ -18,9 +18,9 @@
 
 
 
-	<meta name="keywords" content="python,命令行,树莓派,网易云音乐," />
+	<meta name="keywords" content="dnsmasq,hosts,路由器," />
 
-  <title> 命令行网易云音乐 // Gensokyo </title>
+  <title> 把hosts塞进路由器 // Gensokyo </title>
 </head>
 
 <body>
@@ -101,7 +101,7 @@
           
           
             
-              命令行网易云音乐
+              把hosts塞进路由器
             
           
         </h1>
@@ -110,7 +110,7 @@
       <div class="post-meta">
         <span class="post-time">
           
-            發表於 2015-05-31
+            發表於 2015-07-10
           
         </span>
 
@@ -122,8 +122,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/05/31/netease/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/31/netease/"></span>
+            <a href="/2015/07/10/hosts/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/10/hosts/"></span>
             </a>
           </span>
           
@@ -138,12 +138,16 @@
         
 
         
-          <p>在家里听音乐用的方案<br><a id="more"></a><br>在家里听作业BGM，电脑开个网易云音乐的网页一个比较占用资源，一个耗电，而且电脑音箱效果也不是很好。所以就想要在客厅用音响播放。</p>
-<h1 id="方案">方案</h1><p>一个解决方案是surface pro3或者手机播放，使用电视投影功能在电视播放，从音响输出，然而这样一来占用网速，而且还要视频编码解码运算量大耗电发热音质还有损失，还要开个电视也不方便，听歌的时候也不能使用电视了。<br>所以用另一个方案，利用树莓派运行命令行的网易云音乐客户端，直接输出到音响。这样不用开电脑不用开电视，轻量级的解决方案。</p>
-<h1 id="实现">实现</h1><p>命令行网易云音乐用的<a href="https://github.com/bluetomlee/NetEase-MusicBox" target="_blank" rel="external">NetEase-MusicBox</a><br>因为之前被网易要求删除代码，所以原本的项目已经没了，在pip上面也找不到，不过有人fork了所以还能找到代码。不通过pip获取，直接clone源代码进行安装就行。<br>在A岛技术版看到有个串有人也自己用python也实现另一个命令行版本「还没完成的样子」，说是因为目前的客户端并不能提供320kbps的音乐，而且缺少推荐曲目信息。然而github上找的readme中说了支持320kbps的音乐，不知道是被修改过后的版本？  </p>
-<h1 id="使用">使用</h1><p>现在在使用sp3开Putty连到树莓派上就能进行播放控制了，使用screen可以在断开连接之后继续播放，也可以在其他终端继续控制，会方便点。当然不只是sp3可以控制，使用nexus7也可以控制了，android上也有ssh连接的app，连上之后screen -x继续回到客户端控制会话就行。  </p>
-<h1 id="本文编辑工具">本文编辑工具</h1><p>这篇文章改在linux驱动的台式机上码了，全键盘用起来比sp3舒服点，字也没那么小。用的Cmd Markdown编辑器的linux客户端，然而就只是一个包装好的web app而已并没有什么卵用，连打开本地md文件都不能够。编辑器的语法跟MarkdownPad稍微有点不一样，应该也是支持GFM的，估计hexo也能够支持这种语法。</p>
-<h1 id="以上">以上</h1>
+          <p>把hosts塞进路由器实现那啥的。<br><a id="more"></a><br>路由器型号<code>TP-Link TL-WR841ND v7</code>，刷的<code>DD-WRT v24-sp2 (06/14/11) std
+(SVN revision 17201)</code>固件。原来是为了学校上网认证的，现在宿舍换了个路由器这个就留在家里用了。正好ddwrt的操作自由度也比较高方便做这件事。</p>
+<h3 id="0x01">0x01</h3><p>思路是把hosts文件放到路由器的jffs上，然后修改dnsmasq的配置文件从Hosts中解析。<br>首先还是应该去找一份hosts列表，这个一抓一大把没什么问题。</p>
+<h3 id="0x02">0x02</h3><p>第二步该把hosts文件传到路由器了，首先用的SFTP试着上传，不过路由器似乎没有开启SFTP的功能，到官方wiki上查了一下，确实是没有sftp，wiki表示应该用scp。使用scp传到<code>/jffs</code>，然而提示<code>read only system</code>。于是又去查wiki，原来现在用的这个固件把jffs给去掉了。。想要用jffs只能写其他固件。</p>
+<h3 id="0x03">0x03</h3><p>不过很快又有新的思路了，开机的时候从树莓派中获取hosts，然后再来进行操作。于是添加开机命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -P /tmp/root http://<span class="number">192.168</span>.<span class="number">1.104</span>/hosts.txt</span><br></pre></td></tr></table></figure></p>
+<p>从树莓派中获取hosts.txt放到<code>/tmp/root</code>中再进行下一步操作，这样就避免了jffs不能使用的问题，而且更新hosts的时候只要更新树莓派上的文件即可。</p>
+<h3 id="0x04">0x04</h3><p>在web管理页面中添加dnsmasq设置选项<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addn-hosts=<span class="regexp">/tmp/root</span><span class="regexp">/hosts.txt</span></span><br></pre></td></tr></table></figure></p>
+<p>这样就能从<code>/tmp/root/hosts.txt</code>进行解析了</p>
+<h3 id="0x05">0x05</h3><p>重启后进行测试，nslookup后发现返回的ip仍然是被污染过的<br>查了好久才发现，原来是hosts.txt的编码问题，修改完后再次nslookup查看已经没有问题了<br>再打开twitter，已经可以直接打开啦(&gt;_&lt;)</p>
+
         
       </div>
     
@@ -153,20 +157,16 @@
         
           <div class="post-tags">
             
-              <a href="/tags/python/">
-                #python
+              <a href="/tags/dnsmasq/">
+                #dnsmasq
               </a>
             
-              <a href="/tags/命令行/">
-                #命令行
+              <a href="/tags/hosts/">
+                #hosts
               </a>
             
-              <a href="/tags/树莓派/">
-                #树莓派
-              </a>
-            
-              <a href="/tags/网易云音乐/">
-                #网易云音乐
+              <a href="/tags/路由器/">
+                #路由器
               </a>
             
           </div>
@@ -176,13 +176,11 @@
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/06/13/overflow/">堆栈溢出攻击原理分析</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/05/23/pil/">PIL无法切割图片无法保留alpha信息</a>
+                <a href="/2015/06/28/pifm/">用树莓派进行广播FM以及SSH登录设置</a>
               
             </div>
           </div>
@@ -199,8 +197,8 @@
   
     <div class="comments" id="comments">
       
-        <div class="ds-thread" data-thread-key="2015/05/31/netease/"
-             data-title="命令行网易云音乐" data-url="http://chinuno-usami.github.io/2015/05/31/netease/">
+        <div class="ds-thread" data-thread-key="2015/07/10/hosts/"
+             data-title="把hosts塞进路由器" data-url="http://chinuno-usami.github.io/2015/07/10/hosts/">
         </div>
 
       
@@ -313,7 +311,7 @@
         <div class="post-toc">
           
           
-            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#方案"><span class="nav-number">1.</span> <span class="nav-text">方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">3.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本文编辑工具"><span class="nav-number">4.</span> <span class="nav-text">本文编辑工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以上"><span class="nav-number">5.</span> <span class="nav-text">以上</span></a></li></ol></div>
+            <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01"><span class="nav-number">1.</span> <span class="nav-text">0x01</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02"><span class="nav-number">2.</span> <span class="nav-text">0x02</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03"><span class="nav-number">3.</span> <span class="nav-text">0x03</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04"><span class="nav-number">4.</span> <span class="nav-text">0x04</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x05"><span class="nav-number">5.</span> <span class="nav-text">0x05</span></a></li></ol></div>
           
         </div>
         <div class="post-toc-indicator-bottom post-toc-indicator"></div>

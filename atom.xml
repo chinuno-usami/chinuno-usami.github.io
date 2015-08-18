@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://chinuno-usami.github.io/"/>
-  <updated>2015-07-10T07:55:05.700Z</updated>
+  <updated>2015-08-18T10:38:53.492Z</updated>
   <id>http://chinuno-usami.github.io/</id>
   
   <author>
@@ -13,6 +13,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[新地址]]></title>
+    <link href="http://chinuno-usami.github.io/2015/08/18/move/"/>
+    <id>http://chinuno-usami.github.io/2015/08/18/move/</id>
+    <published>2015-08-18T10:31:53.000Z</published>
+    <updated>2015-08-18T10:38:53.492Z</updated>
+    <content type="html"><![CDATA[<p>搬到新地方一段时间了。因为懒得再用树莓派的hexo发新文章了「因为这效率实在是。。<br>现在这里说明一下，接下来一年的更新会放到这里来<br><a href="www.chinuno.ml">www.chinuno.ml</a><br>一年之后再看看要不要回来这里更新吧。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>搬到新地方一段时间了。因为懒得再用树莓派的hexo发新文章了「因为这效率实在是。。<br>现在这里说明一下，接下来一年的更新会放到这里来<br><a href="www.chinuno.ml">www.chinuno.ml</a><br>一年之后再看看要不要回来这里更新吧。]]>
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[把hosts塞进路由器]]></title>
@@ -531,29 +545,6 @@
     <summary type="html">
     <![CDATA[<p>在b站看到了這麼個視頻</p>
 <embed height="452" width="544" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://sh]]>
-    </summary>
-    
-      <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[搭建arm交叉編譯環境Part.1]]></title>
-    <link href="http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/"/>
-    <id>http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/</id>
-    <published>2015-03-04T10:03:39.000Z</published>
-    <updated>2015-04-04T13:08:38.000Z</updated>
-    <content type="html"><![CDATA[<p>要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用win8自帶的虛擬機hyper-v裝個archlinux作為交叉編譯的系統平臺，然後使用ssh連接過去進行操作。archlinux可以除去不需要的東西做到最小化的編譯環境搭建。</p>
-<p>首先到archlinux的官網從163的鏡像下載了最新的archlinux安裝鏡像archlinux-2015.03.01-dual.iso</p>
-<p>啟用hyper-v並且重啟後hyper-v虛擬機就可以用了，在hyper-v管理器中新建虛擬交換機用於虛擬機跟外界的網路連接，然後新建archlinux的虛擬機<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptnvihf4aj20iq0hytcd.jpg" alt=""></p>
-<p>啟動虛擬機進行系統的安裝</p>
-<p><img src="http://ww2.sinaimg.cn/large/4ec84d23gw1eptuldez6fj20ut0m1aga.jpg" alt=""></p>
-<p>安裝完系統裝上必要的網路服務工具和openssh就能ssh到archlinux進行操作了，archlinux使用systemctl就能添加系統服務開機運行了還是很方便的。</p>
-<p>archlinux的安裝花的時間不長，但是需要仔細一點，中間漏了某一步可能就需要重來了，最好還是跟著官方wiki上的步驟來做，在安裝環境的/root/下面也有一份簡易的安裝步驟。</p>
-<p>這一p就先到這裡吧，更新下一p的時候再繼續後面的步驟。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用wi]]>
     </summary>
     
       <category term="未分类" scheme="http://chinuno-usami.github.io/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/"/>

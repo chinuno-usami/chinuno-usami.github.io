@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Gensokyo - blog</title><link href="https://www.chinuno.com/" rel="alternate"></link><link href="https://www.chinuno.com/feeds/blog.atom.xml" rel="self"></link><id>https://www.chinuno.com/</id><updated>2019-08-07T11:13:00+08:00</updated><subtitle>・－・・ －－－ ・・・－ ・</subtitle><entry><title>又用回Github pages了</title><link href="https://www.chinuno.com/blog/back-to-github-pages" rel="alternate"></link><published>2019-08-07T10:38:00+08:00</published><updated>2019-08-07T11:13:00+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-08-07:/blog/back-to-github-pages</id><summary type="html">&lt;p&gt;原来放blog的机器没了，所以用回Github pages了。&lt;/p&gt;</summary><content type="html">&lt;h1&gt;干嘛要换&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Gensokyo - blog</title><link href="https://www.chinuno.com/" rel="alternate"></link><link href="https://www.chinuno.com/feeds/blog.atom.xml" rel="self"></link><id>https://www.chinuno.com/</id><updated>2019-08-07T11:38:00+08:00</updated><subtitle>・－・・ －－－ ・・・－ ・</subtitle><entry><title>cuvid解码的几个注意点</title><link href="https://www.chinuno.com/blog/cuvid" rel="alternate"></link><published>2019-08-07T11:38:00+08:00</published><updated>2019-08-07T11:38:00+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-08-07:/blog/cuvid</id><summary type="html">&lt;p&gt;最近做视频解码做成sb了，一些坑整理一下。&lt;/p&gt;</summary><content type="html">&lt;h1&gt;直接用libav全家桶不好吗&lt;/h1&gt;
+&lt;p&gt;好啊。有现成的东西用当然好。最早就是libav全家桶，avformat读数据，解包后h264数据直接丢解码器解码。&lt;br&gt;
+用了好长时间都没出什么大问题。&lt;br&gt;
+不过用avcodec封装的cuvid解码，在解码器设置参数一直都不生效。实际使用环境会有多张显卡，是需要配置具体解码使用哪些卡的。&lt;br&gt;
+所以最后还是要直接用cuvid的api去解码。&lt;/p&gt;
+&lt;h1&gt;AVC1和H264&lt;/h1&gt;
+&lt;p&gt;直接调用cuvid解码时发现，有的视频是能够正常解出图像的，而有的一直输入数据，解码器却没有输出。&lt;br&gt;
+后来才知道，原来H264还有两种格式。一种是AVC1另一种是H264。&lt;br&gt;
+区别在于，AVC1不带0x00000001或0x000001起始码，而H264则带了这些信息，所以H264形式的数据包直接丢解码器是可以解码的。&lt;br&gt;
+对于AVC1来说，还需要再处理一下才能解码。&lt;br&gt;
+使用bit stream filter可以方便的处理这种情况。  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;AVBitStreamFilter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pFilter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;av_bsf_get_by_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;h264_mp4toannexb&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;// 对于HEVC就是hevc_mp4toannexb&lt;/span&gt;
+&lt;span class="n"&gt;av_bsf_alloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pFilter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pFilterCtx&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;avcodec_parameters_copy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pFilterCtx&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;par_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pFormatCtx&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;streams&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;nId&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;codecpar&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;av_bsf_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pFilterCtx&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="c1"&gt;// 使用时&lt;/span&gt;
+&lt;span class="n"&gt;av_bsf_send_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pFilterCtx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pkt&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;av_bsf_receive_packet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pFilterCtx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;pktAnnexb&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;NV12&lt;/h1&gt;
+&lt;p&gt;网上看到好多关于NV12格式的文章都是错的，一开始对着那些文章撸结果一直不对。&lt;br&gt;
+现在总算是搞明白了。&lt;br&gt;
+为了优化，之前是把解码器解出的数据丢libyuv做yuv转rgb。只需要取data[0]做Y数据地址，&lt;br&gt;
+data[1]做uv数据地址。而长度直接取linesize[0]和linesize[1]就行。&lt;br&gt;
+现在另外解码，这个大小就要自己计算了。  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// NV12: YYYYYYYYUVUV&lt;/span&gt;
+&lt;span class="c1"&gt;//&lt;/span&gt;
+&lt;span class="c1"&gt;// Y1  Y2  Y3  Y4  Y5  Y6  Y7  Y8   &amp;lt;- 对Y数据一行 width+padding (pitch) 个数据&lt;/span&gt;
+&lt;span class="c1"&gt;// Y9  Y10 Y11 Y12 Y13 Y14 Y15 Y16&lt;/span&gt;
+&lt;span class="c1"&gt;// Y17 Y18 Y19 Y20 Y21 Y22 Y23 Y24&lt;/span&gt;
+&lt;span class="c1"&gt;// Y25 Y26 Y27 Y28 Y29 Y30 Y31 Y32  &amp;lt;- Y结尾，共height行，接下来是UV数据&lt;/span&gt;
+&lt;span class="c1"&gt;// U1  V1  U2  V2  U3  V3  U4  V4   &amp;lt;- 一行U和V数据个数都是Y的一半，UV加起来和Y一样&lt;/span&gt;
+&lt;span class="c1"&gt;// U5  V5  U6  V6  U7  V7  U8  V8&lt;/span&gt;
+&lt;span class="c1"&gt;//&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;nPitch&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pDecoder&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;GetDeviceFramePitch&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;// 这里GPU解码的Pitch和with一样&lt;/span&gt;
+&lt;span class="kt"&gt;uint8_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ppFrame&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt; &lt;span class="c1"&gt;// 起始地址就是Y地址&lt;/span&gt;
+&lt;span class="kt"&gt;uint8_t&lt;/span&gt; &lt;span class="n"&gt;pUV&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pY&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;nPitch&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// Y是完整一个像素对应一个的，一个大小1byte&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;linesize1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nPitch&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;linesize2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nPitch&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// U和V每行都有Y一半个，加起来是1个Y个。&lt;/span&gt;
+&lt;span class="n"&gt;libyuv&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;NV12ToRGB24&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;linesize1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pUV&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;linesize2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;pBufferBGR&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;@&lt;/p&gt;</content><category term="decode"></category><category term="nvidia"></category><category term="cuvid"></category><category term="libav"></category></entry><entry><title>又用回Github pages了</title><link href="https://www.chinuno.com/blog/back-to-github-pages" rel="alternate"></link><published>2019-08-07T10:38:00+08:00</published><updated>2019-08-07T11:13:00+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-08-07:/blog/back-to-github-pages</id><summary type="html">&lt;p&gt;原来放blog的机器没了，所以用回Github pages了。&lt;/p&gt;</summary><content type="html">&lt;h1&gt;干嘛要换&lt;/h1&gt;
 &lt;p&gt;之所以换回来是因为。之前有个年付$10的搬瓦工ovz的vps，因为便宜，而且$10的套餐已经被取消了
 所以一直养着只用来放blog。&lt;br&gt;
 现在搬瓦工撤掉了所有ovz的机器，所以就放回Github Pages了。&lt;/p&gt;

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>迁移到Github上了</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/hexo" rel="canonical" />
+
+    <meta name="description" content="0x00 原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。 0x01 树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了 所以直接在树莓派上面搞了个hexo npm install hexo-cli -g...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="树莓派">
+    <meta name="tags" content="hexo">
+    <meta name="tags" content="Github">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="迁移到Github上了"/>
+<meta property="og:description" content="0x00 原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。 0x01 树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了 所以直接在树莓派上面搞了个hexo npm install hexo-cli -g..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/hexo"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-04-05 10:10:58+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="树莓派"/>
+<meta property="article:tag" content="hexo"/>
+<meta property="article:tag" content="Github"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="迁移到Github上了">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/hexo">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="0x00 原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。 0x01 树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了 所以直接在树莓派上面搞了个hexo npm install hexo-cli -g...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "迁移到Github上了",
+  "headline": "迁移到Github上了",
+  "datePublished": "2015-04-05 10:10:58+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/hexo",
+  "description": "0x00 原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。 0x01 树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了 所以直接在树莓派上面搞了个hexo npm install hexo-cli -g..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">迁移到Github上了</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="日 05 四月 2015">日 05 四月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h3>0x00</h3>
+<p>原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。</p>
+<h3>0x01</h3>
+<p>树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了
+所以直接在树莓派上面搞了个<a href="http://hexo.io">hexo</a></p>
+<div class="highlight"><pre><span></span>npm install hexo-cli -g
+npm install hexo --save
+</pre></div>
+
+
+<!--more-->
+
+<h3>0x02</h3>
+<p>路由器加了<code>DDNS</code>和<code>ssh</code>,<code>4000端口</code>的端口轉發<br>
+這樣就可以在任何地方連接到樹莓派進行寫作和部署了</p>
+<h3>0x03</h3>
+<p>把该设置的东西设置好之后就把原来wordpress的文章给导过来
+要用到<a href="https://github.com/hexojs/hexo-migrator-wordpress">hexo-migrator-wordpress</a>  </p>
+<div class="highlight"><pre><span></span>$ npm install hexo-migrator-wordpress --save
+</pre></div>
+
+
+<p>在wordpress后台导出数据后就可以用</p>
+<div class="highlight"><pre><span></span>$ hexo migrate wordpress &lt;source&gt;
+</pre></div>
+
+
+<p>导入了<br>
+需要注意的是导入会把所有的文章页面全部导入，连已经删除放到回收站的都会被导进去，所以不要的文章页面还需要手动删除。<br>
+另外插件会把文章转换成markdown，有些地方还需要修改，比如<a href="http://chinuno-usami.github.io/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/">关于vs2013宏</a>的那篇文章中的/*...*/就没有转换好，正常情况需要转义字符来表示*而不是变成斜体文字<br>
+另外还有原来wordpress使用各种代码高亮插件，转换成markdown后不能正常使用。hexo可以使用<a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a>
+所以可以用</p>
+<blockquote>
+<p>``` ruby<br>
+require 'redcarpet'<br>
+markdown = Redcarpet.new("Hello World!")<br>
+puts markdown.to_html <br>
+```</p>
+</blockquote>
+<p>这样的方式进行代码高亮，这些地方也需要手动修改</p>
+<h3>0x04</h3>
+<p>不得不说这初代树莓派的性能确实捉急，npm安装需要的东西时就觉得特别慢了，在</p>
+<div class="highlight"><pre><span></span>$ hexo server
+</pre></div>
+
+
+<p>的时候要等好久本地服务器才能起来，而查看页面的时候也是要等好久<br>
+还好在生成页面和部署的时候虽然也花了好长时间，不过速度不是很慢。对于没有vps的我来说已经是最好的方案了</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=迁移到Github上了&amp;url=https://www.chinuno.com/blog/hexo" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/hexo" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/hexo" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/shu-mei-pai">树莓派</a><a href="https://www.chinuno.com/tag/hexo">hexo</a><a href="https://www.chinuno.com/tag/github">Github</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/hexo';
+                    var disqus_url = 'https://www.chinuno.com/blog/hexo';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/hexo" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/surface-pro-3">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Surface Pro 3 购买参考与使用感受</h2>
+                            <p class="post-nav-excerpt">缘由 自己在几个月前入了Surface Pro 3，然后身边有人看到之后也买了个，自己就像把自己用了几个月的感受说一下方便各位在想买这机子的时候进行参考。 需求分析...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">坑爹的魅蓝note调试adb问题</h2>
+                            <p class="post-nav-excerpt">要用电脑调试魅蓝note做开发的时候遇到了很蛋疼的问题，连接之后adb死活找不到手机，手机自带了驱动和说明书，自带的驱动无法通过验证装不了，按照说明书的方法修改.Androi...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

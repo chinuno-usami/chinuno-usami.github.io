@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>在VS上使用git的正確方式是什麼</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/vsgit" rel="canonical" />
+
+    <meta name="description" content="這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。 自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。 在vs...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="Visual Studio">
+    <meta name="tags" content="git">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="在VS上使用git的正確方式是什麼"/>
+<meta property="og:description" content="這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。 自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。 在vs..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/vsgit"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-01-15 23:50:16+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="Visual Studio"/>
+<meta property="article:tag" content="git"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="在VS上使用git的正確方式是什麼">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/vsgit">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。 自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。 在vs...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "在VS上使用git的正確方式是什麼",
+  "headline": "在VS上使用git的正確方式是什麼",
+  "datePublished": "2016-01-15 23:50:16+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/vsgit",
+  "description": "這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。 自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。 在vs..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">在VS上使用git的正確方式是什麼</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="五 15 一月 2016">五 15 一月 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。
+自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。</p>
+<p>在vs 的團隊資源管理器中創建了倉庫，在本地提交是正常的。但是一旦要push到遠端服務器上時就會出錯。</p>
+<blockquote>
+<p>An error was raised by libgit2. Category = Net (Error).
+This transport isn't implemented. Sorry
+</p>
+</blockquote>
+<p>vs 中的git 用的是原先有的git，配置理論上是一樣的。而通過git shell是可以push到服務端去的。所以現在只能在vs 中commit然後再通過git shell來進行push。</p>
+<p>想着這樣的東西應該不存在這樣不完整的問題。應該是自己的配置方式有問題。
+另外在so 上看到了這樣的一個問答
+https://stackoverflow.com/questions/18782637/visualstudio-an-error-was-raised-by-libgit2-category-checkout</p>
+<p>似乎是說這工具是不支持ssh的。。到github上看issue也似乎到現在還是這樣的情況。。</p>
+<p>所以有人知道vs上用git的正確姿勢的話希望能夠在評論中告知一下</p>
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=在VS上使用git的正確方式是什麼&amp;url=https://www.chinuno.com/blog/vsgit" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/vsgit" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/vsgit" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/visual-studio">Visual Studio</a><a href="https://www.chinuno.com/tag/git">git</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/vsgit';
+                    var disqus_url = 'https://www.chinuno.com/blog/vsgit';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/vsgit" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/game">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">开发游戏的一些感受</h2>
+                            <p class="post-nav-excerpt">为了装逼这游戏不用现有的游戏引擎自己造一个，感觉并没什么不对的。...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/vnc">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">论VPS后台自带终端的坑爹性</h2>
+                            <p class="post-nav-excerpt">首先。16年了。然而我就是不做15年的总结(*￣︿￣) 你来打我啊 然后开始正题 这个问题从去年遗留到现在了，终于解决了...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

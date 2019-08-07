@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>交叉编译驱动</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/driver" rel="canonical" />
+
+    <meta name="description" content="起因 之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行=...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="交叉编译">
+    <meta name="tags" content="驱动">
+    <meta name="tags" content="arm">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="交叉编译驱动"/>
+<meta property="og:description" content="起因 之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行=..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/driver"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-12-12 23:50:16+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="交叉编译"/>
+<meta property="article:tag" content="驱动"/>
+<meta property="article:tag" content="arm"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="交叉编译驱动">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/driver">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="起因 之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行=...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "交叉编译驱动",
+  "headline": "交叉编译驱动",
+  "datePublished": "2015-12-12 23:50:16+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/driver",
+  "description": "起因 之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行=..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">交叉编译驱动</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="六 12 十二月 2015">六 12 十二月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h3>起因</h3>
+<p>之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行= =也不知道几个意思。然后google了一下发现遇到识别问题的都是OTG线的问题。然而自己各种换线，以为是供电不够还另外供电，然而还是没能解决问题、</p>
+<p>然后今天突然想到会不会是驱动的原因。然后就打算编译个驱动上去看看能不能解决。</p>
+<h3>经过</h3>
+<p>然后首先。从官网下载了<a href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=4&amp;PNid=48&amp;PFid=48&amp;Level=5&amp;Conn=4&amp;DownTypeID=3&amp;GetDown=false&amp;Downloads=true#RTL8188CUS">驱动源码</a>。和android的<a href="https://android.googlesource.com/kernel/msm/+/android-msm-flo-3.4-lollipop-release">内核源码</a>。</p>
+<p>解压内核源码，把对应处理器的config拷出来
+修改Makefile把ARCH改成arm，CROSS_COMPILE改成交叉编译器的位置这样才能编译成arm版本(应该是只有编译内核的时候才需要？)</p>
+<div class="highlight"><pre><span></span>cp arch/arm/configs/flo_defconfig ./.config
+</pre></div>
+
+
+<p>或者make指定参数也行。。
+解压驱动源码到drivers/net/wireless/下。应该也是只有编译到内核中去的时候需要。记得改个文件夹名字、</p>
+<p>在wireless文件夹下的Makefile和Kconfig也要改。然后就能通过make menuconfig在里面设置编译选项了。原来打算的就是编译个驱动模块而已，也没必要改这些了。</p>
+<p>修改驱动源码中的Makefile，添加自己的选项，设置标志y。设置好arch和编译器位置就行了。</p>
+<p>make。然后提示找不到compiler-gcc5.h。是因为编译器新而源码比较旧导致，直接丢一份compiler-gcc5.h进去再次编译</p>
+<p>make。然后提示error, forbidden warning。还是因为编译器。新的编译器会把warning当做error来处理。禁用掉后再次编译。</p>
+<p>make。然后LD提示一大堆的</p>
+<blockquote>
+<p>/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/core/rtw_security.o：在函数‘is_multicast_mac_addr’中：
+/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/include/ieee80211.h:1199: `is_multicast_mac_addr'被多次定义
+/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/core/rtw_cmd.o:/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/include/ieee80211.h:1199：第一次在此定义
+</p>
+</blockquote>
+<p>此时我的内心。崩溃。真的。全都是那个头文件的那几个函数中招。。
+打开看了看。。全是函数定义。。为毛函数定义都塞在头文件里面。。。</p>
+<p>不死心。在那堆函数的地方加了<code>#ifndef</code>和<code>#define</code>。结果是没有效果的。<code>#ifndef</code>和<code>#define</code>都是针对同一个文件而言，所以实际上是没效果。。然后又加了<code>#pragma once</code>。然而还是没效果。</p>
+<p>好嘛。不就是定义到头文件去了。。全部拉出来不就好了</p>
+<p>把那三个奇葩函数全部丢到c里面去，在头函数里面只留声明。最后终于链接成功。
+然而。还是有错误</p>
+<blockquote>
+<p>FATAL: section header offset=11258999068426292 in file '/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/8192cu.o' is bigger than filesize=10236164
+</p>
+</blockquote>
+<p>网上查了一下。原来make的时候还要指定ARCH和交叉编译器。</p>
+<p>最后总算是可以成功编译出来了</p>
+<blockquote>
+<p>cirno@LoveLive:~/linux-kernel/drivers/net/wireless/rtl8192cu$ file 8192cu.ko 
+8192cu.ko: ELF 32-bit LSB relocatable, ARM, EABI5 version 1 (SYSV), BuildID[sha1]=6c2f0c8f10c7c5e3efa824a51b13a4b914e25b69, not stripped</p>
+</blockquote>
+<h3>结果</h3>
+<p>终于编译出来啦！棒棒哒！
+然后赶紧丢板子上看看吧</p>
+<p>于是。</p>
+<blockquote>
+<p>function not implemented</p>
+</blockquote>
+<p>233333333333</p>
+<p>官方的内核是没有启用<code>Enable loadable module support</code>的。也就是说想要用刚才编译出来的驱动模块，只能重新编译内核。</p>
+<p>爽。反正编译出来了。就贡献出来给吧，有需要的直接拿去用就是了
+<a href="http://www.chinuno.ml/blog/driver/8192cu.ko">适用于nexus7 flo 3.4.0内核</a></p>
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=交叉编译驱动&amp;url=https://www.chinuno.com/blog/driver" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/driver" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/driver" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/jiao-cha-bian-yi">交叉编译</a><a href="https://www.chinuno.com/tag/qu-dong">驱动</a><a href="https://www.chinuno.com/tag/arm">arm</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/driver';
+                    var disqus_url = 'https://www.chinuno.com/blog/driver';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/driver" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/vnc">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">论VPS后台自带终端的坑爹性</h2>
+                            <p class="post-nav-excerpt">首先。16年了。然而我就是不做15年的总结(*￣︿￣) 你来打我啊 然后开始正题 这个问题从去年遗留到现在了，终于解决了...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/git">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">自建git服务器</h2>
+                            <p class="post-nav-excerpt">对的。我就蛋疼。自己在树莓派上搞了个git服务器。= =不BB了。心累。简单地贴一下流程，图也懒的上了。反正就我这傻逼搞这傻逼东西。 依赖 openssh git...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

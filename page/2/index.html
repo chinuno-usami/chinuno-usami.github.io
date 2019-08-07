@@ -1,1353 +1,371 @@
-<!doctype html>
-<html class="theme-next use-motion theme-next-next">
+<!DOCTYPE html>
+<html lang="zh">
+
 <head>
-  
-
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 
+  <title>Gensokyo</title>
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.1"/>
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
 
 
 
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Gensokyo"/>
+<meta property="og:description" content="・－・・ －－－ ・・・－ ・"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/home-bg.jpg">
 
-    <meta name="keywords" content="Hexo,next" />
+<!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@chinuno_usami">
+  <meta name="twitter:title" content="Gensokyo">
+  <meta name="twitter:description" content="・－・・ －－－ ・・・－ ・">
+  <meta name="twitter:url" content="https://www.chinuno.com/">
+  <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/home-bg.jpg">
 
-
-
-    <link rel="alternate" href="/atom.xml" title="Gensokyo" type="application/atom+xml" />
-
-
-
-    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.1" />
-
-
-
-
-  <title> Gensokyo </title>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Website",
+  "name": " Gensokyo ",
+  "url" : "https://www.chinuno.com/",
+  "image": "https://www.chinuno.com/theme/images/home-bg.jpg",
+  "description": "・－・・ －－－ ・・・－ ・"
+}
+</script>
 </head>
+<!-- TODO : Body class -->
+<body class="home-template">
 
-<body>
-  <div class="container one-column 
-   page-home 
-">
-    <div class="headband"></div>
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
 
-    <div id="header" class="header">
-      <div class="header-inner">
-        <h1 class="site-meta">
-  <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
-      <span class="logo">
-        <i class="icon-logo"></i>
-      </span>
-      <span class="site-title">Gensokyo</span>
-  </a>
-  <span class="logo-line-after"><i></i></span>
-</h1>
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
 
-
-  <ul id="menu" class="menu">
-    
-      
-      <li class="menu-item menu-item-home">
-        <a href="/">
-          <i class="menu-item-icon icon-home"></i> <br />
-          首頁
-        </a>
-      </li>
-    
-      
-      <li class="menu-item menu-item-archives">
-        <a href="/archives">
-          <i class="menu-item-icon icon-archives"></i> <br />
-          歸檔
-        </a>
-      </li>
-    
-      
-      <li class="menu-item menu-item-tags">
-        <a href="/tags">
-          <i class="menu-item-icon icon-tags"></i> <br />
-          標籤
-        </a>
-      </li>
-    
-      
-      <li class="menu-item menu-item-about">
-        <a href="/about">
-          <i class="menu-item-icon icon-about"></i> <br />
-          關於
-        </a>
-      </li>
-    
-  </ul>
-
-
-      </div>
-    </div>
-
-    <div id="main" class="main">
-      <div class="main-inner">
-        <div id="content" class="content">
-          
-            
-          
-
-          <div id="posts" class="posts-expand">
-            
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/06/surface-pro-3/">
-                Surface Pro 3 购买参考与使用感受
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-04-06
-          
-        </span>
-
-        
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/06/surface-pro-3/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/06/surface-pro-3/"></span>
-            </a>
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
           </span>
-          
-        
+        </nav>
+        <h1 class="blog-name"><a href="https://www.chinuno.com/">Gensokyo</a></h1>
+        <span class="blog-description">・－・・ －－－ ・・・－ ・</span>
+
+          <div class="blog-cover cover" style="background-image: url('https://www.chinuno.com/assets/images/cover/acg.gy_15.jpg')">
       </div>
+    </header>
+
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    <div class="extra-pagination">
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.chinuno.com/"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 2 / 5</span>
+    <a class="pagination-prev" href="https://www.chinuno.com/page/3/"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
+  </div>
+</nav>
     </div>
 
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <h1 id="缘由">缘由</h1><p>自己在几个月前入了Surface Pro 3，然后身边有人看到之后也买了个，自己就像把自己用了几个月的感受说一下方便各位在想买这机子的时候进行参考。</p>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/04/06/surface-pro-3/#more">
-                閱讀全文 &raquo;
-              </a>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/game" rel="bookmark" title="Permalink to 开发游戏的一些感受">开发游戏的一些感受</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="三 27 一月 2016">三 27 一月 2016</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        为了装逼这游戏不用现有的游戏引擎自己造一个，感觉并没什么不对的。 然后现在看了看感觉不太好啊。一直关注的几个国内的独立游戏，用的现成的游戏引擎，有的做了5年才做好。一直在逼站直播游戏开发日记的那个项目从14年开始直播，到现在16年了还是没做好。想想看自己作死了。三个月不到的时间要自己撸个游戏引擎然后自己写游戏，怎么想都做不完啦。 还好现在半个月引擎撸的差不多了，接下来就是写写剧情撸撸脚本。不出现太大的问题交差是可以的了。但是作为自己的独立游戏项目还是要做完善了。...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/game" href="https://www.chinuno.com/blog/game#disqus_thread">comments</a>
+</p>
             </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Microsoft/">
-                #Microsoft
-              </a>
-            
-              <a href="/tags/Surface-Pro-3/">
-                #Surface Pro 3
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/05/hexo/">
-                迁移到Github上了
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-04-05
-          
-        </span>
-
-        
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/04/05/hexo/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/05/hexo/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <h3 id="0x00">0x00</h3><p>原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。</p>
-<h3 id="0x01">0x01</h3><p>树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了<br>所以直接在树莓派上面搞了个<a href="http://hexo.io">hexo</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure></p>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/04/05/hexo/#more">
-                閱讀全文 &raquo;
-              </a>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/vsgit" rel="bookmark" title="Permalink to 在VS上使用git的正確方式是什麼">在VS上使用git的正確方式是什麼</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="五 15 一月 2016">五 15 一月 2016</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。 自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。 在vs 的團隊資源管理器中創建了倉庫，在本地提交是正常的。但是一旦要push到遠端服務器上時就會出錯。 An error was raised by libgit2. Category = Net (Error). This transport isn't implemented. Sorry vs 中的git...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/vsgit" href="https://www.chinuno.com/blog/vsgit#disqus_thread">comments</a>
+</p>
             </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Github/">
-                #Github
-              </a>
-            
-              <a href="/tags/hexo/">
-                #hexo
-              </a>
-            
-              <a href="/tags/树莓派/">
-                #树莓派
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/28/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98/">
-                坑爹的魅蓝note调试adb问题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-27
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/28/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/28/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>要用电脑调试魅蓝note做开发的时候遇到了很蛋疼的问题，连接之后adb死活找不到手机，手机自带了驱动和说明书，自带的驱动无法通过验证装不了，按照说明书的方法修改.Android下面的ini配置文件也没法解决。最后强制指定google自己的adb驱动后总算是解决了这坑爹问题。。<br>这驱动根本就没法安装你还丢手机你坑人做什么otl</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/">
-                树莓派炸了！
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-27
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/树莓派/">树莓派</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。<br>已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边后自己睡着了。今天开了sp3才发现机子自动休眠了，已经中断的putty窗口上面的东西还没滚完。回到家后又Syu滚了一次。<br>然后蛋疼的事情来了，有个东西运行不太正常以为是机子的问题（（最后发现还是因为众所周知的原因【然后就reboot了。<br>这下好了启动后发现所有的服务都不能正常运行了，又想起好像上次滚的时候自己也没有重启过。<br>仔细看了看发现写操作都不能执行了，只能收到read-only file system的提示。<br>然后检查了下mount列表，所有的目录都是已经挂载了rw。。这下真蛋疼了，问题出在哪都不知道了<br>后来想想可能是fstab出问题了，所以想要找个原来的镜像来看看原来的fstab是怎样的。<br>之前的镜像包早就被删了，于是到官网去想要下载一个，竟然发现Archlinux的镜像早就被撤下来了<br>好吧，最后网上找了好久才找到一个14年的镜像。100+mb的zip包先下载下来了<br>自己的想法是hyper-v开个虚拟机，用把镜像传入虚拟机中挂载后查看fstab的内容<br>但是创建虚拟机后发现虚拟交换机根本就设置不了无法使用网络传输镜像了<br>最后想了个曲线的方法，创建个10G的vhd挂载到win8.1宿主机上，把镜像解压出img放到vhd虚拟硬盘中然后再挂到虚拟机上挂载<br>解压出来后1G+将近2G，不是很大w。mkdir /mnt/vhd创建挂载目录后mount /dev/sdb2 /mnt/vhd挂载上去（sda是虚拟机系统所在的磁盘，sdb是刚才的vhd磁盘，数据放在sdb2上<br>因为img是整个磁盘的镜像，/目录是在p5上面所以不能直接挂载<br>简单的方法，fdisk -lu blabla.img查看磁盘信息<br>Units = sectors of 1 * 512 = 512 bytes<br>单位大小为512字节<br>再乘上blabla.img5的Start算出位移<br>然后就可以挂载分区了<br>mkdir /mnt/archlinux_img<br>最后使用mount -o loop,offset=niconico /mnt/vhd/blabla.img /mnt/archlinux_img/<br>把分区挂载上去<br>vim /mnt/archlinux_img/etc/fstab查看内容后发现<br>里面的东西竟然是一样的！！！<br>最后只能暂时每次开机后都运行一次<br>mount -o remount,rw /来获取写入权限了（所以到底为什么remount后可以写入原来那样就不行？！！<br>然后蛋疼的还要每次都创建一个作为交换分区的文件挂到交换分区上去，这样以后没事还不能乱重启了，一来这些操作麻烦又费事，二来sd还经不起这样的折腾不知道什么时候就挂掉了。。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/">
-                surface pro中的hyper-v
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-24
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。<br>另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。<br>后来才看到这篇文章<br><a href="http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby" target="_blank" rel="external">http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby</a><br>原来在开启了hyper-v后InstantGo就会被禁用，同时surface的电源管理多出来原来没有的节能和高性能两个设置<br>关于cpu频率的问题网上说的是hyper-v和Intel的一些软件有兼容性问题，看来之前android的x86虚拟机提示cpu不支持虚拟化也极有可能是因为hyper-v产生的。如果不是特别需要的话果然还是把它关掉比较好，微软在开发wp应用的时候也要求打开hyper-v才可以。如果是开发wp应用这样不得不用的话那也没什么办法可以解决了。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/22/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc/">
-                Linux内核代码风格
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-21
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/22/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/22/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>这学期有个Linux驱动开发的课程，所以看了Linux内核源代码中的Documentation中关于代码风格的部分<br>发现关于缩进他说的是缩进使用八个字符，不能用空格缩进<br>其中还有一句是这么说的：有些异端运动试图将缩进变为4（乃至2）个字符深，这几乎相当于尝试将圆周率的值定义为3。<br>其实自己平时都喜欢用空格四个字符来进行缩进的= =!<br>vi默认的制表符就是8个字符不知道是制表符原来就是这样定义的还是说后面的编辑器因为4字符的缩进习惯流行起来而进行的改变<br>现在让我看8字符的缩进真是特别难受了【【之前看google的代码都是两个空格缩进的感觉也是otl</p>
-<p>关于大括号的时候，个人是习惯于左括号放在行尾右括号都放在行首单独一行，看到文档中的描述我又深深的觉得蛋要碎了。。<br>一般情况下所有的非函数语句块（if、switch、for、while、do）。跟我平时的习惯一样，但是函数就要使用左括号另开一行的方式。。说好的代码风格统一呢！给出的理由也真是强词夺理的感觉<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (action) &#123; </span><br><span class="line"><span class="keyword">case</span> KOBJ_ADD: </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"add"</span>; </span><br><span class="line"><span class="keyword">case</span> KOBJ_REMOVE: </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"remove"</span>; </span><br><span class="line"><span class="keyword">case</span> KOBJ_CHANGE: </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"change"</span>; </span><br><span class="line"><span class="keyword">default</span>: </span><br><span class="line">	<span class="keyword">return</span> NULL; </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> x)</span> </span><br><span class="line"></span>&#123; </span><br><span class="line">	body of function </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>额。上面的代码其实缩进是8字符的制表符，因为代码高亮插件所以显示成4个空格<br>语句剩余的部分还要紧接在右括号后面，放在typedef或者do-while里面上感觉蛮正常的，但是像这样<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x == y) &#123; </span><br><span class="line">		.. </span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (x &gt; y) &#123; </span><br><span class="line">		... </span><br><span class="line">	&#125; <span class="keyword">else</span> &#123; </span><br><span class="line">		.... </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<p>真的就觉得怪异了，到现在基本上还没见过有人用这样的风格写if-else的。。</p>
-<p>在命名方面倒是看到了这么一句话：在函数名中包含函数类型（所谓的匈牙利命名法）是脑子出了问题——编译器知道那些类型而且能够检查那些类型，这样做只能把程序员弄糊涂了。难怪微软总是制造出有问题的程序。<br>嗯。先不管匈牙利命名法本意是什么，微软本身使用的时候就已经产生误解错误的使用了，这样的命名方式看起来用起来真的都特别累人，做windows下面的游戏开发已经看的太多这样的东西了otl估计这句话也就是整篇文档自己唯一能赞同的一句了吧</p>
-<p>Linux的注释风格一律使用C89标准的/* …*/不知道是不是为了和以前的代码统一风格<br>而在微软的代码中看到的则是C99标准提倡的//注释</p>
-<p>同样属GNU阵营的emacs都在文档里面被喷说格式化出来的都是他们之前说的异端，还要修改设置改成k&amp;r要求的格式<br>就连专门为k&amp;r格式开出一个选项的indent不也是默认4字符缩进嘛，要8字符缩进还要另外加参数ヽ(｀⌒´)ノ<br>为Linux的代码统一一个规范风格是很好，但是做到这种程度感觉真是神经病了</p>
-<p>额。虽然Kernighan和Ritchie写了The C Programming Language哪里都能看到对这本书的称赞，但是感觉这东西并不能表示k&amp;r风格就是最好的blabla。<br>相信很多人学C也都是看这书来学的，自然就按照他们的风格来了。想想看国内多少看谭浩强的书学的C，绝大多数人码出来的代码还都是void main(){}这样的东西【说起来有的人说是因为当时谭浩强用的是旧标准所以才会有这样的东西，不过C99的确要求main()函数的返回值是int，但是c89也没有void main()这样的东西，最多也就main()这样而已。又不是说用在单片机或者什么特殊用途的地方才有void的main,况且那些编译器都还是特殊的编译器故意这样设计的。国内学校好像对标准这东西也不怎么重视，现在不还是一大片一大片的教科书都是void main()么，连用的IDE都还是TC或者VC6这样连C99标准都不支持的老古董。</p>
-<p>他们写的书好坏是一回事。自己想说的是每个人刚开始接触的时候学到的是什么就认为该是怎么样，极力推崇或者有特别的好感，然后又去安利别人所以才。。。相信现在也不会有人喜欢匈牙利命名法吧，不过现在还有那么多人用这种方式写代码也是受了微软【MFC之类的。】的影响，一开始接触的是windows开发就觉得理所应当就是这种样子的。国外不还有某大牛14岁开始学了PHP后来大学CS课程学C的时候还一直困惑变量怎么可能不加$的么。</p>
-<p>晚安。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/22/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95/">
-                最近的新想法
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-21
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/22/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/22/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>最近想要研究一下android系統，打算從源代碼編譯一下android，大概看了看編譯方法。<br>他的要求是需要在64bit版本的Linux或者OS X上面才能進行編譯<br>看了看手頭的機子，老電腦雖然跑著ubuntu但是cpu不支援64bit<br>Surface Pro3存儲空間太小不夠用，使用虛擬機一個編譯效率也低，所以也不能考慮了<br>剩下的只有宿舍的電腦了，本身用著openSUSE也是64bit的Linux系統，在環境搭建方面比起ubuntu麻煩點，剩餘的存儲空間也不知道夠不夠用，下個星期如果還記得的話看看能不能用咯</p>
-<p>上次說過用於樹莓派的交叉編譯環境可能要坑了「「「。<br>因為發現了其他好像能解決這個問題的方法不需要再交叉編譯了<br>本身的想法是從源代碼開始自己配置編譯個個交叉環境的，看來暫時沒機會了「「「連自己都不信以後這坑能填上</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/">
-                VS2013利用宏添加函数注释
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-18
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>使用vs2013码代码的时候觉得添加函数注释太麻烦所以就想说利用vs的宏功能来实现函数注释的添加<br>然后发现微软在vs2013去掉了宏的功能，但是还是可以用插件添加回去<br><a href="https://visualstudiogallery.msdn.microsoft.com/d3fbf133-e51b-41a2-b86f-9560a96ff62b" target="_blank" rel="external">Macros for Visual Studio 2013 </a><br>添加后发现宏不再是使用vb来写了，变成了javascript</p>
-<h1 id="Features"><strong>Features</strong></h1><ul>
-<li>Record and playback active document operations and Visual Studio IDE commands</li>
-<li>Playback multiple times</li>
-<li>Manage and persist macros with a Macro Explorer</li>
-<li>Assign keyboard bindings to any macro</li>
-<li><strong>Macros recorded as JavaScript files that call VS DTE APIs</strong></li>
-<li>Macro editing in Visual Studio with DTE IntelliSense</li>
-<li>Stop playback</li>
-<li>Sample macros</li>
-</ul>
-<p>新建如下的宏<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Macro.InsertText(<span class="string">"//-----------------------------------【()函数】--------------------------------------"</span>);</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//	描述   ："</span>);</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//	参数   ："</span>);</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//	返回值 ："</span>);</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//	作者   ：Chinuno Usami"</span>);</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//	创建日期："</span>);</span><br><span class="line"><span class="keyword">var</span> dat = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">Macro.InsertText(dat.getDate().toString() + <span class="string">'/'</span> + dat.getMonth().toString() + <span class="string">'/'</span> + dat.getYear().toString());</span><br><span class="line">dte.ActiveDocument.Selection.NewLine();</span><br><span class="line">Macro.InsertText(<span class="string">"//----------------------------------------------------------------------------------------"</span>);</span><br></pre></td></tr></table></figure></p>
-<p>执行后的效果是这样<br><img src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqa38f3pklj21hc0tednt.jpg" alt=""><br>添加ctrl+m,1的快捷键就能快速添加了。<br>最后的效果大概是这样的<br><img src="http://ww3.sinaimg.cn/large/4ec84d23gw1eqa3hfpyzbj20sp09s40s.jpg" alt=""><br><img src="http://ww4.sinaimg.cn/large/4ec84d23gw1eqa3i3imraj20f304rdgl.jpg" alt=""></p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/">
-                随便写点什么
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-11
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>这学期开了Android开发的课。以前没开过的课教材用的外面随便买的一本Android开发xx天速成。。内容都好几年前的了- =真是一点营养也没有</p>
-<p>搞个android开发环境，由于众所周知的原因- =整个过程真是生不如死，原来一直很有用的镜像服务器都不能用了，唯一能用的镜像只能下到x86的android系统镜像。surface pro3应该是支持VT-X的虚拟化的在其他虚拟机都能用，在任务管理器也看到虚拟化已经打开了但是HAXM就是装不上总是提示机子不支持虚拟化- =然后只能很无解的每次都接上NEXUS7实机调试了，，，</p>
-<ul>
-<li>=还有那啥。V2EX被墙了= -看着百毒那抓得满满的V2EX页面没有一个能开的= -真棒，你说说你国还有救？还想发展强大？吃翔去吧</li>
-</ul>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/03/06/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8/">
-                分享大觸
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            發表於 2015-03-05
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; 分類於
-              
-                <a href="/categories/未分类/">未分类</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/2015/03/06/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/06/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>在b站看到了這麼個視頻</p>
-<embed height="452" width="544" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://share.acg.tv/flash.swf" flashvars="aid=2062604&page=1" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash">
-
-<p><a href="http://space.bilibili.com/637653" target="_blank" rel="external">http://space.bilibili.com/637653</a> ←up的b站空間</p>
-<p>雖然說自己也是學嵌入式的但是這方面確實不太懂，最多也就編編程，對於那些彙編代碼機器碼什麼的也只是看得懂而已，電子部分╮(╯_╰)╭自己實在無解，更別說焊板子之類的東西了，看都沒看過。</p>
-<p>對自己不會的東西充滿憧憬之心本身不就是這樣的生物嘛，看到那個做觸盤的視頻後覺得自己也想試試看做個什麼東西，正好還有個樹莓派，雖然說在硬件擴展方面還是比不上Arduino不過能做的事情應該還是很多的。現在的問題是➀.自己都不知道想要做什麼(ˉ▽ˉ；)。➁.想要入手些什麼零件都特別困難，想想還是洗洗碎了吧「「「。</p>
-
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-
-          </div>
-
-          
-            <div class="pagination">
-              <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/vnc" rel="bookmark" title="Permalink to 论VPS后台自带终端的坑爹性">论VPS后台自带终端的坑爹性</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="一 04 一月 2016">一 04 一月 2016</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        首先。16年了。然而我就是不做15年的总结(*￣︿￣) 你来打我啊 然后开始正题 这个问题从去年遗留到现在了，终于解决了 首先，自己有个conoha的vps，然后刚创建的时候是一台windows的pc上创建的，putty生成密钥，直接在创建的时候引导页面导入，一直都能登录没什么问题。然后之前的电脑没在的时候想要从另一台电脑登录。所以我做了下面这几件事。...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/vnc" href="https://www.chinuno.com/blog/vnc#disqus_thread">comments</a>
+</p>
             </div>
-          
-        </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/driver" rel="bookmark" title="Permalink to 交叉编译驱动">交叉编译驱动</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="六 12 十二月 2015">六 12 十二月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        起因 之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行= =也不知道几个意思。然后google了一下发现遇到识别问题的都是OTG线的问题。然而自己各种换线，以为是供电不够还另外供电，然而还是没能解决问题、 然后今天突然想到会不会是驱动的原因。然后就打算编译个驱动上去看看能不能解决。 经过 然后首先。从官网下载了驱动源码。和android的内核源码。...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/driver" href="https://www.chinuno.com/blog/driver#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/git" rel="bookmark" title="Permalink to 自建git服务器">自建git服务器</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="日 06 十二月 2015">日 06 十二月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        对的。我就蛋疼。自己在树莓派上搞了个git服务器。= =不BB了。心累。简单地贴一下流程，图也懒的上了。反正就我这傻逼搞这傻逼东西。 依赖 openssh git python的setuptools用于安装 安装 git官方给出的地址是https://github.com/tv42/gitosis 我用的是https://github.com/res0nat0r/gitosis 不知道两个哪里不一样，不过配置方法应该大同小异，官方的那个按照官方的说明来配置应该没问题了 git clone...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/git" href="https://www.chinuno.com/blog/git#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/oneplus2" rel="bookmark" title="Permalink to 一加2使用体验">一加2使用体验</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="一 16 十一月 2015">一 16 十一月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        原来的Lumia1520摔了。然后上个月入手了一加2来用 最近忙，懒的更新，到今天才来写这个 外观 一加2的外观确实好看，也是因为这个外观才决定的1+2。可能摸习惯了圆滑的机身，一开始手感不是很习惯。跟1520比起来小一点，感觉大小正好。 配置 骁龙810的cpu争议大，不过性能相当强悍。发热平时感觉不大，开游戏的时候会高点，在金属边框能感受到。 4G的内存大小在现在的手机中也算是最大的了，平时使用也没有遇到应用被杀掉的情况...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/oneplus2" href="https://www.chinuno.com/blog/oneplus2#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/pi" rel="bookmark" title="Permalink to 树莓派系统再挂一次">树莓派系统再挂一次</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="一 16 十一月 2015">一 16 十一月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        前几天日常滚树莓派上的系统，然后滚完想要重启一下 结果提示没有sudo了。。 然后想要切换到root来重启又提示没有su。 再后来发现任何用户都无法ssh到pi上面去了 接上电视和键盘发现在本地登录只要一输入用户名就直接用户incorrect了。 最先想到的是SD卡挂了。用fsck检查后发现似乎没什么问题。清除用户密码改了改权限文件，然而问题依旧。想要chroot到树莓派的系统上操作时才发现cpu架构不同还无法chroot、 最终只能备份数据后重做系统了。...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/pi" href="https://www.chinuno.com/blog/pi#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/sign" rel="bookmark" title="Permalink to 各种签到">各种签到</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="三 02 九月 2015">三 02 九月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        昨天的事情。今天来写了 TX的签到 才研究出来的改QQ签到地址的方法昨天被TX给封了 遗体在此，难得都更新到1.2.3版本了 贴吧签到 然后昨天做的是用python写了个贴吧签到的脚本。因为无名或者kk的签到有个前端，还需要数据库。一个自己的签到只有自己要用也不需要前端跟数据库，而且跑在树莓派上，开了mysql整个系统资源占用简直吓尿。 参考了kk的php源码搞了这个出来。...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/sign" href="https://www.chinuno.com/blog/sign#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/lisp" rel="bookmark" title="Permalink to 还是近况">还是近况</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="五 28 八月 2015">五 28 八月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天终于不是关于路由器的话题了。 再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已 lisp 突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。 直接在命令行中输入的话是没有问题的，而保存为文件后载入的话汉字就会乱码，按照一个直接一个字节来表示的。然后据说slime很好用，所以有特地搞了个emacs想来试试看。然而配置各种混乱，也搞不好。以前就已经有试过用了一次emacs，就已经玩不来了。果然还是vim才是真爱 Github...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/lisp" href="https://www.chinuno.com/blog/lisp#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
+        <article class="post">
+        <div class="inner">
+            <header class="post-header">
+                <h2 class="post-title"><a href="https://www.chinuno.com/blog/bridging" rel="bookmark" title="Permalink to 路由器桥接">路由器桥接</a>
+                </h2>
+                <span class="post-meta">
+                        <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+                     | <time datetime="五 21 八月 2015">五 21 八月 2015</time>
+                </span>
+                <div class="clear"></div>
+            </header>
+                <section class="post-excerpt">
+                    <p>
+                        今天依然是折腾路由器。 家里的网络情况大概是这样 第一个路由器拨号上网下接树莓派客厅的电视和一台电脑，平时在客厅也用这个路由器的wifi。 第二个路由器接到第一个路由器下面房间里面用，接两台电脑和房间范围的wifi使用。 这样就把家里的设备分为两部分了，房间路由器下面的相当于一个子网。 之前几篇文章也都是设置这个路由器方便房间里面的设备使用...
+                    </p>
+                </section>
+<p>
+  <a data-disqus-identifier="/blog/bridging" href="https://www.chinuno.com/blog/bridging#disqus_thread">comments</a>
+</p>
+            </div>
+        </article>
 
-        
-<div class="sidebar-toggle">
-  <div class="sidebar-toggle-line-wrap">
-    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+<nav class="pagination" role="pagination">
+  <div class="inner">
+    <a class="pagination-next" href="https://www.chinuno.com/"><i class="ic ic-arrow-left"></i> <span class="pagination-label">Newer Posts</span></a>
+    <span class="pagination-info">Page 2 / 5</span>
+    <a class="pagination-prev" href="https://www.chinuno.com/page/3/"><span class="pagination-label">Older Posts</span> <i class="ic ic-arrow-right"></i></a>
+    <div class="clear"></div>
   </div>
+</nav>
+  </main>
 </div>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
 
-<div id="sidebar" class="sidebar">
-  <div class="sidebar-inner">
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
 
-    
 
-    <div class="site-overview">
-      <div class="site-author motion-element">
-        <img class="site-author-image" src="http://tp4.sinaimg.cn/1321749795/180/40060223001/1" alt="Chinuno Usami" />
-        <p class="site-author-name">Chinuno Usami</p>
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
       </div>
-      <p class="site-description motion-element"></p>
-      <div class="site-state motion-element">
-        <div class="site-state-item site-state-posts">
-          <a href="/archives">
-            <span class="site-state-item-count">25</span>
-            <span class="site-state-item-name">文章</span>
-          </a>
-        </div>
+    </footer>
+  </section>
 
-        <div class="site-state-item site-state-categories">
-          
-            <span class="site-state-item-count">2</span>
-            <span class="site-state-item-name">分類</span>
-          
-        </div>
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
 
-        <div class="site-state-item site-state-tags">
-          <a href="/tags">
-            <span class="site-state-item-count">26</span>
-            <span class="site-state-item-name">標籤</span>
-          </a>
-        </div>
-
-      </div>
-
-      
-        <div class="feed-link motion-element">
-          <a href="/atom.xml">
-            <i class="menu-item-icon icon-feed"></i>
-            RSS
-          </a>
-        </div>
-      
-
-      <div class="links-of-author motion-element">
-        
-          
-            <span class="links-of-author-item">
-              <a href="http://weibo.com/1321749795" target="_blank">Weibo</a>
-            </span>
-          
-            <span class="links-of-author-item">
-              <a href="http://catfan.me/jidashtubu" target="_blank">Catfan</a>
-            </span>
-          
-            <span class="links-of-author-item">
-              <a href="http://bgm.tv/user/9523" target="_blank">Bangumi</a>
-            </span>
-          
-            <span class="links-of-author-item">
-              <a href="http://plus.google.com/117976042845980475434/" target="_blank">Google+</a>
-            </span>
-          
-        
-      </div>
-
-      
-      
-        <div class="cc-license motion-element">
-          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-            <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
-          </a>
-        </div>
-      
-
-    </div>
-
-    
-
-  </div>
-</div>
-
-
-      </div>
-    </div>
-
-    <div id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">
-  
-  &copy; &nbsp; 
-  2015
-  <span class="with-love">
-    <i class="icon-heart"></i>
-  </span>
-  <span class="author">Chinuno Usami</span>
-</div>
-
-<div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT
-  </a>
-</div>
-
-
-
-      </div>
-    </div>
-
-    <div class="back-to-top"></div>
-  </div>
-
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.content img').each(function () {
-        var $image = $(this);
-        var $imageWrapLink = $image.parent('a');
-
-        if ($imageWrapLink.size() < 1) {
-          $imageWrapLink = $image.wrap('<a href="' + this.getAttribute('src') + '"></a>').parent('a');
-        }
-        $imageWrapLink.addClass('fancybox');
-      });
-    });
-    $('.fancybox').fancybox({
-      helpers: {
-        overlay: {
-          locked: false
-        }
-      }
-    });
-  </script>
-
-
-  <script type="text/javascript">
-  function hasMobileUA () {
-    var nav = window.navigator;
-    var ua = nav.userAgent;
-    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
-
-    return pa.test(ua);
-  }
-
-  function isDesktop () {
-    return screen.width > 991 && !hasMobileUA();
-  }
-
-  function isTablet () {
-    return screen.width < 992 && screen.width > 767 && hasMobileUA();
-  }
-
-  function isMobile () {
-    return screen.width < 767 && hasMobileUA();
-  }
-
-  function escapeSelector (selector) {
-    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
-  }
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
 </script>
-
-  
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" id="motion.global">
-  $(document).ready(function () {
-    var body = $('body');
-    var isSidebarVisible = false;
-    var sidebarToggle = $('.sidebar-toggle');
-    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
-    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
-    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
-    var sidebar = $('.sidebar');
-
-    var SIDEBAR_WIDTH = '320px';
-    var SIDEBAR_DISPLAY_DURATION = 300;
-
-    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
-
-    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
-    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
-
-    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
-    var sidebarToogleLine2ndStatusClose = {opacity: 0};
-
-    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
-    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
-    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
-
-    LogoAndMenuMotion();
-    sidebatToggleMotion();
-    postsListMotion();
-    backToTopMotion();
-
-
-    $(document)
-      .on('sidebar.isShowing', function () {
-        isDesktop() && body.velocity(
-          {paddingRight: SIDEBAR_WIDTH},
-          SIDEBAR_DISPLAY_DURATION
-        );
-        sidebarContentMotion();
-      })
-      .on('sidebar.isHiding', function () {});
-
-    function LogoAndMenuMotion() {
-      $.Velocity.RunSequence([
-        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
-        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
-        
-        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200 } }
-      ]);
-      $('.menu-item').velocity('transition.slideDownIn', {display: null});
-    }
-
-
-    function backToTopMotion () {
-      var b2top = $('.back-to-top');
-      b2top.on('click', function () {
-        body.velocity('scroll');
-      });
-    }
-
-    function sidebarShowMotion () {
-
-      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
-      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
-      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
-
-      sidebar.velocity({width: SIDEBAR_WIDTH}, {
-        display: 'block',
-        duration: SIDEBAR_DISPLAY_DURATION,
-        complete: function () {
-          sidebar.addClass('sidebar-active');
-          sidebar.trigger('sidebar.didShow');
-        }
-      });
-      sidebar.trigger('sidebar.isShowing');
-    }
-
-    function sidebarHideMotion () {
-      isDesktop() && body.velocity({paddingRight: 0});
-      sidebar.velocity('reverse');
-
-      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
-      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
-      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
-
-      sidebar.removeClass('sidebar-active');
-      sidebar.trigger('sidebar.isHiding');
-    };
-
-    function sidebarContentMotion () {
-      $('.sidebar .motion-element').velocity(
-        'transition.slideRightIn',
-        {stagger: 50, drag: true}
-      );
-    }
-
-    function postsListMotion () {
-      var postMotionOptions = window.postMotionOptions || {stagger: 300, drag: true};
-      $('.post').velocity('transition.slideDownIn', postMotionOptions);
-    }
-
-    function sidebatToggleMotion () {
-      sidebarToggle.on('click', function () {
-        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
-        isSidebarVisible = !isSidebarVisible;
-      });
-
-      sidebarToggle.hover(function () {
-        if (isSidebarVisible) {return}
-        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
-        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
-        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
-      }, function () {
-        if (isSidebarVisible) {return}
-        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
-        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
-        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
-      });
-    }
-  });
-
-</script>
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"gensokyo"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-  
 </body>
 </html>

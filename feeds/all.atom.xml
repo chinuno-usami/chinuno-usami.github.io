@@ -1,0 +1,1780 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Gensokyo</title><link href="https://www.chinuno.com/" rel="alternate"></link><link href="https://www.chinuno.com/feeds/all.atom.xml" rel="self"></link><id>https://www.chinuno.com/</id><updated>2019-07-19T09:27:06+08:00</updated><subtitle>・－・・ －－－ ・・・－ ・</subtitle><entry><title>vim实现无插件的snippet</title><link href="https://www.chinuno.com/blog/snippet" rel="alternate"></link><published>2019-07-19T09:27:06+08:00</published><updated>2019-07-19T09:27:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-07-19:/blog/snippet</id><summary type="html">&lt;p&gt;突然发现一年没更新了。更一个凑数（。&lt;/p&gt;
+&lt;p&gt;公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。&lt;br&gt;
+被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。&lt;br&gt;
+但是公司所有环境隔离，给vim装个snippet插件是不太好搞了，于是自己实现了个简单够用的snippet功能。  &lt;/p&gt;
+&lt;p&gt;参考了&lt;a href="https://www.reddit.com/r/vim/comments/7nm5fk/a_no_plugin_way_of_making_snippets/"&gt;reddit上这个讨论&lt;/a&gt;, 结合m4来实现。&lt;br&gt;
+思路是:vim用map自动输入宏，补全参数，最后调用m4展开&lt;br&gt;
+首先是m4文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;divert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;define&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;FILEHEAD&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, `/***********************************************************************&lt;/span&gt;
+&lt;span class="s1"&gt; *  Copyright Xiamen Meiya Pico Information Co., Ltd. 2019-2020.      &lt;/span&gt;
+&lt;span class="s1"&gt; *  All rights reserved.                           &lt;/span&gt;
+&lt;span class="s1"&gt; *                                                                  &lt;/span&gt;
+&lt;span class="s1"&gt; *  文件名称: &amp;#39;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; 
+ &lt;span class="o"&gt;*&lt;/span&gt;  &lt;span class="err"&gt;功能描述&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$2`&lt;/span&gt;
+&lt;span class="s1"&gt; *  作    者: cirno&lt;/span&gt;
+&lt;span class="s1"&gt; *  日    期: &amp;#39;&lt;/span&gt;&lt;span class="n"&gt;esyscmd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="nb"&gt;date&lt;/span&gt;  &lt;span class="o"&gt;+%&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)dnl&lt;/span&gt;
+&lt;span class="s1"&gt;` *  修改记录:&lt;/span&gt;
+&lt;span class="s1"&gt; *         1. 修改内容 …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;突然发现一年没更新了。更一个凑数（。&lt;/p&gt;
+&lt;p&gt;公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。&lt;br&gt;
+被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。&lt;br&gt;
+但是公司所有环境隔离，给vim装个snippet插件是不太好搞了，于是自己实现了个简单够用的snippet功能。  &lt;/p&gt;
+&lt;p&gt;参考了&lt;a href="https://www.reddit.com/r/vim/comments/7nm5fk/a_no_plugin_way_of_making_snippets/"&gt;reddit上这个讨论&lt;/a&gt;, 结合m4来实现。&lt;br&gt;
+思路是:vim用map自动输入宏，补全参数，最后调用m4展开&lt;br&gt;
+首先是m4文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;divert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;define&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;FILEHEAD&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, `/***********************************************************************&lt;/span&gt;
+&lt;span class="s1"&gt; *  Copyright Xiamen Meiya Pico Information Co., Ltd. 2019-2020.      &lt;/span&gt;
+&lt;span class="s1"&gt; *  All rights reserved.                           &lt;/span&gt;
+&lt;span class="s1"&gt; *                                                                  &lt;/span&gt;
+&lt;span class="s1"&gt; *  文件名称: &amp;#39;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; 
+ &lt;span class="o"&gt;*&lt;/span&gt;  &lt;span class="err"&gt;功能描述&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$2`&lt;/span&gt;
+&lt;span class="s1"&gt; *  作    者: cirno&lt;/span&gt;
+&lt;span class="s1"&gt; *  日    期: &amp;#39;&lt;/span&gt;&lt;span class="n"&gt;esyscmd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="nb"&gt;date&lt;/span&gt;  &lt;span class="o"&gt;+%&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)dnl&lt;/span&gt;
+&lt;span class="s1"&gt;` *  修改记录:&lt;/span&gt;
+&lt;span class="s1"&gt; *         1. 修改内容: 首次创建&lt;/span&gt;
+&lt;span class="s1"&gt; *            日    期: &amp;#39;&lt;/span&gt;&lt;span class="n"&gt;esyscmd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="nb"&gt;date&lt;/span&gt;  &lt;span class="o"&gt;+%&lt;/span&gt;&lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)dnl&lt;/span&gt;
+&lt;span class="s1"&gt;` *            修 改 者: cirno&lt;/span&gt;
+&lt;span class="s1"&gt; *************************************************************************/&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;define&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;FUNCHEAD&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;, `/************************************************************************&lt;/span&gt;
+&lt;span class="s1"&gt; * 函数名称：&amp;#39;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;
+ &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;功能描述&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$2`&lt;/span&gt;
+&lt;span class="s1"&gt; * 输入参数：&amp;#39;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;
+ &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;输出参数&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$4`&lt;/span&gt;
+&lt;span class="s1"&gt; * 返 回 值: &amp;#39;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;
+ &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;修改记录&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+ &lt;span class="o"&gt;*&lt;/span&gt;        &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="err"&gt;修改内容&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="err"&gt;首次创建&lt;/span&gt;
+ &lt;span class="o"&gt;*&lt;/span&gt;           &lt;span class="err"&gt;日&lt;/span&gt;    &lt;span class="err"&gt;期&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;esyscmd(`date  +%Y.%m.%d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;dnl&lt;/span&gt;
+&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;           &lt;span class="err"&gt;修&lt;/span&gt; &lt;span class="err"&gt;改&lt;/span&gt; &lt;span class="err"&gt;者&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cirno&lt;/span&gt;
+ &lt;span class="o"&gt;************************************************************************/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;divert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;把所有的snippet定义在m4文件内，日期可以调用date来插入&lt;br&gt;
+然后在.vimrc里面加入vim要做的操作  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;没有插件情况下简易的snippet实现&lt;/span&gt;
+&lt;span class="ss"&gt;&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;自己用的&lt;/span&gt;&lt;span class="n"&gt;snippet&lt;/span&gt;&lt;span class="err"&gt;，依靠&lt;/span&gt;&lt;span class="n"&gt;m4实现&lt;/span&gt;
+
+&lt;span class="ss"&gt;&amp;quot;跳到下一参数&lt;/span&gt;
+&lt;span class="ss"&gt;inoremap ;; &amp;lt;ESC&amp;gt;/{%[^%]*%&amp;lt;cr&amp;gt;v/%}&amp;lt;cr&amp;gt;&amp;lt;right&amp;gt;c&lt;/span&gt;
+&lt;span class="ss"&gt;&amp;quot;&amp;quot;执行展开&lt;/span&gt;
+&lt;span class="ss"&gt;nnoremap &amp;lt;C-h&amp;gt;e V:!m4&amp;lt;Enter&amp;gt;&lt;/span&gt;
+&lt;span class="ss"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="ss"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="err"&gt;补全文件注释头&lt;/span&gt;
+&lt;span class="n"&gt;nnoremap&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;C&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="n"&gt;iinclude&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`/&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;snippets&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;snippets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;m4&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)FILEHEAD(`&amp;lt;C-r&amp;gt;%&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;desc&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;quot;&amp;quot;补全函数注释头&lt;/span&gt;
+&lt;span class="s1"&gt;nnoremap &amp;lt;C-h&amp;gt;f iinclude(`/root/.snippets/snippets.m4&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;FUNCHEAD&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,`{% &amp;lt;desc&amp;gt; %}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;input&lt;/span&gt; &lt;span class="n"&gt;pram&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;,`{% &amp;lt;output parm&amp;gt; %}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;)&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;`&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;`&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;效果就是，按下ctrl+h h插入文件头宏，按;;补全描述，文件名就由vim自己填充了&lt;br&gt;
+按下ctl+h f插入函数头宏，一样用;;补全各个参数&lt;br&gt;
+最后按ctrl+h e执行展开  &lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="linux"></category><category term="vim"></category><category term="m4"></category><category term="snippet"></category></entry><entry><title>树莓派串流游戏</title><link href="https://www.chinuno.com/blog/raspberry-pi-streaming" rel="alternate"></link><published>2018-12-05T14:24:06+08:00</published><updated>2018-12-05T14:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2018-12-05:/blog/raspberry-pi-streaming</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;前不久入了新的&lt;/span&gt;&lt;span class="n"&gt;xbox&lt;/span&gt; &lt;span class="n"&gt;one手柄&lt;/span&gt;&lt;span class="err"&gt;，体验还不错，多了蓝牙功能连手机和&lt;/span&gt;&lt;span class="n"&gt;SP3比起有线方便一点&lt;/span&gt;&lt;span class="err"&gt;。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;但是有点不太好的，之前一直用小米盒子串流在客厅玩游戏，现在新手柄有线方式无法识别，蓝牙方式搜不到，可能是旧盒子不支持蓝牙4.0的问题？&lt;br&gt;
+    虽然小米盒子用不了，但是想到客厅还有个初代B版树莓派，解码性能不错，应该可以支持游戏串流。&lt;br&gt;
+    得益于&lt;a href="https://moonlight-stream.com/"&gt;moonlight项目&lt;/a&gt;，现在几乎全平台都能简单的进行游戏串流了。&lt;br&gt;
+    在树莓派上用的是&lt;a href="https://github.com/irtimmer/moonlight-embedded"&gt;moonlight-embedded&lt;/a&gt;。参照wiki安装也十分简单，提供了预编译包可以直接安装。&lt;br&gt;
+    我的树莓派用的是ArchLinux ARM，虽然提供了预编译包，但是编译时用的解码库大版本比我本机的要旧，所以使用源码安装。（现在才发现提供了AUR。。）&lt;br&gt;
+    串流工具有了，还需要添加树莓派对手柄的支持。可以安装github上&lt;a href="https://github.com/paroj/xpad"&gt;paroj/xpad&lt;/a&gt;这个驱动达到目的，因为树莓派没有蓝牙模块，所以只试了有线连接，对手柄的支持是没问题的。&lt;br&gt;
+    剩下的流程就和原来一样了，配对完就能开始串流了。&lt;br&gt;
+    在终端输入&lt;code&gt;moonlight pair IP&lt;/code&gt;进行配对，电脑上Experience弹出对话框输入配对码就能完成配对。&lt;br&gt;
+&lt;code&gt;moonlight stream IP --app …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;前不久入了新的&lt;/span&gt;&lt;span class="n"&gt;xbox&lt;/span&gt; &lt;span class="n"&gt;one手柄&lt;/span&gt;&lt;span class="err"&gt;，体验还不错，多了蓝牙功能连手机和&lt;/span&gt;&lt;span class="n"&gt;SP3比起有线方便一点&lt;/span&gt;&lt;span class="err"&gt;。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;但是有点不太好的，之前一直用小米盒子串流在客厅玩游戏，现在新手柄有线方式无法识别，蓝牙方式搜不到，可能是旧盒子不支持蓝牙4.0的问题？&lt;br&gt;
+    虽然小米盒子用不了，但是想到客厅还有个初代B版树莓派，解码性能不错，应该可以支持游戏串流。&lt;br&gt;
+    得益于&lt;a href="https://moonlight-stream.com/"&gt;moonlight项目&lt;/a&gt;，现在几乎全平台都能简单的进行游戏串流了。&lt;br&gt;
+    在树莓派上用的是&lt;a href="https://github.com/irtimmer/moonlight-embedded"&gt;moonlight-embedded&lt;/a&gt;。参照wiki安装也十分简单，提供了预编译包可以直接安装。&lt;br&gt;
+    我的树莓派用的是ArchLinux ARM，虽然提供了预编译包，但是编译时用的解码库大版本比我本机的要旧，所以使用源码安装。（现在才发现提供了AUR。。）&lt;br&gt;
+    串流工具有了，还需要添加树莓派对手柄的支持。可以安装github上&lt;a href="https://github.com/paroj/xpad"&gt;paroj/xpad&lt;/a&gt;这个驱动达到目的，因为树莓派没有蓝牙模块，所以只试了有线连接，对手柄的支持是没问题的。&lt;br&gt;
+    剩下的流程就和原来一样了，配对完就能开始串流了。&lt;br&gt;
+    在终端输入&lt;code&gt;moonlight pair IP&lt;/code&gt;进行配对，电脑上Experience弹出对话框输入配对码就能完成配对。&lt;br&gt;
+&lt;code&gt;moonlight stream IP --app APP&lt;/code&gt;开始串流，moonlight对环境自动判断还是非常准确的，不加其他参数情况下就能得到不错的效果。&lt;br&gt;
+    得益于树莓派优秀的硬解性能，画面一直流畅不卡顿，但是CPU使用率高的情况下声音会断断续续的。用top命令看会发现系统调用和软中断占了大部分的CPu使用，应该是由大数据量的网络传输导致的。&lt;br&gt;
+可惜树莓派1B只有单核处理器，如果多1个处理核心的话把串流进程和网络开销放在不同核心处理应该就能获得更好的体验。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="raspberrypi"></category><category term="树莓派"></category><category term="串流"></category><category term="moonlight"></category></entry><entry><title>find命令处理奇葩命名文件</title><link href="https://www.chinuno.com/blog/find" rel="alternate"></link><published>2018-07-23T10:26:06+08:00</published><updated>2018-07-23T10:26:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2018-07-23:/blog/find</id><summary type="html">&lt;p&gt;linux中的find命令十分好用，特别是在需要批量处理文件时，可以用配合其他命令使用。&lt;/p&gt;
+&lt;p&gt;但是find命令本身的-exec参数实在太弱了，只能执行单一命令(无法用&amp;amp;&amp;amp;连接命令)，无法多线程并行处理，对特殊文件名也无能为力。&lt;/p&gt;
+&lt;p&gt;使用find配合xargs就能比较好的处理这些情况了。&lt;/p&gt;
+&lt;p&gt;记录一下自己整理的find+xargs批量处理命令,可以解决奇葩命名，并行处理和&amp;amp;&amp;amp;连接命令的问题：&lt;/p&gt;
+&lt;p&gt;例如查找所有jpg文件，转换成webp&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find . -name &lt;span class="s2"&gt;&amp;quot;*.jpg&amp;quot;&lt;/span&gt; -print0 &lt;span class="p"&gt;|&lt;/span&gt; xargs -0 -n &lt;span class="m"&gt;1&lt;/span&gt; -P &lt;span class="m"&gt;4&lt;/span&gt;  -I &lt;span class="o"&gt;{}&lt;/span&gt;  sh -c &lt;span class="s1"&gt;&amp;#39;cwebp -q 40 &amp;quot;$1&amp;quot; -o &amp;quot;${1%.jpg}.webp&amp;quot; &amp;amp;&amp;amp; rm &amp;quot;$1&amp;quot;&amp;#39;&lt;/span&gt; sh &lt;span class="o"&gt;{}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中&lt;code&gt;find&lt;/code&gt;的&lt;code&gt;-print0&lt;/code&gt;和&lt;code&gt;xargs&lt;/code&gt;的&lt;code&gt;-0&lt;/code&gt;配合使用 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;linux中的find命令十分好用，特别是在需要批量处理文件时，可以用配合其他命令使用。&lt;/p&gt;
+&lt;p&gt;但是find命令本身的-exec参数实在太弱了，只能执行单一命令(无法用&amp;amp;&amp;amp;连接命令)，无法多线程并行处理，对特殊文件名也无能为力。&lt;/p&gt;
+&lt;p&gt;使用find配合xargs就能比较好的处理这些情况了。&lt;/p&gt;
+&lt;p&gt;记录一下自己整理的find+xargs批量处理命令,可以解决奇葩命名，并行处理和&amp;amp;&amp;amp;连接命令的问题：&lt;/p&gt;
+&lt;p&gt;例如查找所有jpg文件，转换成webp&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find . -name &lt;span class="s2"&gt;&amp;quot;*.jpg&amp;quot;&lt;/span&gt; -print0 &lt;span class="p"&gt;|&lt;/span&gt; xargs -0 -n &lt;span class="m"&gt;1&lt;/span&gt; -P &lt;span class="m"&gt;4&lt;/span&gt;  -I &lt;span class="o"&gt;{}&lt;/span&gt;  sh -c &lt;span class="s1"&gt;&amp;#39;cwebp -q 40 &amp;quot;$1&amp;quot; -o &amp;quot;${1%.jpg}.webp&amp;quot; &amp;amp;&amp;amp; rm &amp;quot;$1&amp;quot;&amp;#39;&lt;/span&gt; sh &lt;span class="o"&gt;{}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中&lt;code&gt;find&lt;/code&gt;的&lt;code&gt;-print0&lt;/code&gt;和&lt;code&gt;xargs&lt;/code&gt;的&lt;code&gt;-0&lt;/code&gt;配合使用，表示元素以0分隔，避免参数包含空格被截断。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;xargs&lt;/code&gt;的参数&lt;code&gt;-n&lt;/code&gt;表示一次传给要执行命令的参数个数，一般为1。&lt;code&gt;-P&lt;/code&gt;表示并行进程数，依照机器性能指定。&lt;/p&gt;
+&lt;p&gt;在单引号里面的内容就是要执行的命令了，用$1表示传入参数。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="linux"></category><category term="find"></category><category term="xargs"></category><category term="exec"></category></entry><entry><title>python调用C++函数</title><link href="https://www.chinuno.com/blog/python-so" rel="alternate"></link><published>2018-07-20T00:24:06+08:00</published><updated>2018-07-20T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2018-07-20:/blog/python-so</id><summary type="html">&lt;p&gt;其实。这个东西一年前就想记录下来了。就。现在才写。&lt;/p&gt;
+&lt;p&gt;之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。&lt;/p&gt;
+&lt;p&gt;那个时候用的还是Python写的项目，所以要想办法把C++的代码用到Python里面去。&lt;/p&gt;
+&lt;p&gt;python调用C++的代码可以把C++代码封装成python模块，也可以编成动态库用FFI方式调用。因为只是研究性质的东西，所以怎么快怎么来了。&lt;/p&gt;
+&lt;p&gt;一开始用了CFFI第三方模块，功能是能实现了，但是引入了第三方依赖又硬贴入一大坨C代码巨丑，后来用ctypes重新实现了。（其实原来一直以为CFFI就是python官方的FFI调用方式，忘了还有个叫ctypes的&lt;/p&gt;
+&lt;p&gt;先把C++封装成C接口，这个就很简单了，一共就暴露出&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ssd_create&lt;/li&gt;
+&lt;li&gt;ssd_caffe_det&lt;/li&gt;
+&lt;li&gt;ssd_destroy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3个接口,调用流程也就创建context，开始检测，销毁context。&lt;/p&gt;
+&lt;p&gt;使用ctypes.CDLL参数为动态库文件(so,dll,dylib)可以dlopen方式加载需要调用的动态库。&lt;/p&gt;
+&lt;p&gt;可以直接从打开的库对象调用导出的函数，名字也和c里面定义的一样。&lt;/p&gt;
+&lt;p&gt;因为调用的是c的函数接口，所以交互不能直接使用python的数据结构，而是用ctypes里面定义的c数据类型。具体要查看相关文档了 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;其实。这个东西一年前就想记录下来了。就。现在才写。&lt;/p&gt;
+&lt;p&gt;之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。&lt;/p&gt;
+&lt;p&gt;那个时候用的还是Python写的项目，所以要想办法把C++的代码用到Python里面去。&lt;/p&gt;
+&lt;p&gt;python调用C++的代码可以把C++代码封装成python模块，也可以编成动态库用FFI方式调用。因为只是研究性质的东西，所以怎么快怎么来了。&lt;/p&gt;
+&lt;p&gt;一开始用了CFFI第三方模块，功能是能实现了，但是引入了第三方依赖又硬贴入一大坨C代码巨丑，后来用ctypes重新实现了。（其实原来一直以为CFFI就是python官方的FFI调用方式，忘了还有个叫ctypes的&lt;/p&gt;
+&lt;p&gt;先把C++封装成C接口，这个就很简单了，一共就暴露出&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ssd_create&lt;/li&gt;
+&lt;li&gt;ssd_caffe_det&lt;/li&gt;
+&lt;li&gt;ssd_destroy&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3个接口,调用流程也就创建context，开始检测，销毁context。&lt;/p&gt;
+&lt;p&gt;使用ctypes.CDLL参数为动态库文件(so,dll,dylib)可以dlopen方式加载需要调用的动态库。&lt;/p&gt;
+&lt;p&gt;可以直接从打开的库对象调用导出的函数，名字也和c里面定义的一样。&lt;/p&gt;
+&lt;p&gt;因为调用的是c的函数接口，所以交互不能直接使用python的数据结构，而是用ctypes里面定义的c数据类型。具体要查看相关文档了。&lt;/p&gt;
+&lt;p&gt;c中的数组/指针在python中可以直接用[]获取对应位置的元素，结构体中的元素也可以直接用.获取，使用起来不算麻烦。&lt;/p&gt;
+&lt;p&gt;下面就贴上完整的python代码吧。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;cv2&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;ctypes&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SSD&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;FFI调用caffe版SSD封装类&lt;/span&gt;
+&lt;span class="sd"&gt;    使用:&lt;/span&gt;
+&lt;span class="sd"&gt;        ssd = SSD() # 参数可加threshold,&lt;/span&gt;
+&lt;span class="sd"&gt;                    # 阈值，置信度大于阈值的结果才返回&lt;/span&gt;
+&lt;span class="sd"&gt;        res = ssd.ssd_caffe(img) # img,要识别的图片&lt;/span&gt;
+&lt;span class="sd"&gt;        # res 为结果list ,每个元素为一个结果&lt;/span&gt;
+&lt;span class="sd"&gt;        # [image,[x,y,w,h],score] image为截取出来的图像&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;RetVal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Structure&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;_fields_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;size&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c_ubyte&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;values&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c_float&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;threshold&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;deploy512_small.prototxt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;models/car5_SSD_512x512_iter_5000.caffemodel&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# 阈值，置信度大于阈值的结果才返回&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;th&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threshold&lt;/span&gt;
+        &lt;span class="c1"&gt;# 加载so库&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CDLL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./libssd_caffe.so&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c1"&gt;# 创建SSD的handle&lt;/span&gt;
+
+        &lt;span class="n"&gt;mod&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;u8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;wei&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;u8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;create_handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssd_create&lt;/span&gt;
+        &lt;span class="n"&gt;create_handle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;restype&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c_void_p&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c_void_p&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;create_handle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wei&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;set_threshold&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;threshold&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;th&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threshold&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ssd_caffe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# 加载图片&lt;/span&gt;
+        &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;,(&lt;/span&gt;&lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;512&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;data_as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;POINTER&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;c_ubyte&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# 申请存储返回值结构体&lt;/span&gt;
+        &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SSD&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RetVal&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;pres&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ctypes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;byref&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# 开始检测&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssd_caffe_det&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pres&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;th&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="k"&gt;continue&lt;/span&gt;
+            &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+            &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt;
+            &lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt;
+            &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ymin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ymax&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;xmax&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt;&lt;span class="n"&gt;xmin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ymin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__del__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c1"&gt;# 释放handle&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssd_destroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;@&lt;/p&gt;</content><category term="python"></category><category term="C++"></category><category term="so"></category></entry><entry><title>发现个一加家挺sb的问题</title><link href="https://www.chinuno.com/blog/oneplus-sb-ota" rel="alternate"></link><published>2017-11-13T00:24:06+08:00</published><updated>2017-11-13T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2017-11-13:/blog/oneplus-sb-ota</id><summary type="html">&lt;p&gt;2年前入了个一加2手机，还写了篇博文评论了一番，到现在2年了还一直用的这个机子.不得不说确实是个耐艹的千元机，到现在摔了不下5、6次，却只有边框稍微凹陷一点而已。而之前用的诺基亚1520摔一次就屏幕全裂了「、&lt;/p&gt;
+&lt;p&gt;机子刷成氧OS用了一年多，感觉一直挺好的。但是不知从什么时候开始系统的OTA更新总是更新失败。一加相比其他厂商挺好的，一加2一直到前几天还给推送了新的更新，虽然不说上奥利奥，连牛扎糖都吃不到，但是系统的bug一直都在修复，andoird的安全漏洞也一直有在补上。&lt;/p&gt;
+&lt;p&gt;因为OTA更新一直失败，所以有更新提示也基本上没去管了。昨天不知道怎么的突然想找找看到底是什么原因搞的不能更新，因为自从刷了氧OS之后root都没root了，连官方的recovery都没刷掉过，不至于突然就没法更新了。&lt;/p&gt;
+&lt;p&gt;于是还是Google上查了下，发现挺多人遇到同样的问题。而且全部都是android全盘加密后才出现的问题。之前把氢刷成氧就是因为氢一开加密系统就挂，才换成氧的，没想到换成氧后加密还是有坑。&lt;/p&gt;
+&lt;p&gt;手机的OTA更新会把更新包下载到内部存储中，然后再从revocery模式中加载更新包更新。虽然不清楚android的加密是否只加密/data分区。但是通过adb到手机中可以看到/data跟/sdcard确实是挂载的同一个分区。那么就能看出因为recovery的时候并没有对数据分区进行解密操作（这需要手动输入密码解密，看来是recovery一直是很早之前android还没这个特性的时候写的，也一直没给更新，所以也没让解密），那么recovery就加载不了更新包没法更新。网上找了一圈，有在讨论这个问题的几乎全是在说的一加手机。&lt;/p&gt;
+&lt;p&gt;既然没法通过手机自己更新，那么就只能不通过内部存储走usb线sideload更新了。OTA程序会将完整全量包都下载到内部存储中，于是adb pull把更新包先下载到电脑上，再刷回去了 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;2年前入了个一加2手机，还写了篇博文评论了一番，到现在2年了还一直用的这个机子.不得不说确实是个耐艹的千元机，到现在摔了不下5、6次，却只有边框稍微凹陷一点而已。而之前用的诺基亚1520摔一次就屏幕全裂了「、&lt;/p&gt;
+&lt;p&gt;机子刷成氧OS用了一年多，感觉一直挺好的。但是不知从什么时候开始系统的OTA更新总是更新失败。一加相比其他厂商挺好的，一加2一直到前几天还给推送了新的更新，虽然不说上奥利奥，连牛扎糖都吃不到，但是系统的bug一直都在修复，andoird的安全漏洞也一直有在补上。&lt;/p&gt;
+&lt;p&gt;因为OTA更新一直失败，所以有更新提示也基本上没去管了。昨天不知道怎么的突然想找找看到底是什么原因搞的不能更新，因为自从刷了氧OS之后root都没root了，连官方的recovery都没刷掉过，不至于突然就没法更新了。&lt;/p&gt;
+&lt;p&gt;于是还是Google上查了下，发现挺多人遇到同样的问题。而且全部都是android全盘加密后才出现的问题。之前把氢刷成氧就是因为氢一开加密系统就挂，才换成氧的，没想到换成氧后加密还是有坑。&lt;/p&gt;
+&lt;p&gt;手机的OTA更新会把更新包下载到内部存储中，然后再从revocery模式中加载更新包更新。虽然不清楚android的加密是否只加密/data分区。但是通过adb到手机中可以看到/data跟/sdcard确实是挂载的同一个分区。那么就能看出因为recovery的时候并没有对数据分区进行解密操作（这需要手动输入密码解密，看来是recovery一直是很早之前android还没这个特性的时候写的，也一直没给更新，所以也没让解密），那么recovery就加载不了更新包没法更新。网上找了一圈，有在讨论这个问题的几乎全是在说的一加手机。&lt;/p&gt;
+&lt;p&gt;既然没法通过手机自己更新，那么就只能不通过内部存储走usb线sideload更新了。OTA程序会将完整全量包都下载到内部存储中，于是adb pull把更新包先下载到电脑上，再刷回去了。虽然是2.0接口的，但是传输速度比想象中的慢得多，7m/s的速度花了好长时间才把1.2G的包传到电脑上。&lt;/p&gt;
+&lt;p&gt;重启到recovery通过sideload刷更新包。速度确实也很慢，花了快1h的时间。结果。进度到92%的时候。自行中断重启了。。在试了第二次情况一样后，上Google查了下。&lt;/p&gt;
+&lt;p&gt;不出所料，海外一加论坛也是大批的人出了这问题，sideload更新一到92%就崩，而且共同点：开启了android的加密功能。&lt;/p&gt;
+&lt;p&gt;到这里我已经懵逼了，因为失败现在手机已经无限开机时重启了。估计是因为更新脚本中有些操作需要读写到数据分区导致的更新失败。当时已经凌晨2点了，第二天还要上班。。如果数据全部清掉重刷系统应该是可以解决的，但是这些数据又很重要。就。很。完蛋。&lt;/p&gt;
+&lt;p&gt;最后手机还是救回来了。吧。幸好一加官网还给提供所有手机氧OS的全部历史包，尝试把原先版本的系统刷回去时也是92%就挂，但是估计是因为后面的操作一直都没成功过，所以遗留原先的部分跟刷完的版本正好对的上，所有机子可以成功开机运行了。仔细想想，或许OTA更新时更新程序事先把更新包拷出来了能够加载上，却因为92%时的操作失败才导致的问题？反正！这破系统我是不敢再更新了！&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="OTA"></category><category term="android"></category><category term="一加"></category></entry><entry><title>毕设终于结束了</title><link href="https://www.chinuno.com/blog/graduation-project" rel="alternate"></link><published>2016-06-04T00:24:06+08:00</published><updated>2016-06-04T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-06-04:/blog/graduation-project</id><summary type="html">&lt;p&gt;到现在。除了剩下资料交一下，毕设基本上算是结束了。从一开始的这游戏能不能做完到现在一下子拿到了校级的优秀毕业设计，一直都在意料之外。一直到今天参加优辩才知道就算前两年上课都一起的，那些大三去台湾一年的变化真是特别大。毕设最辣鸡的一个都能完爆留在校内的。整天看着他们晒设备晒课程的，连毕设都学校大力支持。反而留在校内的我们什么都没有，只能自己慢慢研究。&lt;/p&gt;
+&lt;p&gt;游戏。做了这么长时间终于做完了。其实这个说的也不对，一般来说就算用现有的游戏引擎做独立游戏至少也要一年，然而这里自己写游戏引擎，还只有两三个月的时间在做。5月22第一次答辩，然而px到15才开始把素材交过来，只有最基础的图片，动画也没有，动作只有一个人，搓招系统都做出来了然而那些招式的图片都没有没法做，让画个躲避或者防御的动作，然而丢来一句不会画，去年就说好要画像素风格，然而一个月前丢来一句还是不会画、、画图的脾气可真够大的。15到22一个星期，天天通宵，最后还是在答辩前一天的早上9点赶出来了。&lt;/p&gt;
+&lt;p&gt;然后答辩的时候果然跟之前想的一样。懂的自然懂，不懂的完全不懂。最高分给95，最低的64都有、、、「你做的这个都不是游戏，都他自己在动」、、、大爷你说的真好，演示的时候还问你要不要玩的，你说不要，看我玩就行，结果变成了他自己在动、、、&lt;/p&gt;
+&lt;p&gt;不管怎么说，做了8年游戏了，终于有个能够完整做出来的了，而且也自己撸了个游戏引擎出来了，算是了了自己的一桩心愿了。现在我什么都不想做了 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;到现在。除了剩下资料交一下，毕设基本上算是结束了。从一开始的这游戏能不能做完到现在一下子拿到了校级的优秀毕业设计，一直都在意料之外。一直到今天参加优辩才知道就算前两年上课都一起的，那些大三去台湾一年的变化真是特别大。毕设最辣鸡的一个都能完爆留在校内的。整天看着他们晒设备晒课程的，连毕设都学校大力支持。反而留在校内的我们什么都没有，只能自己慢慢研究。&lt;/p&gt;
+&lt;p&gt;游戏。做了这么长时间终于做完了。其实这个说的也不对，一般来说就算用现有的游戏引擎做独立游戏至少也要一年，然而这里自己写游戏引擎，还只有两三个月的时间在做。5月22第一次答辩，然而px到15才开始把素材交过来，只有最基础的图片，动画也没有，动作只有一个人，搓招系统都做出来了然而那些招式的图片都没有没法做，让画个躲避或者防御的动作，然而丢来一句不会画，去年就说好要画像素风格，然而一个月前丢来一句还是不会画、、画图的脾气可真够大的。15到22一个星期，天天通宵，最后还是在答辩前一天的早上9点赶出来了。&lt;/p&gt;
+&lt;p&gt;然后答辩的时候果然跟之前想的一样。懂的自然懂，不懂的完全不懂。最高分给95，最低的64都有、、、「你做的这个都不是游戏，都他自己在动」、、、大爷你说的真好，演示的时候还问你要不要玩的，你说不要，看我玩就行，结果变成了他自己在动、、、&lt;/p&gt;
+&lt;p&gt;不管怎么说，做了8年游戏了，终于有个能够完整做出来的了，而且也自己撸了个游戏引擎出来了，算是了了自己的一桩心愿了。现在我什么都不想做了，就想静静、、、&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="毕设"></category><category term="游戏"></category></entry><entry><title>手机上过滤广告的尝试</title><link href="https://www.chinuno.com/blog/adbyby-android" rel="alternate"></link><published>2016-05-01T00:24:06+08:00</published><updated>2016-05-01T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-05-01:/blog/adbyby-android</id><summary type="html">&lt;p&gt;自从路由器当成交换机来用后，原来在路由器上过滤广告的做法已经不行了。pc上还好，adbyby开机自启，加上chrome的ublock，已经没有广告的烦恼了。&lt;/p&gt;
+&lt;p&gt;但是手机上不行。即使用了xposed模块，也只能去除google的广告。所以就想说把adbyby给搬到手机上用。&lt;/p&gt;
+&lt;p&gt;adbyby官方有提供armv7的二进制文件。正好可以在手机上运行。首先adb把adbyby给push到手机存储上&lt;code&gt;/sdcard&lt;/code&gt;。然后尝试运行却始终permission denied.使用root权限chmod也无法加上可执行权限。尝试shell执行，依然是无法执行。后来发现问题是在sdcard的挂载上，挂载的时候有个&lt;code&gt;noexec&lt;/code&gt;参数，导致挂载的目录无法执行二进制文件。解决的办法也很简单。把程序移动到/data/tmp目录下就能执行了。&lt;/p&gt;
+&lt;p&gt;第一步把程序运行起来算是解决了。接下来要把80端口的流量转发到8118上，这样才能通过adbyby来过滤广告。按照之前在路由器上的做法，用iptables设置透明代理，将网页流量转发到adbyby上.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;iptables -t nat -A PREROUTING -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -j REDIRECT --to-ports &lt;span class="m"&gt;8118&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后发现，规则并没有添加上去。原因在于android的这个iptables并不是完整的iptables …&lt;/p&gt;</summary><content type="html">&lt;p&gt;自从路由器当成交换机来用后，原来在路由器上过滤广告的做法已经不行了。pc上还好，adbyby开机自启，加上chrome的ublock，已经没有广告的烦恼了。&lt;/p&gt;
+&lt;p&gt;但是手机上不行。即使用了xposed模块，也只能去除google的广告。所以就想说把adbyby给搬到手机上用。&lt;/p&gt;
+&lt;p&gt;adbyby官方有提供armv7的二进制文件。正好可以在手机上运行。首先adb把adbyby给push到手机存储上&lt;code&gt;/sdcard&lt;/code&gt;。然后尝试运行却始终permission denied.使用root权限chmod也无法加上可执行权限。尝试shell执行，依然是无法执行。后来发现问题是在sdcard的挂载上，挂载的时候有个&lt;code&gt;noexec&lt;/code&gt;参数，导致挂载的目录无法执行二进制文件。解决的办法也很简单。把程序移动到/data/tmp目录下就能执行了。&lt;/p&gt;
+&lt;p&gt;第一步把程序运行起来算是解决了。接下来要把80端口的流量转发到8118上，这样才能通过adbyby来过滤广告。按照之前在路由器上的做法，用iptables设置透明代理，将网页流量转发到adbyby上.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;iptables -t nat -A PREROUTING -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -j REDIRECT --to-ports &lt;span class="m"&gt;8118&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后发现，规则并没有添加上去。原因在于android的这个iptables并不是完整的iptables，不支持这样的透明代理。想要使用的话可以另外找个完整的iptables来替换。但是android的iptables有扩展，用于管理具体应用的流量。所以不打算替换这个iptables了。采取折中的办法。&lt;/p&gt;
+&lt;p&gt;在wifi设置下手动 指定代理服务器。把127.0.0.1端口8118指定为http代理服务器。这样所有的http流量就通过adbyby进行过滤了。然而缺点也很明显。只能在wifi情况下使用，而且每次更换连接热点的时候都需要手动再设置一次&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="android"></category><category term="adbyby"></category></entry><entry><title>在PyPI上发布自己的库</title><link href="https://www.chinuno.com/blog/pypi" rel="alternate"></link><published>2016-03-24T00:24:06+08:00</published><updated>2016-03-24T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-03-24:/blog/pypi</id><summary type="html">&lt;p&gt;之前做了个个性化QR码的小工具丢在了&lt;a href="https://github.com/chinuno-usami/CuteR"&gt;Github&lt;/a&gt;上。然后后来有人建议放个&lt;code&gt;requirements.txt&lt;/code&gt;上去方便安装依赖包。然后昨天研究了一下，把它给发布到&lt;a href="https://pypi.python.org/pypi/CuteR"&gt;PyPI&lt;/a&gt;上面去了,这样用pip就能够安装了。现在就记录一下&lt;code&gt;requirements.txt&lt;/code&gt;的生成和PyPI的发布方法吧。&lt;/p&gt;
+&lt;h3&gt;requirements.txt 的生成&lt;/h3&gt;
+&lt;p&gt;使用&lt;code&gt;pip freeze&lt;/code&gt;可以获取当前环境下所有的第三方库，直接重定向标准输出到requirements.txt文件中就能方便的生成了。
+但是这样有个问题，这个命令获取的是当前环境下的所有库，如果没有virtualenv的话会的到一大堆不需要的库。即使在virtualenv环境下，也会把virtualenv给包含进去。&lt;/p&gt;
+&lt;p&gt;所以我们可以用&lt;code&gt;pipreqs&lt;/code&gt;来生成&lt;code&gt;requirements.txt&lt;/code&gt;。
+&lt;code&gt;pip install pipreqs&lt;/code&gt;来安装&lt;code&gt;pipreqs&lt;/code&gt;，然后使用命令&lt;code&gt;pipreqs 项目目录&lt;/code&gt;就会在项目目录下生成requirements.txt了。&lt;/p&gt;
+&lt;h3&gt;发布到PyPI&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;整理好包的结构&lt;/li&gt;
+&lt;li&gt;编写setup.py&lt;/li&gt;
+&lt;li&gt;打包 …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;之前做了个个性化QR码的小工具丢在了&lt;a href="https://github.com/chinuno-usami/CuteR"&gt;Github&lt;/a&gt;上。然后后来有人建议放个&lt;code&gt;requirements.txt&lt;/code&gt;上去方便安装依赖包。然后昨天研究了一下，把它给发布到&lt;a href="https://pypi.python.org/pypi/CuteR"&gt;PyPI&lt;/a&gt;上面去了,这样用pip就能够安装了。现在就记录一下&lt;code&gt;requirements.txt&lt;/code&gt;的生成和PyPI的发布方法吧。&lt;/p&gt;
+&lt;h3&gt;requirements.txt 的生成&lt;/h3&gt;
+&lt;p&gt;使用&lt;code&gt;pip freeze&lt;/code&gt;可以获取当前环境下所有的第三方库，直接重定向标准输出到requirements.txt文件中就能方便的生成了。
+但是这样有个问题，这个命令获取的是当前环境下的所有库，如果没有virtualenv的话会的到一大堆不需要的库。即使在virtualenv环境下，也会把virtualenv给包含进去。&lt;/p&gt;
+&lt;p&gt;所以我们可以用&lt;code&gt;pipreqs&lt;/code&gt;来生成&lt;code&gt;requirements.txt&lt;/code&gt;。
+&lt;code&gt;pip install pipreqs&lt;/code&gt;来安装&lt;code&gt;pipreqs&lt;/code&gt;，然后使用命令&lt;code&gt;pipreqs 项目目录&lt;/code&gt;就会在项目目录下生成requirements.txt了。&lt;/p&gt;
+&lt;h3&gt;发布到PyPI&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;整理好包的结构&lt;/li&gt;
+&lt;li&gt;编写setup.py&lt;/li&gt;
+&lt;li&gt;打包&lt;/li&gt;
+&lt;li&gt;注册PyPI帐号&lt;/li&gt;
+&lt;li&gt;发布上传&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;包结构&lt;/h4&gt;
+&lt;p&gt;要发布先要整理成包的结构才能打包发布.
+最简单的结构像这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;当前目录&lt;/span&gt;
+&lt;span class="err"&gt;\&lt;/span&gt;
+ &lt;span class="o"&gt;|&lt;/span&gt;
+ &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+ &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;包目录&lt;/span&gt;
+ &lt;span class="err"&gt;\&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+  &lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;其他代码&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;init&lt;/strong&gt;.py 内容是什么无所谓，即使是空的也行&lt;/p&gt;
+&lt;h4&gt;编写setup.py&lt;/h4&gt;
+&lt;p&gt;我懒。这里可以参考&lt;a href="https://docs.python.org/3/distutils/index.html#distutils-index"&gt;官方文档&lt;/a&gt;。我更推荐使用&lt;a href="https://setuptools.pypa.io/en/latest/setuptools.html"&gt;setuptools&lt;/a&gt;，大部分都可以直接复制粘贴过来改。可以直接到Github上面看我的&lt;a href="https://github.com/chinuno-usami/CuteR/blob/master/setup.py"&gt;setup.py&lt;/a&gt;怎么写的。&lt;/p&gt;
+&lt;p&gt;一般来说还要加个说明文档，然后长描述用于在PyPI页面上的说明，我懒没做。
+有两个比较值得说明的。一个是&lt;code&gt;install_requires&lt;/code&gt;。把项目依赖的第三方库加到这里，这样pip安装的时候会自动把依赖项装上去。还一个是&lt;code&gt;entry_points&lt;/code&gt;的&lt;code&gt;console_scripts&lt;/code&gt;。想要在安装后可以直接当成命令行工具使用执行的话就把要执行的函数加到这里。&lt;/p&gt;
+&lt;h4&gt;打包&lt;/h4&gt;
+&lt;p&gt;执行&lt;code&gt;python setup.py check&lt;/code&gt;来检查setup.py有没有什么写错的地方&lt;/p&gt;
+&lt;p&gt;执行&lt;code&gt;python setup.py sdist&lt;/code&gt;就能进行打包操作了。&lt;/p&gt;
+&lt;h4&gt;发布上传&lt;/h4&gt;
+&lt;p&gt;发布上传需要有在PyPI上面注册帐号。可以先在官网上注册也可以发布的时候注册。&lt;/p&gt;
+&lt;p&gt;执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python setup.py register sdist upload
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;就行了。&lt;/p&gt;
+&lt;p&gt;最后开个virtualenv用pip安装看看是不是成功了&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="Python"></category><category term="PyPI"></category></entry><entry><title>树莓派上SVN服务器的搭建</title><link href="https://www.chinuno.com/blog/svn" rel="alternate"></link><published>2016-03-12T00:24:06+08:00</published><updated>2016-03-12T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-03-12:/blog/svn</id><summary type="html">&lt;p&gt;在实习时公司用SVN来做版本控制。然后想想自己这里也能用用看。SVN的操作相对GIT来说简单太多，就算px这种大概也没什么问题。现在做游戏就两个人，用来放图片文档之类的问题不会太大，还方便进度跟踪，所以就在树莓派上面搭了个svn服务器来用。&lt;/p&gt;
+&lt;h3&gt;SVN服务器安装&lt;/h3&gt;
+&lt;p&gt;用的Archlinux，其他发行版从各自的包管理装就行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;yaourt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;subversion&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后创建个目录存放svn仓库&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;创建svn仓库&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;svnadmin&lt;/span&gt; &lt;span class="k"&gt;create&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnrepo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;修改svn服务器的设置,把anon-access和auth-access设置好。
+有个坑要注意，这里每行配置必须顶格，前面有空格是读取不了的。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnserve&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;设置用户认证文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;passwd&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行svn服务器&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;svnserve&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样svn服务器就设置好了。
+因为是树莓派所以不跑http服务器了，用&lt;code&gt;svn://ip/path&lt;/code&gt;
+的方式来连接svn服务器就行。&lt;/p&gt;
+&lt;p&gt;然而服务器搭好了 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;在实习时公司用SVN来做版本控制。然后想想自己这里也能用用看。SVN的操作相对GIT来说简单太多，就算px这种大概也没什么问题。现在做游戏就两个人，用来放图片文档之类的问题不会太大，还方便进度跟踪，所以就在树莓派上面搭了个svn服务器来用。&lt;/p&gt;
+&lt;h3&gt;SVN服务器安装&lt;/h3&gt;
+&lt;p&gt;用的Archlinux，其他发行版从各自的包管理装就行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;yaourt&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="n"&gt;subversion&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后创建个目录存放svn仓库&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;mkdir&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;创建svn仓库&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;svnadmin&lt;/span&gt; &lt;span class="k"&gt;create&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnrepo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;修改svn服务器的设置,把anon-access和auth-access设置好。
+有个坑要注意，这里每行配置必须顶格，前面有空格是读取不了的。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnserve&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;设置用户认证文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;passwd&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行svn服务器&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;svnserve&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;svnrepo&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样svn服务器就设置好了。
+因为是树莓派所以不跑http服务器了，用&lt;code&gt;svn://ip/path&lt;/code&gt;
+的方式来连接svn服务器就行。&lt;/p&gt;
+&lt;p&gt;然而服务器搭好了，也手把手教了，这货到现在依然就是不用。。。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="svn"></category><category term="树莓派"></category></entry><entry><title>开发游戏的一些感受后续</title><link href="https://www.chinuno.com/blog/game2" rel="alternate"></link><published>2016-02-21T00:24:06+08:00</published><updated>2016-02-21T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-02-21:/blog/game2</id><content type="html">&lt;p&gt;距离上次的文章已经一个月了。游戏开发的进程也到了一个新的阶段。&lt;/p&gt;
+&lt;p&gt;之前做得都是底层工作，用来和显卡交互，位图读取渲染，打包解包接口和脚本系统集成这方面。现在做得都是整个游戏系统的设计了。要做的更偏向于各种业务。ai设计，人物地图结构和各种事件脚本等。&lt;/p&gt;
+&lt;p&gt;虽然做起来比较少像之前要涉及到系统底层的东西，但是要考虑的算法，实现的方法都特别多，做不好还影响后面写剧情脚本的效率和运行效率。说起来这操作系统也有大坑。。原先都用win7系统开发的，然后在win8.1和win10系统上却无论如何都没法正常运行。在win7上也无论如何都无法复现问题。后来思考了一晚上才发现win7和win8.1,win10的内存分配方式不一样。。然后简单一分钟不到就修复了。&lt;/p&gt;
+&lt;p&gt;现在比较烦的是做好的部分也没法测试。让美术做个人物动作动画来测试，一个月了还没生出来。最后自己另外找了其他素材测试。现在地图要测试又不行了。。地图用的自己设定的格式数据，没法另外找素材代替。美术不做好这里也卡住。&lt;/p&gt;
+&lt;p&gt;原先还有点没自信能够做完，现在越来越上手了。不过后天开始实习确实没法像现在大把时间来做游戏了。真的没办法只能放弃原先要上架steam卖钱的想法自己网上找素材慢慢改造作为免费游戏发布了。所以找个靠谱的合作者真的真的非常重要。。。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="游戏"></category><category term="开发"></category></entry><entry><title>开发游戏的一些感受</title><link href="https://www.chinuno.com/blog/game" rel="alternate"></link><published>2016-01-27T00:24:06+08:00</published><updated>2016-01-27T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-01-27:/blog/game</id><summary type="html">&lt;p&gt;为了装逼这游戏不用现有的游戏引擎自己造一个，感觉并没什么不对的。
+然后现在看了看感觉不太好啊。一直关注的几个国内的独立游戏，用的现成的游戏引擎，有的做了5年才做好。一直在逼站直播游戏开发日记的那个项目从14年开始直播，到现在16年了还是没做好。想想看自己作死了。三个月不到的时间要自己撸个游戏引擎然后自己写游戏，怎么想都做不完啦。&lt;/p&gt;
+&lt;p&gt;还好现在半个月引擎撸的差不多了，接下来就是写写剧情撸撸脚本。不出现太大的问题交差是可以的了。但是作为自己的独立游戏项目还是要做完善了。&lt;/p&gt;
+&lt;p&gt;做到现在其实一直都没有去参看现有的一些开源游戏引擎的代码，全是按照自己的想法撸出来的。而且国内做游戏找这些资料真的不好找，有的都是unity这样现有引擎的一些资料。用的dx来做底层，资料也只能微软官方找。然后微软的文档从以前就一直在吐艹了。经常性的遇到页面被移除的情况。当然现在新的文档好多了。就是示例。。有的示例根本就拖不下来，然而也没其他资料可以参考示例又没有只能自己乱试一通。&lt;/p&gt;
+&lt;p&gt;比较意外的是。找资料的时候找到了9x年的资料。然后根据链接找到了9x年的微软的文档页面。那时候的文档真的超详细的。示例文件还能下载，注释特别详细，看起来也舒服。唉。微软这以后啊。药丸药丸。&lt;/p&gt;
+&lt;p&gt;自己一个人开发总是会遇到做不来的情况。什么情况该怎么处理，什么功能该怎么做。然而整个团队只有自己能撸代码。要找其他人一起讨论，然而认识的也没有做游戏的，也不是团队的一员，没法得到什么实质性的帮助。&lt;/p&gt;
+&lt;p&gt;不过有个方便的办法。虽然别人不懂这些，但是刚问完问题自己也就知道答案了。是不是跟那个小黄鸭倾诉对象一样的道理。&lt;/p&gt;
+&lt;p&gt;自己慢慢研究也能找到解决办法 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;为了装逼这游戏不用现有的游戏引擎自己造一个，感觉并没什么不对的。
+然后现在看了看感觉不太好啊。一直关注的几个国内的独立游戏，用的现成的游戏引擎，有的做了5年才做好。一直在逼站直播游戏开发日记的那个项目从14年开始直播，到现在16年了还是没做好。想想看自己作死了。三个月不到的时间要自己撸个游戏引擎然后自己写游戏，怎么想都做不完啦。&lt;/p&gt;
+&lt;p&gt;还好现在半个月引擎撸的差不多了，接下来就是写写剧情撸撸脚本。不出现太大的问题交差是可以的了。但是作为自己的独立游戏项目还是要做完善了。&lt;/p&gt;
+&lt;p&gt;做到现在其实一直都没有去参看现有的一些开源游戏引擎的代码，全是按照自己的想法撸出来的。而且国内做游戏找这些资料真的不好找，有的都是unity这样现有引擎的一些资料。用的dx来做底层，资料也只能微软官方找。然后微软的文档从以前就一直在吐艹了。经常性的遇到页面被移除的情况。当然现在新的文档好多了。就是示例。。有的示例根本就拖不下来，然而也没其他资料可以参考示例又没有只能自己乱试一通。&lt;/p&gt;
+&lt;p&gt;比较意外的是。找资料的时候找到了9x年的资料。然后根据链接找到了9x年的微软的文档页面。那时候的文档真的超详细的。示例文件还能下载，注释特别详细，看起来也舒服。唉。微软这以后啊。药丸药丸。&lt;/p&gt;
+&lt;p&gt;自己一个人开发总是会遇到做不来的情况。什么情况该怎么处理，什么功能该怎么做。然而整个团队只有自己能撸代码。要找其他人一起讨论，然而认识的也没有做游戏的，也不是团队的一员，没法得到什么实质性的帮助。&lt;/p&gt;
+&lt;p&gt;不过有个方便的办法。虽然别人不懂这些，但是刚问完问题自己也就知道答案了。是不是跟那个小黄鸭倾诉对象一样的道理。&lt;/p&gt;
+&lt;p&gt;自己慢慢研究也能找到解决办法。整个过程还是领悟到了不少的姿势技巧。比如说资源的内存分配管理，组件的封装方式这些的。整个开发过程中到现在为止也只出现过一次内存泄漏，很快就定位到问题解决了。虽然代码写的要吐。其中架构换了好几个方案，推倒重写了几次。但是一个功能做好了之后。真的有快感。。&lt;/p&gt;
+&lt;p&gt;另外美工那边。虽然很明显他对这些东西也没有经验，做得并不好。但是看起来也是一直在学习，努力的提升自己。我觉得自己能够从对这方面一窍不通到自己撸出一个引擎出来，他那边也能做到画工能力的提升吧。而且对于不会画画的我来说。能够依靠的也只有他了。他做不了。我们两个都完蛋。&lt;/p&gt;
+&lt;p&gt;剩下的时间。紧了。2月还能做一个月。然后3月开始就要边工作边撸游戏了。。
+然后也荒废了两天没怎么做东西了。。还是只能靠自觉了。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="游戏"></category><category term="开发"></category></entry><entry><title>在VS上使用git的正確方式是什麼</title><link href="https://www.chinuno.com/blog/vsgit" rel="alternate"></link><published>2016-01-15T23:50:16+08:00</published><updated>2016-01-15T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-01-15:/blog/vsgit</id><content type="html">&lt;p&gt;這次做的這個東西比較重要，需要有個地方備份。而且項目比較大需要進行版本控制。
+自己搭建的git服務器，只能通過ssh驗證密鑰來進行操作。但是在vs上的git操作總是搞不好。&lt;/p&gt;
+&lt;p&gt;在vs 的團隊資源管理器中創建了倉庫，在本地提交是正常的。但是一旦要push到遠端服務器上時就會出錯。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An error was raised by libgit2. Category = Net (Error).
+This transport isn't implemented. Sorry
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;vs 中的git 用的是原先有的git，配置理論上是一樣的。而通過git shell是可以push到服務端去的。所以現在只能在vs 中commit然後再通過git shell來進行push。&lt;/p&gt;
+&lt;p&gt;想着這樣的東西應該不存在這樣不完整的問題。應該是自己的配置方式有問題。
+另外在so 上看到了這樣的一個問答
+https://stackoverflow.com/questions/18782637/visualstudio-an-error-was-raised-by-libgit2-category-checkout&lt;/p&gt;
+&lt;p&gt;似乎是說這工具是不支持ssh的。。到github上看issue也似乎到現在還是這樣的情況。。&lt;/p&gt;
+&lt;p&gt;所以有人知道vs上用git的正確姿勢的話希望能夠在評論中告知一下&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="Visual Studio"></category><category term="git"></category></entry><entry><title>论VPS后台自带终端的坑爹性</title><link href="https://www.chinuno.com/blog/vnc" rel="alternate"></link><published>2016-01-04T23:50:16+08:00</published><updated>2016-01-04T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2016-01-04:/blog/vnc</id><content type="html">&lt;p&gt;首先。16年了。然而我就是不做15年的总结(*￣︿￣) 你来打我啊&lt;/p&gt;
+&lt;p&gt;然后开始正题&lt;/p&gt;
+&lt;p&gt;这个问题从去年遗留到现在了，终于解决了&lt;/p&gt;
+&lt;p&gt;首先，自己有个conoha的vps，然后刚创建的时候是一台windows的pc上创建的，putty生成密钥，直接在创建的时候引导页面导入，一直都能登录没什么问题。然后之前的电脑没在的时候想要从另一台电脑登录。所以我做了下面这几件事。&lt;/p&gt;
+&lt;p&gt;从网页登录conoha的后台，然后选择自己的vps，上面有排按钮中有个“控制台”，点下去能够进入终端。两种模式，一种串行一种VNC。然后串行一直都没法进去，可能是因为键盘布局默认日本的布局没改掉，所以按键不对进不去。然后只能选择VNC。&lt;/p&gt;
+&lt;p&gt;输入密码登录之后vim打开.ssh/authorized_keys打算添加新的公钥上去。在发送文字的框框中粘贴公钥。发送。然后发送:x保存。&lt;/p&gt;
+&lt;p&gt;在ssh中尝试登录却提示公钥认证失败。&lt;/p&gt;
+&lt;p&gt;尝试了各种方法各种姿势仍然还是这样。用同样的方法添加了另一台机子的公钥一样失败。然后重新添加的时候发现公钥长度竟然变了！&lt;/p&gt;
+&lt;p&gt;一个字符一个字符的把vps上面的公钥和本机上的对比后发现。前面一大部分还是没问题的，但是中间有一段全变了！这样的问题应该是再用后台终端传输数据的时候没有做验证，然后传输过程中出了错误了。。。所以为什么不加个验证呢。最后问题算是找到了。用了另一台机子做中转用wget把公钥下载下来后添加总算是解决问题了。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="VPS"></category><category term="VNC"></category><category term="SSH"></category></entry><entry><title>交叉编译驱动</title><link href="https://www.chinuno.com/blog/driver" rel="alternate"></link><published>2015-12-12T23:50:16+08:00</published><updated>2015-12-12T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-12-12:/blog/driver</id><summary type="html">&lt;h3&gt;起因&lt;/h3&gt;
+&lt;p&gt;之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行= =也不知道几个意思。然后google了一下发现遇到识别问题的都是OTG线的问题。然而自己各种换线，以为是供电不够还另外供电，然而还是没能解决问题、&lt;/p&gt;
+&lt;p&gt;然后今天突然想到会不会是驱动的原因。然后就打算编译个驱动上去看看能不能解决。&lt;/p&gt;
+&lt;h3&gt;经过&lt;/h3&gt;
+&lt;p&gt;然后首先。从官网下载了&lt;a href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=4&amp;amp;PNid=48&amp;amp;PFid=48&amp;amp;Level=5&amp;amp;Conn=4&amp;amp;DownTypeID=3&amp;amp;GetDown=false&amp;amp;Downloads=true#RTL8188CUS"&gt;驱动源码&lt;/a&gt;。和android的&lt;a href="https://android.googlesource.com/kernel/msm/+/android-msm-flo-3.4-lollipop-release"&gt;内核源码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;解压内核源码，把对应处理器的config拷出来
+修改Makefile把ARCH改成arm，CROSS_COMPILE改成交叉编译器的位置这样才能编译成arm版本(应该是只有编译内核的时候才需要？)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cp arch/arm/configs/flo_defconfig ./.config
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;或者make指定参数也行。。
+解压驱动源码到drivers/net/wireless/下。应该也是只有编译到内核中去的时候需要。记得改个文件夹名字、&lt;/p&gt;
+&lt;p&gt;在wireless文件夹下的Makefile和Kconfig也要改。然后就能通过make menuconfig在里面设置编译选项了。原来打算的就是编译个驱动模块而已，也没必要改这些了。&lt;/p&gt;
+&lt;p&gt;修改驱动源码中的Makefile，添加自己的选项，设置标志y。设置好arch和编译器位置就行了。&lt;/p&gt;
+&lt;p&gt;make。然后提示找不到compiler-gcc5.h。是因为编译器新而源码比较旧导致 …&lt;/p&gt;</summary><content type="html">&lt;h3&gt;起因&lt;/h3&gt;
+&lt;p&gt;之前把Nexus7装上NetHunter之后，发现OTG连接usb无线网卡(ep-n8508gs)不能用。这奇葩网卡在树莓派上都能完美运行的在Android上面不能运行= =也不知道几个意思。然后google了一下发现遇到识别问题的都是OTG线的问题。然而自己各种换线，以为是供电不够还另外供电，然而还是没能解决问题、&lt;/p&gt;
+&lt;p&gt;然后今天突然想到会不会是驱动的原因。然后就打算编译个驱动上去看看能不能解决。&lt;/p&gt;
+&lt;h3&gt;经过&lt;/h3&gt;
+&lt;p&gt;然后首先。从官网下载了&lt;a href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=4&amp;amp;PNid=48&amp;amp;PFid=48&amp;amp;Level=5&amp;amp;Conn=4&amp;amp;DownTypeID=3&amp;amp;GetDown=false&amp;amp;Downloads=true#RTL8188CUS"&gt;驱动源码&lt;/a&gt;。和android的&lt;a href="https://android.googlesource.com/kernel/msm/+/android-msm-flo-3.4-lollipop-release"&gt;内核源码&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;解压内核源码，把对应处理器的config拷出来
+修改Makefile把ARCH改成arm，CROSS_COMPILE改成交叉编译器的位置这样才能编译成arm版本(应该是只有编译内核的时候才需要？)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cp arch/arm/configs/flo_defconfig ./.config
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;或者make指定参数也行。。
+解压驱动源码到drivers/net/wireless/下。应该也是只有编译到内核中去的时候需要。记得改个文件夹名字、&lt;/p&gt;
+&lt;p&gt;在wireless文件夹下的Makefile和Kconfig也要改。然后就能通过make menuconfig在里面设置编译选项了。原来打算的就是编译个驱动模块而已，也没必要改这些了。&lt;/p&gt;
+&lt;p&gt;修改驱动源码中的Makefile，添加自己的选项，设置标志y。设置好arch和编译器位置就行了。&lt;/p&gt;
+&lt;p&gt;make。然后提示找不到compiler-gcc5.h。是因为编译器新而源码比较旧导致，直接丢一份compiler-gcc5.h进去再次编译&lt;/p&gt;
+&lt;p&gt;make。然后提示error, forbidden warning。还是因为编译器。新的编译器会把warning当做error来处理。禁用掉后再次编译。&lt;/p&gt;
+&lt;p&gt;make。然后LD提示一大堆的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/core/rtw_security.o：在函数‘is_multicast_mac_addr’中：
+/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/include/ieee80211.h:1199: `is_multicast_mac_addr'被多次定义
+/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/core/rtw_cmd.o:/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/include/ieee80211.h:1199：第一次在此定义
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;此时我的内心。崩溃。真的。全都是那个头文件的那几个函数中招。。
+打开看了看。。全是函数定义。。为毛函数定义都塞在头文件里面。。。&lt;/p&gt;
+&lt;p&gt;不死心。在那堆函数的地方加了&lt;code&gt;#ifndef&lt;/code&gt;和&lt;code&gt;#define&lt;/code&gt;。结果是没有效果的。&lt;code&gt;#ifndef&lt;/code&gt;和&lt;code&gt;#define&lt;/code&gt;都是针对同一个文件而言，所以实际上是没效果。。然后又加了&lt;code&gt;#pragma once&lt;/code&gt;。然而还是没效果。&lt;/p&gt;
+&lt;p&gt;好嘛。不就是定义到头文件去了。。全部拉出来不就好了&lt;/p&gt;
+&lt;p&gt;把那三个奇葩函数全部丢到c里面去，在头函数里面只留声明。最后终于链接成功。
+然而。还是有错误&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;FATAL: section header offset=11258999068426292 in file '/home/cirno/linux-kernel/drivers/net/wireless/rtl8192cu/8192cu.o' is bigger than filesize=10236164
+&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;网上查了一下。原来make的时候还要指定ARCH和交叉编译器。&lt;/p&gt;
+&lt;p&gt;最后总算是可以成功编译出来了&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cirno@LoveLive:~/linux-kernel/drivers/net/wireless/rtl8192cu$ file 8192cu.ko 
+8192cu.ko: ELF 32-bit LSB relocatable, ARM, EABI5 version 1 (SYSV), BuildID[sha1]=6c2f0c8f10c7c5e3efa824a51b13a4b914e25b69, not stripped&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;结果&lt;/h3&gt;
+&lt;p&gt;终于编译出来啦！棒棒哒！
+然后赶紧丢板子上看看吧&lt;/p&gt;
+&lt;p&gt;于是。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;function not implemented&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;233333333333&lt;/p&gt;
+&lt;p&gt;官方的内核是没有启用&lt;code&gt;Enable loadable module support&lt;/code&gt;的。也就是说想要用刚才编译出来的驱动模块，只能重新编译内核。&lt;/p&gt;
+&lt;p&gt;爽。反正编译出来了。就贡献出来给吧，有需要的直接拿去用就是了
+&lt;a href="http://www.chinuno.ml/blog/driver/8192cu.ko"&gt;适用于nexus7 flo 3.4.0内核&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="交叉编译"></category><category term="驱动"></category><category term="arm"></category></entry><entry><title>自建git服务器</title><link href="https://www.chinuno.com/blog/git" rel="alternate"></link><published>2015-12-06T00:24:06+08:00</published><updated>2015-12-06T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-12-06:/blog/git</id><summary type="html">&lt;p&gt;对的。我就蛋疼。自己在树莓派上搞了个git服务器。= =不BB了。心累。简单地贴一下流程，图也懒的上了。反正就我这傻逼搞这傻逼东西。&lt;/p&gt;
+&lt;h3&gt;依赖&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;openssh&lt;/li&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;li&gt;python的setuptools用于安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;安装&lt;/h3&gt;
+&lt;p&gt;git官方给出的地址是https://github.com/tv42/gitosis&lt;/p&gt;
+&lt;p&gt;我用的是https://github.com/res0nat0r/gitosis&lt;/p&gt;
+&lt;p&gt;不知道两个哪里不一样，不过配置方法应该大同小异，官方的那个按照官方的说明来配置应该没问题了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/res0nat0r/gitosis.git
+&lt;span class="nb"&gt;cd&lt;/span&gt; gitosis
+python setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;自己用的Archlinux默认python是python3，而装的setuptools是2的，所以我用的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python2 setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;新建git用户用于管理仓库
+因为用的Archlinux没有adduser脚本 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;对的。我就蛋疼。自己在树莓派上搞了个git服务器。= =不BB了。心累。简单地贴一下流程，图也懒的上了。反正就我这傻逼搞这傻逼东西。&lt;/p&gt;
+&lt;h3&gt;依赖&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;openssh&lt;/li&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;li&gt;python的setuptools用于安装&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;安装&lt;/h3&gt;
+&lt;p&gt;git官方给出的地址是https://github.com/tv42/gitosis&lt;/p&gt;
+&lt;p&gt;我用的是https://github.com/res0nat0r/gitosis&lt;/p&gt;
+&lt;p&gt;不知道两个哪里不一样，不过配置方法应该大同小异，官方的那个按照官方的说明来配置应该没问题了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/res0nat0r/gitosis.git
+&lt;span class="nb"&gt;cd&lt;/span&gt; gitosis
+python setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;自己用的Archlinux默认python是python3，而装的setuptools是2的，所以我用的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python2 setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;新建git用户用于管理仓库
+因为用的Archlinux没有adduser脚本，所以用useradd了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;useradd -m git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;为了安全先把密码登录禁用了&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;passwd -l git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接下来初始化gitosis
+su到git用户来操作&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;su git
+git gitosis-init &amp;lt; id_rsa.pub
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;没有公钥的话自行生成一个便是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -t rsa
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;回到先前用户把gitosis-admin给clone出来，整个管理都要通过它来完成&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone git@localhost:gitosis-admin.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;整个目录的结构像这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@alarmpi gitosis-admin&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# tree .&lt;/span&gt;
+.
+├── gitosis.conf
+└── keydir
+    ├── blabla.pub
+    └── niconiconi.pub
+
+&lt;span class="m"&gt;1&lt;/span&gt; directory, &lt;span class="m"&gt;3&lt;/span&gt; files
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;gitosis.conf就是配置文件了。
+keydir是公钥的存放位置，下面两个pub是自己添加的了&lt;/p&gt;
+&lt;p&gt;配置文件。添加新的组。这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[group testgroup]&lt;/span&gt;
+&lt;span class="na"&gt;members&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;niconiconi&lt;/span&gt;
+&lt;span class="na"&gt;writable&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;test&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;members添加组成员，writable表示能够操作的仓库。
+多个的话用空格分开就行
+同时还需要把用户的公钥放到keydir上去。命名就是gitosis.conf中的members名字+.pub这样。niconiconi对应的公钥名字为niconiconi.pub。必须对应才行。&lt;/p&gt;
+&lt;p&gt;add .递归添加文件
+然后提交push回去，设置就生效了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add .
+git commit -am &lt;span class="s2"&gt;&amp;quot;add group.add keys&amp;quot;&lt;/span&gt;
+git push
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这时在有配置过权限的机子上就能使用傻逼树莓派git服务器了。
+= =。还有。这换行到底是主题的问题还是pelican的原因。好蛋疼&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="树莓派"></category><category term="git"></category></entry><entry><title>一加2使用体验</title><link href="https://www.chinuno.com/blog/oneplus2" rel="alternate"></link><published>2015-11-16T23:50:16+08:00</published><updated>2015-11-16T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-11-16:/blog/oneplus2</id><summary type="html">&lt;p&gt;原来的Lumia1520摔了。然后上个月入手了一加2来用
+最近忙，懒的更新，到今天才来写这个&lt;/p&gt;
+&lt;h3&gt;外观&lt;/h3&gt;
+&lt;p&gt;一加2的外观确实好看，也是因为这个外观才决定的1+2。可能摸习惯了圆滑的机身，一开始手感不是很习惯。跟1520比起来小一点，感觉大小正好。&lt;/p&gt;
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;骁龙810的cpu争议大，不过性能相当强悍。发热平时感觉不大，开游戏的时候会高点，在金属边框能感受到。&lt;/p&gt;
+&lt;p&gt;4G的内存大小在现在的手机中也算是最大的了，平时使用也没有遇到应用被杀掉的情况&lt;/p&gt;
+&lt;p&gt;指纹识别。这个真心要吐艹一下了。识别成功率特别低，成功率不到1/3。国外评测机构用的机子运行氧os也是指纹识别成功率特别低，看来是硬件问题？&lt;/p&gt;
+&lt;p&gt;配置确实符合年度旗舰的配置，不过最傻逼的是没有NFC了。。这么重要的模块没了。。算是整机硬件最大的一个缺点了&lt;/p&gt;
+&lt;h3&gt;系统&lt;/h3&gt;
+&lt;p&gt;运行的氢OS。蛮好看的，但是功能特别少。 
+刚开机就占用了1G+的内存，而我运行AOSP系统的Nexus7开机系统占用也才几百M的内存，不知道是不是跟android的内存策略有关。 
+音乐文件管理等APP都是用的第三方APP，比如音乐播放用的网易，文档管理用的airdroid「应该是叫这个？然而并不常开」，浏览器也是用QQ浏览器修改来的。 
+oneday功能对我来说根本用不上，那里就一个oneday功能太浪费了 
+在需要添加到主屏幕图标的时候添加不上，比如浏览器把某个链接放主屏幕上 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;原来的Lumia1520摔了。然后上个月入手了一加2来用
+最近忙，懒的更新，到今天才来写这个&lt;/p&gt;
+&lt;h3&gt;外观&lt;/h3&gt;
+&lt;p&gt;一加2的外观确实好看，也是因为这个外观才决定的1+2。可能摸习惯了圆滑的机身，一开始手感不是很习惯。跟1520比起来小一点，感觉大小正好。&lt;/p&gt;
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;骁龙810的cpu争议大，不过性能相当强悍。发热平时感觉不大，开游戏的时候会高点，在金属边框能感受到。&lt;/p&gt;
+&lt;p&gt;4G的内存大小在现在的手机中也算是最大的了，平时使用也没有遇到应用被杀掉的情况&lt;/p&gt;
+&lt;p&gt;指纹识别。这个真心要吐艹一下了。识别成功率特别低，成功率不到1/3。国外评测机构用的机子运行氧os也是指纹识别成功率特别低，看来是硬件问题？&lt;/p&gt;
+&lt;p&gt;配置确实符合年度旗舰的配置，不过最傻逼的是没有NFC了。。这么重要的模块没了。。算是整机硬件最大的一个缺点了&lt;/p&gt;
+&lt;h3&gt;系统&lt;/h3&gt;
+&lt;p&gt;运行的氢OS。蛮好看的，但是功能特别少。 
+刚开机就占用了1G+的内存，而我运行AOSP系统的Nexus7开机系统占用也才几百M的内存，不知道是不是跟android的内存策略有关。 
+音乐文件管理等APP都是用的第三方APP，比如音乐播放用的网易，文档管理用的airdroid「应该是叫这个？然而并不常开」，浏览器也是用QQ浏览器修改来的。 
+oneday功能对我来说根本用不上，那里就一个oneday功能太浪费了 
+在需要添加到主屏幕图标的时候添加不上，比如浏览器把某个链接放主屏幕上，然而看不到。希望什么时候能够fix掉。 
+自带有权限管理功能。然而在nexus7中禁用掉位置获取后真的获取不到了，而一加2里面设置禁用获取位置后竟然随便哪个应用还能获取到详细的位置信息。 &lt;/p&gt;
+&lt;h3&gt;其他&lt;/h3&gt;
+&lt;p&gt;本来想说为了安全点新手机就不想root了，然而现在发现android机子不root真的不能用。自带的权限管理漏权限什么的不说了。习惯了屏蔽广告，现在不root还都屏蔽不了。绿色守护也需要root权限才能用；&lt;/p&gt;
+&lt;p&gt;最烦的是某些app有广告，而且还是把广告下载到sd卡中再显示出来的。这样每次打开相册都能看到一大坨的广告。。。。原本root后可以直接设置文件夹的权限或者hosts直接屏蔽掉广告服务器之类的。没root就什么都做不了。真要解决还只能自己逆向app去把广告去掉了。「财大气粗的国企还搞这种东西。真恶心」&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="手机"></category></entry><entry><title>树莓派系统再挂一次</title><link href="https://www.chinuno.com/blog/pi" rel="alternate"></link><published>2015-11-16T23:50:16+08:00</published><updated>2015-11-16T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-11-16:/blog/pi</id><content type="html">&lt;p&gt;前几天日常滚树莓派上的系统，然后滚完想要重启一下
+结果提示没有sudo了。。
+然后想要切换到root来重启又提示没有su。
+再后来发现任何用户都无法ssh到pi上面去了&lt;/p&gt;
+&lt;p&gt;接上电视和键盘发现在本地登录只要一输入用户名就直接用户incorrect了。
+最先想到的是SD卡挂了。用fsck检查后发现似乎没什么问题。清除用户密码改了改权限文件，然而问题依旧。想要chroot到树莓派的系统上操作时才发现cpu架构不同还无法chroot、&lt;/p&gt;
+&lt;p&gt;最终只能备份数据后重做系统了。&lt;/p&gt;
+&lt;p&gt;原来还以为下个img写到卡里调一调大小就行了，然而才发现现在archlinux arm不提供img了，只能自己做文件系统、&lt;/p&gt;
+&lt;p&gt;没办法。经过一通麻烦的设置才终于把系统做好成功开机。然后又是慢慢对系统进行调整了。。&lt;/p&gt;
+&lt;p&gt;事后想想。应该是因为从来没有去合并pacnew才导致这样一滚就挂的情况。。不过新系统也好，干净。把目前用到的包装上去就行。&lt;/p&gt;
+&lt;p&gt;话说树莓派不做硬件的话还有什么应用嘛希望有人讨论一下，因为现在树莓派就只拿来签到用了。。感觉有点浪费&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="树莓派"></category></entry><entry><title>各种签到</title><link href="https://www.chinuno.com/blog/sign" rel="alternate"></link><published>2015-09-02T23:50:16+08:00</published><updated>2015-09-02T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-09-02:/blog/sign</id><content type="html">&lt;p&gt;昨天的事情。今天来写了&lt;/p&gt;
+&lt;h3&gt;TX的签到&lt;/h3&gt;
+&lt;p&gt;才研究出来的改QQ签到地址的方法昨天被TX给封了  &lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/chinuno-usami/biuflower"&gt;遗体在此&lt;/a&gt;，难得都更新到1.2.3版本了&lt;/p&gt;
+&lt;h3&gt;贴吧签到&lt;/h3&gt;
+&lt;p&gt;然后昨天做的是用python写了个贴吧签到的脚本。因为无名或者kk的签到有个前端，还需要数据库。一个自己的签到只有自己要用也不需要前端跟数据库，而且跑在树莓派上，开了mysql整个系统资源占用简直吓尿。&lt;br&gt;
+参考了kk的php源码搞了&lt;a href="https://github.com/chinuno-usami/YATS"&gt;这个&lt;/a&gt;出来。  &lt;/p&gt;
+&lt;p&gt;其中也是遇到一些问题。签到纯英文名的贴吧是可以成功的，而带有中文的贴吧则会出错。原本以为是汉字的编码问题，把编码换了个遍就是一个样。后来试了半天无意中才试对。  &lt;/p&gt;
+&lt;p&gt;原来sign签名他的生成规则是前面一大堆的参数数据接起来后+客户端后缀再算md5，最后把参数加上sign验证字符串使用gbk的url编码作为数据body。而我是用kw「贴吧名用gbk的url编码」下去算md5的，因为英文urlencode后还是自己，所以中文会出错而英文阴差阳错也没问题。  &lt;/p&gt;
+&lt;p&gt;特别值得注意的是因为用的python2所以默认编码是ascii不是unicode，无法直接用中文贴吧名的unicode去使用，还需要添加下面这三行才行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="nb"&gt;reload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setdefaultencoding&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gbk&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;github&lt;/h3&gt;
+&lt;p&gt;然后发现自己这星期的Contributions比之前的总和还多  &lt;/p&gt;
+&lt;p&gt;以前玩玩而已玩够就删的那些也没能有多少Contributions&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="签到"></category></entry><entry><title>还是近况</title><link href="https://www.chinuno.com/blog/lisp" rel="alternate"></link><published>2015-08-28T23:50:16+08:00</published><updated>2015-08-28T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-08-28:/blog/lisp</id><summary type="html">&lt;p&gt;今天终于不是关于路由器的话题了。&lt;/p&gt;
+&lt;p&gt;再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已&lt;/p&gt;
+&lt;h3&gt;lisp&lt;/h3&gt;
+&lt;p&gt;突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。
+直接在命令行中输入的话是没有问题的，而保存为文件后载入的话汉字就会乱码，按照一个直接一个字节来表示的。然后据说slime很好用，所以有特地搞了个emacs想来试试看。然而配置各种混乱，也搞不好。以前就已经有试过用了一次emacs，就已经玩不来了。果然还是vim才是真爱 &lt;/p&gt;
+&lt;h3&gt;Github&lt;/h3&gt;
+&lt;p&gt;前不久typcn研究出了个抓包修改签到地点的方法【怎么这么闲能搞到那种东西上面去。。然后自己也就写了个python程序来实现了一下。后来想着还是开源丢github上面去吧。&lt;/p&gt;
+&lt;p&gt;正好想到试试看github的那个windows客户端，然后就去下载了&lt;/p&gt;
+&lt;p&gt;然后傻逼了，下载地址在亚马逊s3服务器上，作为一个常年被GFW关照的地方不出意外的就是下载不下来。好不容易下载下来了。又不出意外的只是个下载程序，还要下载其他的数据，然后还是s3服务器还是下载不下来的东西。&lt;/p&gt;
+&lt;p&gt;这些不说了，只是想说一下制定规则的人都是sb么，该墙的地方好好墙没事，乱七八糟的东西全tm墙掉还想要发展发展nmb啊。&lt;/p&gt;
+&lt;p&gt;windows客户端其实还是蛮好看的，功能也够用【嗯，只是够用&lt;/p&gt;
+&lt;p&gt;基本的操作都可以轻松完成，然而大部分的操作还是需要git shell来搞定。比如说要使用releases功能需要打tag，而windows客户端没有打tag的功能，只能开git shell输命令&lt;code&gt;git tag -a …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;今天终于不是关于路由器的话题了。&lt;/p&gt;
+&lt;p&gt;再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已&lt;/p&gt;
+&lt;h3&gt;lisp&lt;/h3&gt;
+&lt;p&gt;突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。
+直接在命令行中输入的话是没有问题的，而保存为文件后载入的话汉字就会乱码，按照一个直接一个字节来表示的。然后据说slime很好用，所以有特地搞了个emacs想来试试看。然而配置各种混乱，也搞不好。以前就已经有试过用了一次emacs，就已经玩不来了。果然还是vim才是真爱 &lt;/p&gt;
+&lt;h3&gt;Github&lt;/h3&gt;
+&lt;p&gt;前不久typcn研究出了个抓包修改签到地点的方法【怎么这么闲能搞到那种东西上面去。。然后自己也就写了个python程序来实现了一下。后来想着还是开源丢github上面去吧。&lt;/p&gt;
+&lt;p&gt;正好想到试试看github的那个windows客户端，然后就去下载了&lt;/p&gt;
+&lt;p&gt;然后傻逼了，下载地址在亚马逊s3服务器上，作为一个常年被GFW关照的地方不出意外的就是下载不下来。好不容易下载下来了。又不出意外的只是个下载程序，还要下载其他的数据，然后还是s3服务器还是下载不下来的东西。&lt;/p&gt;
+&lt;p&gt;这些不说了，只是想说一下制定规则的人都是sb么，该墙的地方好好墙没事，乱七八糟的东西全tm墙掉还想要发展发展nmb啊。&lt;/p&gt;
+&lt;p&gt;windows客户端其实还是蛮好看的，功能也够用【嗯，只是够用&lt;/p&gt;
+&lt;p&gt;基本的操作都可以轻松完成，然而大部分的操作还是需要git shell来搞定。比如说要使用releases功能需要打tag，而windows客户端没有打tag的功能，只能开git shell输命令&lt;code&gt;git tag -a 'blabla' -m 'blabla'&lt;/code&gt;来搞定。然后push的时候又来了，tag是不会被提交上去的，这时候又只能git shell来进行提交操作了【这样说来你客户端到底做了什么。。。&lt;/p&gt;
+&lt;p&gt;原来也一直没用过releases功能，现在试了一下，但是感觉也是蛋疼。第一次上传时总是提示不支持的格式，后来无意中点到下载源码的按钮才发现它源码包的命名跟我要上传的一模一样。。改了个名字已经可以上传了（看到了进度条&lt;/p&gt;
+&lt;p&gt;然而等了半天进度条就是没动。。又过了一会儿他竟然从头开始了！！&lt;/p&gt;
+&lt;p&gt;没办法只能代理上传上去了，传完之后看了看下载地址！&lt;/p&gt;
+&lt;p&gt;又是他喵的亚马逊s3服务器！难怪每次从releases页面下载的时候总觉得下载不下来。&lt;/p&gt;
+&lt;h3&gt;CDN&lt;/h3&gt;
+&lt;p&gt;最后说个有关这里的事情吧。&lt;/p&gt;
+&lt;p&gt;这几天要开这里的时候发现总是载不出来,而直接从ip开的话则基本上秒开！&lt;/p&gt;
+&lt;p&gt;看了看CDN的统计页面则发现基本上没有流量过去！【节省带宽1kbps,节省流量0.25mb】呵呵。。其实上个月看了一次就发现没有流量走那边了&lt;/p&gt;
+&lt;p&gt;然后nslookup看了看自己的域名，解析到美国去了，我记得之前给的应该是香港的ip才对，又到cdn提供商设置页面看了看。他把我换到AWS去了！他喵难怪就是打不开！呵呵真尼玛神坑&lt;/p&gt;
+&lt;p&gt;还有一个不知道是不是360的公共CDN炸了，直接ip开也会一直卡在请求360那边的资源上，同时还看到了CF的CDN资源也获取不到，不知道是不是也被墙了。&lt;/p&gt;
+&lt;p&gt;哎。活的心累&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="lisp"></category><category term="cdn"></category><category term="github"></category></entry><entry><title>路由器桥接</title><link href="https://www.chinuno.com/blog/bridging" rel="alternate"></link><published>2015-08-21T23:50:16+08:00</published><updated>2015-08-21T23:50:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-08-21:/blog/bridging</id><content type="html">&lt;p&gt;今天依然是折腾路由器。&lt;/p&gt;
+&lt;p&gt;家里的网络情况大概是这样&lt;/p&gt;
+&lt;p&gt;第一个路由器拨号上网下接树莓派客厅的电视和一台电脑，平时在客厅也用这个路由器的wifi。&lt;/p&gt;
+&lt;p&gt;第二个路由器接到第一个路由器下面房间里面用，接两台电脑和房间范围的wifi使用。&lt;/p&gt;
+&lt;p&gt;这样就把家里的设备分为两部分了，房间路由器下面的相当于一个子网。&lt;/p&gt;
+&lt;p&gt;之前几篇文章也都是设置这个路由器方便房间里面的设备使用&lt;/p&gt;
+&lt;p&gt;但是这样跟客厅设备的连接就比较有问题了，只能从房间连接到第一层的设备，而第一层连进来则需要第二层路由器设置端口映射，而且外部进来的连接防火墙规则又不一样，关掉又不安全，监听地址也是个问题。最后还是打算砍掉原来设置的功能，用桥接方式连接两个网路把他们放到一起。&lt;/p&gt;
+&lt;p&gt;于是下午就各种修改设置，算是成功设置好了桥接模式也能正常上网了。&lt;/p&gt;
+&lt;p&gt;然而晚上求生对抗时却出问题了，查看log看到他数据都发往一个本地ip「实际并不存在&lt;/p&gt;
+&lt;p&gt;再测试连接其他游戏，也是一样的情况「同样是不存在的本地ip，却不是同一个&lt;/p&gt;
+&lt;p&gt;查看了路由表也并没发现什么异常，甚至还拔了网线直接接到第一个路由器上，然而还是这样，而原本接第一个路由器的电脑则没有问题&lt;/p&gt;
+&lt;p&gt;这问题一直都没能解决，看来这是要戒游戏啦&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="路由器"></category><category term="openwrt"></category><category term="桥接"></category></entry><entry><title>路由器去广告</title><link href="https://www.chinuno.com/blog/adbyby" rel="alternate"></link><published>2015-07-28T00:24:06+08:00</published><updated>2015-07-28T00:24:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-07-28:/blog/adbyby</id><summary type="html">&lt;p&gt;今天依然是折腾路由器。&lt;/p&gt;
+&lt;h3&gt;均衡负载&lt;/h3&gt;
+&lt;p&gt;刷了openwrt就想试试其他的东西&lt;/p&gt;
+&lt;p&gt;周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。&lt;/p&gt;
+&lt;p&gt;安装方式可以参考&lt;a href="http://wiki.openwrt.org/doc/howto/mwan3"&gt;http://wiki.openwrt.org/doc/howto/mwan3&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;本身也可以用opkg直接安装了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;opkg install mwan3
+opkg install luci-app-mwan3
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;通过luci设置一个客户端模式无线连接隔壁wifi加入wan。同时还能开热点给自己的设备用，这点是有点惊喜的。本来还以为连接隔壁wifi后自己就没有热点可以用了。&lt;/p&gt;
+&lt;p&gt;配置一下接口，在ntework设置一下两个外网端口，都启用起来，这时不出意外的话就能在mwan3的luci界面看到两个接口都是绿色的，表示都在使用了。&lt;/p&gt;
+&lt;p&gt;打开网页查询ip,是隔壁的线路。traceroute一下，也有从自己的线路出去。&lt;/p&gt;
+&lt;p&gt;测试从度盘下载的时候发现速度特别慢。估计是因为度盘有验证ip的关系，没法两条线路都用上。&lt;/p&gt;
+&lt;p&gt;随后用aria2开多个线程下载其他文件测速，确实已经有所叠加。然而隔壁网速最高也才600kb/s。&lt;/p&gt;
+&lt;h3&gt;adbyby去广告&lt;/h3&gt;
+&lt;p&gt;在上面这些东西都折腾完后已经没有任何空间可以使用了。「其实应该还是有一些可以用的吧，要调整可用分区大小还是要重新编译固件&lt;/p&gt;
+&lt;p&gt;mwan3也是在很勉强的情况下才装下去的。&lt;/p&gt;
+&lt;p&gt;于是最后决定不用mwan3做均衡负载了，反正没卵用，而且也比较危险 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;今天依然是折腾路由器。&lt;/p&gt;
+&lt;h3&gt;均衡负载&lt;/h3&gt;
+&lt;p&gt;刷了openwrt就想试试其他的东西&lt;/p&gt;
+&lt;p&gt;周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。&lt;/p&gt;
+&lt;p&gt;安装方式可以参考&lt;a href="http://wiki.openwrt.org/doc/howto/mwan3"&gt;http://wiki.openwrt.org/doc/howto/mwan3&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;本身也可以用opkg直接安装了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;opkg install mwan3
+opkg install luci-app-mwan3
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;通过luci设置一个客户端模式无线连接隔壁wifi加入wan。同时还能开热点给自己的设备用，这点是有点惊喜的。本来还以为连接隔壁wifi后自己就没有热点可以用了。&lt;/p&gt;
+&lt;p&gt;配置一下接口，在ntework设置一下两个外网端口，都启用起来，这时不出意外的话就能在mwan3的luci界面看到两个接口都是绿色的，表示都在使用了。&lt;/p&gt;
+&lt;p&gt;打开网页查询ip,是隔壁的线路。traceroute一下，也有从自己的线路出去。&lt;/p&gt;
+&lt;p&gt;测试从度盘下载的时候发现速度特别慢。估计是因为度盘有验证ip的关系，没法两条线路都用上。&lt;/p&gt;
+&lt;p&gt;随后用aria2开多个线程下载其他文件测速，确实已经有所叠加。然而隔壁网速最高也才600kb/s。&lt;/p&gt;
+&lt;h3&gt;adbyby去广告&lt;/h3&gt;
+&lt;p&gt;在上面这些东西都折腾完后已经没有任何空间可以使用了。「其实应该还是有一些可以用的吧，要调整可用分区大小还是要重新编译固件&lt;/p&gt;
+&lt;p&gt;mwan3也是在很勉强的情况下才装下去的。&lt;/p&gt;
+&lt;p&gt;于是最后决定不用mwan3做均衡负载了，反正没卵用，而且也比较危险。&lt;/p&gt;
+&lt;p&gt;这次直接恢复设置，连中文的luci界面也不装了，就加个dnscrypt。然后再加个adbyby来去广告。&lt;a href="http://www.adbyby.com/"&gt;官网在这&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;可执行文件解压出来后已经有1.4M了。路由器还是塞不下。最后决定丢tmpfs上,而内存也还有好大一部分可以使用。&lt;/p&gt;
+&lt;p&gt;经过直接下载运行后感觉效果还行，广告去的特别干净。然而感觉有点卡网。也不知道是不是因为路由器性能的关系「然而看cpu使用率也并不高。&lt;/p&gt;
+&lt;p&gt;这时候发现一个神奇的问题。查看进程会发现生出了好多adbyby的进程。然后adbyby只要一后台运行，过一段时间后就会自己蹦掉。。&lt;/p&gt;
+&lt;p&gt;不过每次开机都要手动下载配置运行adbyby实在是不现实，于是。没错，，又到了神奇的树莓派上场的时间了。把adbyby包放到树莓派上，然后开机自动获取运行。其实是有想过使用nfs的，然而树莓派上面的nfs服务器运行的时候总是有问题，所以只能这样解决了。&lt;/p&gt;
+&lt;p&gt;添加开机脚本&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir /tmp/adbyby
+wget -P /tmp/adbyby &lt;span class="m"&gt;192&lt;/span&gt;.168.1.104/openwrt.tar.gz
+tar zxvf /tmp/adbyby/openwrt.tar.gz -C /tmp/adbyby/
+chmod &lt;span class="m"&gt;777&lt;/span&gt; /tmp/adbyby/bin/adbyby
+/tmp/adbyby/bin/adbyby &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;开机后自动获取执行。亲测，效果拔群。而且也没有出现adbyby进程暴增的问题，也不会自己蹦掉啦。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;8月-15更新。因为发现懒得修改而直接在评论里面更新实在不是一个好习惯，所以把原来评论里的更新都更新到正文里面来了&lt;/p&gt;
+&lt;p&gt;好了。我来自己打脸了。「而且也没有出现adbyby进程暴增的问题，也不会自己蹦掉啦。」这句是电脑的特技！因为开机脚本没有设置透明代理所以一直都没有流量走过滤..&lt;/p&gt;
+&lt;p&gt;于是正常运行的时候那些问题又来了，过没多久就会自己崩掉，似乎有看到段错误的样子。没办法，只好自己写个守护程序在每次蹦掉的时候启动了。&lt;/p&gt;
+&lt;p&gt;开机脚本加了这两条&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;iptables -t nat -A PREROUTING -p tcp --dport &lt;span class="m"&gt;80&lt;/span&gt; -j REDIRECT --to-ports &lt;span class="m"&gt;8118&lt;/span&gt;
+/root/b.sh &amp;gt; /dev/null &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;第一条设置透明代理&lt;/p&gt;
+&lt;p&gt;第二条运行守护程序&lt;/p&gt;
+&lt;p&gt;守护程序的内容如下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#! /bin/ash&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="k"&gt;do&lt;/span&gt;
+sleep &lt;span class="m"&gt;5&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="sb"&gt;`&lt;/span&gt;ps&lt;span class="p"&gt;|&lt;/span&gt;grep adbyby&lt;span class="p"&gt;|&lt;/span&gt;wc -l&lt;span class="sb"&gt;`&lt;/span&gt; -gt &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;normal&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bad&amp;quot;&lt;/span&gt;
+/tmp/adbyby/bin/adbyby &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;每5s检查adbyby进程数，没有的话就自动运行。&lt;/p&gt;
+&lt;p&gt;以上&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="路由器"></category><category term="openwrt"></category><category term="adbyby"></category><category term="mwan3"></category></entry><entry><title>DNSCrypt解决污染问题</title><link href="https://www.chinuno.com/blog/openwrt" rel="alternate"></link><published>2015-07-26T18:23:16+08:00</published><updated>2015-07-26T18:23:16+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-07-26:/blog/openwrt</id><summary type="html">&lt;p&gt;之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。&lt;/p&gt;
+&lt;p&gt;然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。&lt;/p&gt;
+&lt;p&gt;首先还是先去官网下载对应的openwrt固件。这sb路由器的型号是TP-Link TL-WR841ND v7，相关信息可以在这里看到&lt;a href="http://wiki.openwrt.org/toh/tp-link/tl-wr841nd"&gt;http://wiki.openwrt.org/toh/tp-link/tl-wr841nd&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir openwrt
+&lt;span class="nb"&gt;cd&lt;/span&gt; openwrt
+aria2c http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;新建文件夹，以后要用到的东西就都丢这里面了。
+因为之前已经刷了ddwrt，所以ssh到路由器上用命令刷写固件。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mv openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin openwrt.bin
+scp openwrt.bin root@192.168.2.1 …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。&lt;/p&gt;
+&lt;p&gt;然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。&lt;/p&gt;
+&lt;p&gt;首先还是先去官网下载对应的openwrt固件。这sb路由器的型号是TP-Link TL-WR841ND v7，相关信息可以在这里看到&lt;a href="http://wiki.openwrt.org/toh/tp-link/tl-wr841nd"&gt;http://wiki.openwrt.org/toh/tp-link/tl-wr841nd&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mkdir openwrt
+&lt;span class="nb"&gt;cd&lt;/span&gt; openwrt
+aria2c http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;新建文件夹，以后要用到的东西就都丢这里面了。
+因为之前已经刷了ddwrt，所以ssh到路由器上用命令刷写固件。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mv openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin openwrt.bin
+scp openwrt.bin root@192.168.2.1:/tmp/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;用scp把固件传到路由器上。
+ssh到路由器进行刷机操作&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mtd erase nvram &lt;span class="c1"&gt;#清除nvram&lt;/span&gt;
+mtd -r write /tmp/openwrt.bin linux &lt;span class="c1"&gt;#写入openwrt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;等他重启之后openwrt就写进去了。默认地址是192.168.1.1
+已经集成了luci，可以从网页进行管理。进去之后第一件事还是修改密码
+因为192.168.1.1和上级网关冲突所以先改成192.168.2.1，这个时候因为电脑自动分配到的ip已经跟路由器不在同一个网段里面了，可以&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ifconfig eth0 &lt;span class="m"&gt;192&lt;/span&gt;.168.2.111
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;先设置在一起然后进行下一步操作。
+也可以重新连接，让他再次分配正常使用「这点在linux上面的操作真是太方便了，windows每次重连都糊我一脸&lt;/p&gt;
+&lt;p&gt;luci界面是英文的，如果想改成中文可以这样设置&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;opkg update
+opkg install luci-i18n-chinese
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;之后在system-&amp;gt;system-&amp;gt;language里面修改成中文&lt;/p&gt;
+&lt;p&gt;chinadns可以从&lt;a href="https://github.com/clowwindy/ChinaDNS"&gt;https://github.com/clowwindy/ChinaDNS&lt;/a&gt;获取，也有另外一个专门为openwrt移植的chinadns项目，网上说的大多是用那个。&lt;/p&gt;
+&lt;p&gt;scp到路由器上，然后opkg install安装就行。
+设置运行后感觉还是应该跟ss配合才能用。然后在试图装ss的依赖时发现存储空间不够用。本来剩下的空间也就几百k而已了。要扩展存储空间的话只能
+1. 更换flash，这个还需要编程器写入数据。做不到
+2. wiki上面说支持usb1.1，可以插u盘扩展。但是路由器没有usb接口，需要魔改加上去，实在不想再折腾
+3. TYPCN说的mount一个NFS应该也是个可以的解决方法，正好有树莓派可以开一个nfs服务器。&lt;/p&gt;
+&lt;p&gt;最后还是放弃Chinadns的方案，试试TYPCN说的DNSCrypt。其实原先就用过openDNS的那个客户端，加密传输我觉得应该是不会污染，但是服务器的连接总是特别弹疼，大部分时间都是连不上的。&lt;/p&gt;
+&lt;p&gt;DNSCrypt的HP在这&lt;a href="http://dnscrypt.org/#dnscrypt-routers"&gt;http://dnscrypt.org/#dnscrypt-routers&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;按照&lt;a href="https://github.com/black-roland/exOpenWrt"&gt;README&lt;/a&gt;或者&lt;a href="http://wiki.openwrt.org/inbox/dnscrypt"&gt;openwrt的wiki&lt;/a&gt;来安装设置没什么大问题。&lt;/p&gt;
+&lt;p&gt;获取到的结果确实没污染。然而google之流的还是不能够直接访问。看来还是要靠hosts。然而现在的我依然是靠着之前的hosts列表来正常的上网- =&lt;/p&gt;</content><category term="openwrt"></category><category term="DNSCrypt"></category></entry><entry><title>生命不息 折腾不止</title><link href="https://www.chinuno.com/blog/zsh" rel="alternate"></link><published>2015-07-25T18:34:05+08:00</published><updated>2015-07-25T18:34:05+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-07-25:/blog/zsh</id><summary type="html">&lt;p&gt;一天不折腾点什么就不舒服233&lt;/p&gt;
+&lt;h3&gt;近况&lt;/h3&gt;
+&lt;h4&gt;键盘&lt;/h4&gt;
+&lt;p&gt;先说说近况吧。上星期的灯厂黑寡妇chroma已经到手，其实手感感觉还不错的，没有网上说的辣么烂。左侧多了一排可编程按键，起初觉得没什么，结果一上手就傻逼了，总是习惯性的往左按一排，不过还好过了一晚上就已经熟悉了。这个绿轴感觉对我来说有点重，打了没几张osu!的图就觉得手指有点麻了。
+这里有个开箱视频可以看一看&lt;a href="http://www.bilibili.com/video/av2362440/"&gt;http://www.bilibili.com/video/av2362440/&lt;/a&gt;
+有个比较蛋疼的问题是，没有安装razer的云驱动是无法对led灯进行自定义的。然而安装完云驱动之后还需要在线更新来获取安装键盘的驱动，不知道是哪里的问题，更新的时候总是出现没有连接互联网的错误。最后曲线救国，选择生成竞赛用的离线版之后他会自己从网上下载需要的驱动，然后整合成竞赛用的安装包。这个时候直接从安装包里面提取对应的驱动就行。
+不得不说这个led自定义的功能是非常强大的，可以叠加图层，各种显示效果也很酷炫。自己定义了三个方案，一个码代码用，一个游戏用，一个日常用，用M1按键就能循环替换。不过只有开着那个程序的时候这些设置才能用。。而且自己最常用的环境也是linux，完全用不到。。&lt;/p&gt;
+&lt;h4&gt;放假&lt;/h4&gt;
+&lt;p&gt;嗯。现在这个时候终于放假了，别人都要开学了我们才放假。
+都已经是考研狗了暑假还不申请留校，好像大部分考研的都申请留校去了。不过学校的环境真心待不下去。
+在家里爹娘盯着或许也不会花太多时间在一些奇怪的地方了吧 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;一天不折腾点什么就不舒服233&lt;/p&gt;
+&lt;h3&gt;近况&lt;/h3&gt;
+&lt;h4&gt;键盘&lt;/h4&gt;
+&lt;p&gt;先说说近况吧。上星期的灯厂黑寡妇chroma已经到手，其实手感感觉还不错的，没有网上说的辣么烂。左侧多了一排可编程按键，起初觉得没什么，结果一上手就傻逼了，总是习惯性的往左按一排，不过还好过了一晚上就已经熟悉了。这个绿轴感觉对我来说有点重，打了没几张osu!的图就觉得手指有点麻了。
+这里有个开箱视频可以看一看&lt;a href="http://www.bilibili.com/video/av2362440/"&gt;http://www.bilibili.com/video/av2362440/&lt;/a&gt;
+有个比较蛋疼的问题是，没有安装razer的云驱动是无法对led灯进行自定义的。然而安装完云驱动之后还需要在线更新来获取安装键盘的驱动，不知道是哪里的问题，更新的时候总是出现没有连接互联网的错误。最后曲线救国，选择生成竞赛用的离线版之后他会自己从网上下载需要的驱动，然后整合成竞赛用的安装包。这个时候直接从安装包里面提取对应的驱动就行。
+不得不说这个led自定义的功能是非常强大的，可以叠加图层，各种显示效果也很酷炫。自己定义了三个方案，一个码代码用，一个游戏用，一个日常用，用M1按键就能循环替换。不过只有开着那个程序的时候这些设置才能用。。而且自己最常用的环境也是linux，完全用不到。。&lt;/p&gt;
+&lt;h4&gt;放假&lt;/h4&gt;
+&lt;p&gt;嗯。现在这个时候终于放假了，别人都要开学了我们才放假。
+都已经是考研狗了暑假还不申请留校，好像大部分考研的都申请留校去了。不过学校的环境真心待不下去。
+在家里爹娘盯着或许也不会花太多时间在一些奇怪的地方了吧。&lt;/p&gt;
+&lt;h3&gt;正文&lt;/h3&gt;
+&lt;p&gt;嗯。开始说正文了。今天按照这篇文章&lt;a href="http://www.drbunsen.org/the-text-triumvirate/"&gt;The Text Triumvirate&lt;/a&gt;把默认的shell换成了zsh了，另外还配置了tmux和vim的状态栏，看起来像是这个样子
+&lt;img alt="" src="http://ww4.sinaimg.cn/large/4ec84d23gw1euf8ghyp9rj20mc0djti1.jpg"&gt;
+这个是原来的样子
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1euf8h3ojggj20sg0lcgut.jpg"&gt;
+配置后变这样
+小屏幕真心不能玩分屏。。顶多分两个
+&lt;strong&gt;话说pelican有什么插件可以自动缩放图片的么。。看了看以前的文章发现好多都突破天际了otl&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其实配置按照那篇文章来就没问题了。有个要注意的地方是，如果用的ubuntu，那个默认字体三角形部分是其他字符，终端下面还是建议用等宽的文泉驿微米黑或者正黑&lt;/p&gt;
+&lt;p&gt;以上。&lt;/p&gt;</content><category term="linux"></category><category term="tmux"></category><category term="zsh"></category><category term="vim"></category></entry><entry><title>转用pelican</title><link href="https://www.chinuno.com/blog/pelican" rel="alternate"></link><published>2015-07-19T16:09:00+08:00</published><updated>2015-07-19T16:09:00+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-07-19:/blog/pelican</id><summary type="html">&lt;h3&gt;新地址&lt;/h3&gt;
+&lt;p&gt;买了个VPS，接下来一年的更新都放这上面了
+原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久
+新地址： &lt;a href="http://www.chinuno.ml/" title="Gensokyo"&gt;www.chinuno.ml&lt;/a&gt; &lt;/p&gt;
+&lt;h3&gt;环境搭建&lt;/h3&gt;
+&lt;p&gt;VPS上跑的centos6,搭了个ss查资料用，yum了一个nginx用来显示页面。
+第一次不懂事直接&lt;code&gt;easy_install&lt;/code&gt;了一个vurtualenv，然后直接下载pelican安装。后来才发现系统本身的python版本是2.6的。
+然后是直接下载python2.7的源码自己编译。然而使用&lt;code&gt;easy_install&lt;/code&gt;的时候仍然是2.6版本的。没办法只好再用python2.7重新配置一个了。配置好的python2.7的&lt;code&gt;easy_install&lt;/code&gt;却不能正常使用。一查发现是编译环境少了几个需要的东西，重新装上后再重新编译了一次python2.7。「其实少了好多东西，编译了好几次才完整
+折腾好之后安装完pelican进行配置。pelican的配置文件也是相当的简单易懂，根据自己的主题进行一些修改后就没什么大问题了，相比之下hexo要复杂不少。&lt;/p&gt;
+&lt;h3&gt;迁移&lt;/h3&gt;
+&lt;p&gt;pelican可以使用markdown进行写作，于是把原先用于hexo的markdown文件都搬过来了，然后才发现两个的元数据格式不一样，于是用sed修改了一下。&lt;/p&gt;
+&lt;h3&gt;部署&lt;/h3&gt;
+&lt;p&gt;pelican使用makefile来进行部署，速度非常快 …&lt;/p&gt;</summary><content type="html">&lt;h3&gt;新地址&lt;/h3&gt;
+&lt;p&gt;买了个VPS，接下来一年的更新都放这上面了
+原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久
+新地址： &lt;a href="http://www.chinuno.ml/" title="Gensokyo"&gt;www.chinuno.ml&lt;/a&gt; &lt;/p&gt;
+&lt;h3&gt;环境搭建&lt;/h3&gt;
+&lt;p&gt;VPS上跑的centos6,搭了个ss查资料用，yum了一个nginx用来显示页面。
+第一次不懂事直接&lt;code&gt;easy_install&lt;/code&gt;了一个vurtualenv，然后直接下载pelican安装。后来才发现系统本身的python版本是2.6的。
+然后是直接下载python2.7的源码自己编译。然而使用&lt;code&gt;easy_install&lt;/code&gt;的时候仍然是2.6版本的。没办法只好再用python2.7重新配置一个了。配置好的python2.7的&lt;code&gt;easy_install&lt;/code&gt;却不能正常使用。一查发现是编译环境少了几个需要的东西，重新装上后再重新编译了一次python2.7。「其实少了好多东西，编译了好几次才完整
+折腾好之后安装完pelican进行配置。pelican的配置文件也是相当的简单易懂，根据自己的主题进行一些修改后就没什么大问题了，相比之下hexo要复杂不少。&lt;/p&gt;
+&lt;h3&gt;迁移&lt;/h3&gt;
+&lt;p&gt;pelican可以使用markdown进行写作，于是把原先用于hexo的markdown文件都搬过来了，然后才发现两个的元数据格式不一样，于是用sed修改了一下。&lt;/p&gt;
+&lt;h3&gt;部署&lt;/h3&gt;
+&lt;p&gt;pelican使用makefile来进行部署，速度非常快，不知道是不是因为这次不是在树莓派上面的关系，不过效率应该还是比hexo要高上不少的。
+起先直接把nginx的/设置到output目录上去，然后发现403了。目录比较沉，权限问题没法解决。最后修改pelican的output目录直接生成到nginx目录上。
+页面打开的速度非常快，除了有三个google获取的字体拖慢了打开速度。这个问题在添加了CDN加速后已经解决了。&lt;/p&gt;
+&lt;h3&gt;不足&lt;/h3&gt;
+&lt;p&gt;有个比较遗憾的地方是，似乎pelican对markdown的语法支持有点问题？或许是主题的问题？用` `包含起来的文字并没有高亮。像上文的&lt;code&gt;easy_install&lt;/code&gt;。
+或许文章的语法还要重新学了。&lt;/p&gt;</content><category term="pelican"></category><category term="python"></category><category term="centos"></category><category term="vps"></category></entry><entry><title>把hosts塞进路由器</title><link href="https://www.chinuno.com/blog/hosts" rel="alternate"></link><published>2015-07-10T15:05:20+08:00</published><updated>2015-07-10T15:05:20+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-07-10:/blog/hosts</id><summary type="html">&lt;p&gt;把hosts塞进路由器实现那啥的。
+&lt;!--more--&gt;
+路由器型号&lt;code&gt;TP-Link TL-WR841ND v7&lt;/code&gt;，刷的&lt;code&gt;DD-WRT v24-sp2 (06/14/11) std
+(SVN revision 17201)&lt;/code&gt;固件。原来是为了学校上网认证的，现在宿舍换了个路由器这个就留在家里用了。正好ddwrt的操作自由度也比较高方便做这件事。&lt;/p&gt;
+&lt;h3&gt;0x01&lt;/h3&gt;
+&lt;p&gt;思路是把hosts文件放到路由器的jffs上，然后修改dnsmasq的配置文件从Hosts中解析。
+首先还是应该去找一份hosts列表，这个一抓一大把没什么问题。&lt;/p&gt;
+&lt;h3&gt;0x02&lt;/h3&gt;
+&lt;p&gt;第二步该把hosts文件传到路由器了，首先用的SFTP试着上传，不过路由器似乎没有开启SFTP的功能，到官方wiki上查了一下，确实是没有sftp，wiki表示应该用scp。使用scp传到&lt;code&gt;/jffs&lt;/code&gt;，然而提示&lt;code&gt;read only system&lt;/code&gt;。于是又去查wiki，原来现在用的这个固件把jffs给去掉了。。想要用jffs只能写其他固件。&lt;/p&gt;
+&lt;h3&gt;0x03&lt;/h3&gt;
+&lt;p&gt;不过很快又有新的思路了，开机的时候从树莓派中获取hosts，然后再来进行操作。于是添加开机命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget -P /tmp/root http …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;把hosts塞进路由器实现那啥的。
+&lt;!--more--&gt;
+路由器型号&lt;code&gt;TP-Link TL-WR841ND v7&lt;/code&gt;，刷的&lt;code&gt;DD-WRT v24-sp2 (06/14/11) std
+(SVN revision 17201)&lt;/code&gt;固件。原来是为了学校上网认证的，现在宿舍换了个路由器这个就留在家里用了。正好ddwrt的操作自由度也比较高方便做这件事。&lt;/p&gt;
+&lt;h3&gt;0x01&lt;/h3&gt;
+&lt;p&gt;思路是把hosts文件放到路由器的jffs上，然后修改dnsmasq的配置文件从Hosts中解析。
+首先还是应该去找一份hosts列表，这个一抓一大把没什么问题。&lt;/p&gt;
+&lt;h3&gt;0x02&lt;/h3&gt;
+&lt;p&gt;第二步该把hosts文件传到路由器了，首先用的SFTP试着上传，不过路由器似乎没有开启SFTP的功能，到官方wiki上查了一下，确实是没有sftp，wiki表示应该用scp。使用scp传到&lt;code&gt;/jffs&lt;/code&gt;，然而提示&lt;code&gt;read only system&lt;/code&gt;。于是又去查wiki，原来现在用的这个固件把jffs给去掉了。。想要用jffs只能写其他固件。&lt;/p&gt;
+&lt;h3&gt;0x03&lt;/h3&gt;
+&lt;p&gt;不过很快又有新的思路了，开机的时候从树莓派中获取hosts，然后再来进行操作。于是添加开机命令&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wget -P /tmp/root http://192.168.1.104/hosts.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;从树莓派中获取hosts.txt放到&lt;code&gt;/tmp/root&lt;/code&gt;中再进行下一步操作，这样就避免了jffs不能使用的问题，而且更新hosts的时候只要更新树莓派上的文件即可。&lt;/p&gt;
+&lt;h3&gt;0x04&lt;/h3&gt;
+&lt;p&gt;在web管理页面中添加dnsmasq设置选项&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;addn&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hosts&lt;/span&gt;&lt;span class="o"&gt;=/&lt;/span&gt;&lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;hosts&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样就能从&lt;code&gt;/tmp/root/hosts.txt&lt;/code&gt;进行解析了&lt;/p&gt;
+&lt;h3&gt;0x05&lt;/h3&gt;
+&lt;p&gt;重启后进行测试，nslookup后发现返回的ip仍然是被污染过的
+查了好久才发现，原来是hosts.txt的编码问题，修改完后再次nslookup查看已经没有问题了
+再打开twitter，已经可以直接打开啦(&amp;gt;_&amp;lt;)&lt;/p&gt;</content><category term="路由器"></category><category term="hosts"></category><category term="dnsmasq"></category></entry><entry><title>用树莓派进行广播FM以及SSH登录设置</title><link href="https://www.chinuno.com/blog/pifm" rel="alternate"></link><published>2015-06-28T01:15:23+08:00</published><updated>2015-06-28T01:15:23+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-06-28:/blog/pifm</id><summary type="html">&lt;p&gt;因为有两个内容想要写的，都是而且都不长所以都放在同一篇里面吧。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;树莓派广播FM&lt;/h3&gt;
+&lt;p&gt;刚玩了下用树莓派广播FM。用的是&lt;a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter"&gt;PiFm&lt;/a&gt;.
+可以点这里&lt;a href="http://omattos.com/pifm.tar.gz"&gt;进行&lt;/a&gt;下载（我好像下载的是旧版的。不过可以用就是了，估计没有立体声或者什么的这些特性&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tar -zxvf pifm.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;解压到任意位置。目录中有.c源文件，编译好的二进制文件，测试用的那个星战的wav音乐，还有python脚本。
+python里面的使用方法是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;PiFm&lt;/span&gt;
+&lt;span class="n"&gt;PiFm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;play_sound&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sound.wav&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其实打开PiFm查看里面的代码也就是运行了编译好的二进制文件而已，或许是为了python里面调用方便所以才做成一个模块的吧。&lt;/p&gt;
+&lt;p&gt;另一种使用方法是直接开pifm.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo ./pifm sound.wav &lt;span class="m"&gt;100&lt;/span&gt;.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;因为查看源码的话会发现需要mmap直接操作/dev/mem所以需要root权限。
+然而从入手树莓派到现在这几年一直都用Archlinux就只用root用户的我似乎并不知道什么是sudo
+顺便说个悲伤的事情吧，树莓派上用Archlinux的人似乎并不多，关于树莓派的东西大多数人（99%）都是用官方那个系统吧，所以在其他发行版问题就多了，还没地方问 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;因为有两个内容想要写的，都是而且都不长所以都放在同一篇里面吧。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;树莓派广播FM&lt;/h3&gt;
+&lt;p&gt;刚玩了下用树莓派广播FM。用的是&lt;a href="http://www.icrobotics.co.uk/wiki/index.php/Turning_the_Raspberry_Pi_Into_an_FM_Transmitter"&gt;PiFm&lt;/a&gt;.
+可以点这里&lt;a href="http://omattos.com/pifm.tar.gz"&gt;进行&lt;/a&gt;下载（我好像下载的是旧版的。不过可以用就是了，估计没有立体声或者什么的这些特性&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;tar -zxvf pifm.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;解压到任意位置。目录中有.c源文件，编译好的二进制文件，测试用的那个星战的wav音乐，还有python脚本。
+python里面的使用方法是&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;PiFm&lt;/span&gt;
+&lt;span class="n"&gt;PiFm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;play_sound&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;sound.wav&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其实打开PiFm查看里面的代码也就是运行了编译好的二进制文件而已，或许是为了python里面调用方便所以才做成一个模块的吧。&lt;/p&gt;
+&lt;p&gt;另一种使用方法是直接开pifm.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo ./pifm sound.wav &lt;span class="m"&gt;100&lt;/span&gt;.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;因为查看源码的话会发现需要mmap直接操作/dev/mem所以需要root权限。
+然而从入手树莓派到现在这几年一直都用Archlinux就只用root用户的我似乎并不知道什么是sudo
+顺便说个悲伤的事情吧，树莓派上用Archlinux的人似乎并不多，关于树莓派的东西大多数人（99%）都是用官方那个系统吧，所以在其他发行版问题就多了，还没地方问。像之前搞摄像头的时候就遇到raspistill死活都不能正常运行的情况。google了一番才知道是Archlinux本身的问题，之前还有几个解决方案后来似乎成了遗留问题一直没能解决了？
+参数1是要进行广播的声音文件,留空静音？设置为-表示接收stdin的数据，用于管道传入数据，参数2是广播的频率，可以从1Mhz到250Mhz,可选参数，默认是103.3。参数3是声音文件的采样率,默认22500hz。&lt;/p&gt;
+&lt;p&gt;自己试了一下，默认103.3Mhz的频率信号比较弱，距离稍微近点也听不大清楚，而且似乎干扰很严重，后来设置成90Mhz之后就算保持一段距离也能够清楚的听清广播的内容:P网上有人说频率是30的倍数信号都特别强，因为普通收音机只能接收大约88 Mhz~108 Mhz的频率所以其他频率我也不能验证，不过从90Mhz的情况来看确实是这样，还是在没有加天线的情况下。&lt;/p&gt;
+&lt;p&gt;其他的一些使用方式&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo ./pifm left_right.wav &lt;span class="m"&gt;103&lt;/span&gt;.3 &lt;span class="m"&gt;22050&lt;/span&gt; stereo
+
+&lt;span class="c1"&gt;# Example command lines&lt;/span&gt;
+&lt;span class="c1"&gt;# play an MP3&lt;/span&gt;
+ffmpeg -i input.mp3 -f s16le -ar &lt;span class="m"&gt;22&lt;/span&gt;.05k -ac &lt;span class="m"&gt;1&lt;/span&gt; - &lt;span class="p"&gt;|&lt;/span&gt; sudo ./pifm -
+
+&lt;span class="c1"&gt;# Broadcast from a usb microphone (see arecord manual page for config)&lt;/span&gt;
+arecord -d0 -c2 -f S16_LE -r &lt;span class="m"&gt;22050&lt;/span&gt; -twav -D copy &lt;span class="p"&gt;|&lt;/span&gt; sudo ./pifm -
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;他大概的一个原理是映射物理内存的外围总线(0x20000000)到虚拟地址的内存空间对外部设备进行操作，启用时钟发生器并设置GPIO4输出.这时后频率设置是100Mhz，收音机原本的噪声会突然变静音，应该是因为树莓派发射的静音信号。然后再把声音数据调制发射出来。按照这原理就算声音文件播放结束之后树莓派仍然还在发射&lt;code&gt;静音&lt;/code&gt;信号，只能重启后清除内存数据才能恢复原样了，否则他就一直射下去..&lt;/p&gt;
+&lt;h3&gt;SSH登录设置&lt;/h3&gt;
+&lt;p&gt;其实之前是设置过的。然后旧电脑升级后系统没了一直也没再去搞。现在觉得每次登录都要输密码太麻烦了就重新设置并记录下来。&lt;/p&gt;
+&lt;p&gt;经常要对树莓派SSH登录进行管理，而且还经常开了好几个连接，博客更新也是通过树莓派，所以打算直接用公私鈅进行登录认证了。&lt;/p&gt;
+&lt;p&gt;常用的电脑一个是sutface pro3跑windows一个是台式机跑ubuntu。先从简单的ubuntu开始吧。&lt;/p&gt;
+&lt;h5&gt;Linux&lt;/h5&gt;
+&lt;p&gt;用ssh-keygen生成公私鈅，位于~/.ssh下面&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cirno@LoveLive:~$ ssh-keygen 
+Generating public/private rsa key pair.
+Enter file in which to save the key &lt;span class="o"&gt;(&lt;/span&gt;/home/cirno/.ssh/id_rsa&lt;span class="o"&gt;)&lt;/span&gt;: 
+Enter passphrase &lt;span class="o"&gt;(&lt;/span&gt;empty &lt;span class="k"&gt;for&lt;/span&gt; no passphrase&lt;span class="o"&gt;)&lt;/span&gt;: 
+Enter same passphrase again: 
+Your identification has been saved in /home/cirno/.ssh/id_rsa.
+Your public key has been saved in /home/cirno/.ssh/id_rsa.pub.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后把公钥id_rsa.pub里面的内容添加到树莓派用户目录下的.ssh/authorized_keys里面就行。
+再次运行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cirno@LoveLive:~/.ssh$ ssh root@192.168.1.104
+Welcome to Arch Linux ARM
+
+     Website: http://archlinuxarm.org
+       Forum: http://archlinuxarm.org/forum
+         IRC: &lt;span class="c1"&gt;#archlinux-arm on irc.Freenode.net&lt;/span&gt;
+
+Last login: Sun Jun &lt;span class="m"&gt;28&lt;/span&gt; &lt;span class="m"&gt;01&lt;/span&gt;:36:41 &lt;span class="m"&gt;2015&lt;/span&gt; from &lt;span class="m"&gt;192&lt;/span&gt;.168.1.107
+&lt;span class="o"&gt;[&lt;/span&gt;root@alarmpi ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;不用密码直接登录了。&lt;/p&gt;
+&lt;h5&gt;Windows&lt;/h5&gt;
+&lt;p&gt;Windows 下面用的putty进行连接（话说windows接下来都要原生支持ssh了到时候是不是就可以抛弃putty了，不过感觉putty本身设置功能就特别强大了估计windows原生ssh可玩性还不高吧）。
+运行puttygen.exe生成公私鈅。指针在空白处移动生成随机内容。生成出来的公鈅保不保存都可以反正可以载入私鈅再生出来。把私鈅保存到找的到的地方，公鈅照样添加到树莓派用户目录下的.ssh/authorized_keys里面。在putty的设置中连接-&amp;gt;SSH-&amp;gt;认证 中添加刚才保存的私鈅，把设置保存到树莓派的会话中就行，打开会话输入用户名就能够自动认证登录进去了。q(≧▽≦q) &lt;/p&gt;</content><category term="树莓派"></category><category term="SSH"></category><category term="FM"></category><category term="putty"></category></entry><entry><title>说说live usb吧</title><link href="https://www.chinuno.com/blog/live-usb" rel="alternate"></link><published>2015-06-27T00:23:05+08:00</published><updated>2015-06-27T00:23:05+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-06-27:/blog/live-usb</id><summary type="html">&lt;p&gt;之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而...
+&lt;!--more--&gt;
+linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。
+目前把linux系统做到u盘里面就这么三种方法
+1. 直接把安装盘镜像写入u盘中，当成live cd使用，读写操作在内存中运行，关机之后数据不保留。
+2. 直接把u盘当成硬盘，把系统装在里面使用，就算重启数据也不会丢失。
+3. 使用ubuntu的启动盘创建器或者lili之类的工具做成live usb,关机之后仍然保留数据。&lt;/p&gt;
+&lt;p&gt;既然要做成随身系统u盘，那第一种方法就不考虑了，关键时候用用还行，比如像前几天对树莓派sd卡做fsck的时候就只能掏出好几年前烧的ubuntu光碟进live cd去做了。&lt;/p&gt;
+&lt;p&gt;之前有试过把openSUSE直接安装到u盘中用，然而开机就等了快20min，好不容易进入系统了却基本上什么都做不了，卡成poi。艰难的开了top看了一下wa,基本上都是在70~90+的范围内，估计就算勉强用下去了，过不了多久这u盘也该报废了（usb2.0的u盘，3.0应该不会有这样的问题吧，不过价格稍微高了些，用来这样烧感觉也是...）&lt;/p&gt;
+&lt;p&gt;第三种做成live usb之前没有试过，原先认为的是，live usb进入系统后系统跟live cd一样是在内存中运行 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而...
+&lt;!--more--&gt;
+linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。
+目前把linux系统做到u盘里面就这么三种方法
+1. 直接把安装盘镜像写入u盘中，当成live cd使用，读写操作在内存中运行，关机之后数据不保留。
+2. 直接把u盘当成硬盘，把系统装在里面使用，就算重启数据也不会丢失。
+3. 使用ubuntu的启动盘创建器或者lili之类的工具做成live usb,关机之后仍然保留数据。&lt;/p&gt;
+&lt;p&gt;既然要做成随身系统u盘，那第一种方法就不考虑了，关键时候用用还行，比如像前几天对树莓派sd卡做fsck的时候就只能掏出好几年前烧的ubuntu光碟进live cd去做了。&lt;/p&gt;
+&lt;p&gt;之前有试过把openSUSE直接安装到u盘中用，然而开机就等了快20min，好不容易进入系统了却基本上什么都做不了，卡成poi。艰难的开了top看了一下wa,基本上都是在70~90+的范围内，估计就算勉强用下去了，过不了多久这u盘也该报废了（usb2.0的u盘，3.0应该不会有这样的问题吧，不过价格稍微高了些，用来这样烧感觉也是...）&lt;/p&gt;
+&lt;p&gt;第三种做成live usb之前没有试过，原先认为的是，live usb进入系统后系统跟live cd一样是在内存中运行，而必要的修改才写入u盘或者关机的时候一起写入。然而事实证明我想多了。&lt;/p&gt;
+&lt;p&gt;下载了个ubuntu14.04LTS来做live usb,用ubuntu 自带的启动盘制作工具来做。创建完毕后直接重启使用。跟live cd一样开始选单就那几样，试用，安装，内存测试...。开机时间也是特别长，我猜我已经知道是什么情况了。等了好长一段时间后进入桌面了。果然还是卡出翔。开了top查看wa。呵呵。70~90+。&lt;/p&gt;
+&lt;p&gt;df查看了下目录挂载情况。除了tmpfs挂在/tmp以外就看到/cow on /。原来live usb是这样的。他创建了个casper-rw文件。查看类型是
+&lt;code&gt;casper-rw: Linux rev 1.0 ext3 filesystem data, UUID=eaf128a8-c26c-4cd8-8f59-5ab3999619ba (needs journal recovery) (large files)&lt;/code&gt;
+系统启动后就挂载在根目录下，这样所有的读写操作都是在这个文件中进行的，相当于wubi一样，天了撸。live usb就是为usb的读写做了点优化，把/tmp放到内存中，挂载的时候加了个noatime不在读文件的时候写入访问时间这样而已。读写都还是在一个文件里面完成的。。起码文件系统也做成ext2的把，ext3的日志更加增加了u盘的写入量。&lt;/p&gt;
+&lt;p&gt;最后想想，这种东西别太在意了。有个live cd急救用就行，电视剧始终是电视剧，在虚拟世界中追求真实感的人脑子一定有问题（阿虚脸）。真要做的话或许可以搞个移动硬盘或者ssd走起（前提还是要有usb3.0接口，否则浪费那些人身就太不值了）。另外随身携带一个树莓派或许是个不错的选择（或许不。树莓派的供电是个问题，况且万一遇到需要查看硬盘的&lt;code&gt;审计情况&lt;/code&gt;呢？）））&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;怎么总觉得总是在这个时间点更新博客呢
+2015年 06月 27日 星期六 01:17:09 CST
+&lt;img alt="doge" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/doge_thumb.gif"&gt;&lt;/p&gt;</content><category term="linux"></category><category term="live usb"></category></entry><entry><title>转用tmux替代screen</title><link href="https://www.chinuno.com/blog/tmux" rel="alternate"></link><published>2015-06-14T00:45:08+08:00</published><updated>2015-06-14T00:45:08+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-06-14:/blog/tmux</id><content type="html">&lt;p&gt;在ssh连接到机器上时经常需要中断连接，但是执行一半的操作还需要继续运行下去。
+原来使用的是screen来解决这个问题，然而screen兼容性不太好，对于一些程序执行会出问题。然后今天换了tmux来做这件事，测试了一下原先在screen上会出问题的程序，一点问题也没有。另外，tmux会在底部显示当前会话当前窗口的信息，界面也很好看，甚至还可分割屏幕放置不同的窗口，切换窗口的方式特别多用起来也方便。已经没必要再使用screen了，目前为止的完美解决方案。嗯。这篇日志就是用来表达我激动的心情而已。&lt;/p&gt;</content><category term="linux"></category><category term="tmux"></category></entry><entry><title>堆栈溢出攻击原理分析</title><link href="https://www.chinuno.com/blog/overflow" rel="alternate"></link><published>2015-06-13T22:03:15+08:00</published><updated>2015-06-13T22:03:15+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-06-13:/blog/overflow</id><summary type="html">&lt;h1&gt;0x01 概述&lt;/h1&gt;
+&lt;p&gt;之前就听说过堆栈溢出攻击，但是一直都没仔细想过其中的原理，也不知道实际该怎么实现，今天花了一下午讨论了一下有了点自己的理解。记录下来。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h1&gt;0x02 分析&lt;/h1&gt;
+&lt;p&gt;堆栈溢出思路是，对于不进行对用户输入数据进行检测的程序，可以把输入数据写到正常存放数据区域的后面，把函数返回地址修改掉，执行自己的代码。
+主要有两种方式。&lt;/p&gt;
+&lt;h3&gt;第一种&lt;/h3&gt;
+&lt;p&gt;内存中栈的结构大概是这样的&lt;/p&gt;
+&lt;p&gt;栈底（高地址）寄存器ebp（64位为rbp）
+......这里是其他数据
+这里是函数返回地址
+......这里是局部变量，数据放在这里
+......这里是其他数据
+栈顶（低地址）寄存器esp（64位为rsp）&lt;/p&gt;
+&lt;p&gt;通过写入超过变量分配内存大小的数据从低地址写到高地址把返回地址修改掉
+然后程序就会执行修改后的地址中的指令&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先查找执行call rsp/esp指令所在的地址记为jmpAddr&lt;/li&gt;
+&lt;li&gt;调试定位返回地址相对于输入数据地址的偏移量&lt;/li&gt;
+&lt;li&gt;编译自定义的程序，提取shellcode&lt;/li&gt;
+&lt;li&gt;用pad+jmpAddr+shellcode的形式输入数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;运行之后应该就执行了shellcode的指令了。
+pad用于填充前面的数据，一直到函数返回地址所在位置。
+继续写入jmpAddr，把跳板地址写入函数返回地址所在位置，这样函数返回将会调用jmpAddr处的指令，即call rsp/esp …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;0x01 概述&lt;/h1&gt;
+&lt;p&gt;之前就听说过堆栈溢出攻击，但是一直都没仔细想过其中的原理，也不知道实际该怎么实现，今天花了一下午讨论了一下有了点自己的理解。记录下来。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h1&gt;0x02 分析&lt;/h1&gt;
+&lt;p&gt;堆栈溢出思路是，对于不进行对用户输入数据进行检测的程序，可以把输入数据写到正常存放数据区域的后面，把函数返回地址修改掉，执行自己的代码。
+主要有两种方式。&lt;/p&gt;
+&lt;h3&gt;第一种&lt;/h3&gt;
+&lt;p&gt;内存中栈的结构大概是这样的&lt;/p&gt;
+&lt;p&gt;栈底（高地址）寄存器ebp（64位为rbp）
+......这里是其他数据
+这里是函数返回地址
+......这里是局部变量，数据放在这里
+......这里是其他数据
+栈顶（低地址）寄存器esp（64位为rsp）&lt;/p&gt;
+&lt;p&gt;通过写入超过变量分配内存大小的数据从低地址写到高地址把返回地址修改掉
+然后程序就会执行修改后的地址中的指令&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先查找执行call rsp/esp指令所在的地址记为jmpAddr&lt;/li&gt;
+&lt;li&gt;调试定位返回地址相对于输入数据地址的偏移量&lt;/li&gt;
+&lt;li&gt;编译自定义的程序，提取shellcode&lt;/li&gt;
+&lt;li&gt;用pad+jmpAddr+shellcode的形式输入数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;运行之后应该就执行了shellcode的指令了。
+pad用于填充前面的数据，一直到函数返回地址所在位置。
+继续写入jmpAddr，把跳板地址写入函数返回地址所在位置，这样函数返回将会调用jmpAddr处的指令，即call rsp/esp。
+接着继续往高地址写入shellcode的内容
+这里要注意的是因为写入数据是一个字节一个字节的往高地址写入，所以应当以小端方式写入地址。
+在函数返回时子程序出栈esp/rsp栈顶应当指向shellcode的位置
+函数返回跳转到jmpAddr执行call esp/rsp，调用esp/rsp处的程序
+此时便进行了调用shellcode的操作。&lt;/p&gt;
+&lt;h3&gt;第二种&lt;/h3&gt;
+&lt;p&gt;windows下的程序在执行过程中遇到错误会调用错误处理程序。
+一样的道理，写入数据的时候把错误处理程序的入口指向执行call ebx的地址，这时ebx基地址寄存器中的地址位于入口地址前4个字节。在四个字节前写入jmp 04跳过入口地址执行紧接其后的shellcode即可。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;更新&lt;/p&gt;
+&lt;p&gt;前面的内存描述应该有个地方说的不太对，frame的栈底应该是在返回函数的位置。上面说的栈顶和栈底不是同一个栈的。当函数返回的时候栈底应当就是前一个栈的栈顶了。&lt;/p&gt;</content><category term="pwn"></category><category term="overflow"></category><category term="堆栈溢出"></category></entry><entry><title>命令行网易云音乐</title><link href="https://www.chinuno.com/blog/netease" rel="alternate"></link><published>2015-05-31T13:28:54+08:00</published><updated>2015-05-31T13:28:54+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-05-31:/blog/netease</id><summary type="html">&lt;p&gt;在家里听音乐用的方案
+&lt;!--more--&gt;
+在家里听作业BGM，电脑开个网易云音乐的网页一个比较占用资源，一个耗电，而且电脑音箱效果也不是很好。所以就想要在客厅用音响播放。&lt;/p&gt;
+&lt;h1&gt;方案&lt;/h1&gt;
+&lt;p&gt;一个解决方案是surface pro3或者手机播放，使用电视投影功能在电视播放，从音响输出，然而这样一来占用网速，而且还要视频编码解码运算量大耗电发热音质还有损失，还要开个电视也不方便，听歌的时候也不能使用电视了。&lt;br&gt;
+所以用另一个方案，利用树莓派运行命令行的网易云音乐客户端，直接输出到音响。这样不用开电脑不用开电视，轻量级的解决方案。&lt;/p&gt;
+&lt;h1&gt;实现&lt;/h1&gt;
+&lt;p&gt;命令行网易云音乐用的&lt;a href="https://github.com/bluetomlee/NetEase-MusicBox"&gt;NetEase-MusicBox&lt;/a&gt;
+因为之前被网易要求删除代码，所以原本的项目已经没了，在pip上面也找不到，不过有人fork了所以还能找到代码。不通过pip获取，直接clone源代码进行安装就行。&lt;br&gt;
+在A岛技术版看到有个串有人也自己用python也实现另一个命令行版本「还没完成的样子」，说是因为目前的客户端并不能提供320kbps的音乐，而且缺少推荐曲目信息。然而github上找的readme中说了支持320kbps的音乐，不知道是被修改过后的版本？  &lt;/p&gt;
+&lt;h1&gt;使用&lt;/h1&gt;
+&lt;p&gt;现在在使用sp3开Putty连到树莓派上就能进行播放控制了，使用screen可以在断开连接之后继续播放，也可以在其他终端继续控制，会方便点。当然不只是sp3可以控制，使用nexus7也可以控制了，android上也有ssh连接的app，连上之后screen -x继续回到客户端控制会话就行。  &lt;/p&gt;
+&lt;h1&gt;本文编辑工具&lt;/h1&gt;
+&lt;p&gt;这篇文章改在linux驱动的台式机上码了，全键盘用起来比sp3舒服点，字也没那么小。用的Cmd …&lt;/p&gt;</summary><content type="html">&lt;p&gt;在家里听音乐用的方案
+&lt;!--more--&gt;
+在家里听作业BGM，电脑开个网易云音乐的网页一个比较占用资源，一个耗电，而且电脑音箱效果也不是很好。所以就想要在客厅用音响播放。&lt;/p&gt;
+&lt;h1&gt;方案&lt;/h1&gt;
+&lt;p&gt;一个解决方案是surface pro3或者手机播放，使用电视投影功能在电视播放，从音响输出，然而这样一来占用网速，而且还要视频编码解码运算量大耗电发热音质还有损失，还要开个电视也不方便，听歌的时候也不能使用电视了。&lt;br&gt;
+所以用另一个方案，利用树莓派运行命令行的网易云音乐客户端，直接输出到音响。这样不用开电脑不用开电视，轻量级的解决方案。&lt;/p&gt;
+&lt;h1&gt;实现&lt;/h1&gt;
+&lt;p&gt;命令行网易云音乐用的&lt;a href="https://github.com/bluetomlee/NetEase-MusicBox"&gt;NetEase-MusicBox&lt;/a&gt;
+因为之前被网易要求删除代码，所以原本的项目已经没了，在pip上面也找不到，不过有人fork了所以还能找到代码。不通过pip获取，直接clone源代码进行安装就行。&lt;br&gt;
+在A岛技术版看到有个串有人也自己用python也实现另一个命令行版本「还没完成的样子」，说是因为目前的客户端并不能提供320kbps的音乐，而且缺少推荐曲目信息。然而github上找的readme中说了支持320kbps的音乐，不知道是被修改过后的版本？  &lt;/p&gt;
+&lt;h1&gt;使用&lt;/h1&gt;
+&lt;p&gt;现在在使用sp3开Putty连到树莓派上就能进行播放控制了，使用screen可以在断开连接之后继续播放，也可以在其他终端继续控制，会方便点。当然不只是sp3可以控制，使用nexus7也可以控制了，android上也有ssh连接的app，连上之后screen -x继续回到客户端控制会话就行。  &lt;/p&gt;
+&lt;h1&gt;本文编辑工具&lt;/h1&gt;
+&lt;p&gt;这篇文章改在linux驱动的台式机上码了，全键盘用起来比sp3舒服点，字也没那么小。用的Cmd Markdown编辑器的linux客户端，然而就只是一个包装好的web app而已并没有什么卵用，连打开本地md文件都不能够。编辑器的语法跟MarkdownPad稍微有点不一样，应该也是支持GFM的，估计hexo也能够支持这种语法。&lt;/p&gt;
+&lt;h1&gt;以上&lt;/h1&gt;</content><category term="python"></category><category term="网易云音乐"></category><category term="命令行"></category><category term="树莓派"></category></entry><entry><title>PIL无法切割图片无法保留alpha信息</title><link href="https://www.chinuno.com/blog/pil" rel="alternate"></link><published>2015-05-23T12:38:40+08:00</published><updated>2015-05-23T12:38:40+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-05-23:/blog/pil</id><summary type="html">&lt;h1&gt;近况&lt;/h1&gt;
+&lt;p&gt;好像很久没有更新的样子了。现在都要准备考研了我想很长一段时间都不怎么会更新这里了&lt;br&gt;
+以上&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;正文&lt;/h1&gt;
+&lt;p&gt;原先是打算把目录下的几张4*4的游戏行走图素材切割成单张图片使用的，所以用了Python写了段程序来切割图片，然而切割出来的图片背景都变成白色了，丢失了alpha信息。于是跟屌泽探讨了一下，稍微在这里记录下吧&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;下面是自己写的代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;image_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pic_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;pic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pic_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;size_sx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="n"&gt;size_sy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="n"&gt;region&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;size_sx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;size_sy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;    [+] spliting &lt;/span&gt;&lt;span class="si"&gt;%i …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;h1&gt;近况&lt;/h1&gt;
+&lt;p&gt;好像很久没有更新的样子了。现在都要准备考研了我想很长一段时间都不怎么会更新这里了&lt;br&gt;
+以上&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1&gt;正文&lt;/h1&gt;
+&lt;p&gt;原先是打算把目录下的几张4*4的游戏行走图素材切割成单张图片使用的，所以用了Python写了段程序来切割图片，然而切割出来的图片背景都变成白色了，丢失了alpha信息。于是跟屌泽探讨了一下，稍微在这里记录下吧&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;下面是自己写的代码&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;image_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pic_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;pic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pic_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;size_sx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="n"&gt;size_sy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="n"&gt;region&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;size_sx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;size_sy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;    [+] spliting &lt;/span&gt;&lt;span class="si"&gt;%i&lt;/span&gt;&lt;span class="s2"&gt; of &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s2"&gt;...&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="n"&gt;img_crop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pic&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;img_crop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;splited&lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;pic_name&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;_&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;%i&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;[done]&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;region&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;size_sy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;size_sx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;size_sy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;region&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;size_sx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;size_sx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;region&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;[+] getting picture files ...&lt;/span&gt;&lt;span class="se"&gt;\t\t&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;file_lst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getcwd&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;[done]&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;file_name&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;file_lst&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;[+] spliting picture &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s2"&gt;...&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;image_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;看起来好像是没什么问题&lt;br&gt;
+然后屌泽自己也写了段代码，说在他那里执行切割出来是带有alpha信息的&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# def test():&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 1  1&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 2  4 8 6 2&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 3  9 7 1 3&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 4  6 4 6 4&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 5  5&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 6  6&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 7  9 3 1 7&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 8  4 2 6 8&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 9  1 9 1 9&lt;/span&gt;
+&lt;span class="c1"&gt;#     # 0  0&lt;/span&gt;
+
+&lt;span class="c1"&gt;#     i = 30&lt;/span&gt;
+&lt;span class="c1"&gt;#     temp = i&lt;/span&gt;
+&lt;span class="c1"&gt;#     for x in xrange(0,i-1):&lt;/span&gt;
+&lt;span class="c1"&gt;#         temp = temp * i&lt;/span&gt;
+&lt;span class="c1"&gt;#         # print temp&lt;/span&gt;
+&lt;span class="c1"&gt;#         print temp%10&lt;/span&gt;
+
+&lt;span class="c1"&gt;# def main():&lt;/span&gt;
+&lt;span class="c1"&gt;#     i = 5&lt;/span&gt;
+&lt;span class="c1"&gt;#     i = i % 10&lt;/span&gt;
+&lt;span class="c1"&gt;#     pass&lt;/span&gt;
+
+&lt;span class="c1"&gt;# if __name__ == &amp;#39;__main__&amp;#39;:&lt;/span&gt;
+&lt;span class="c1"&gt;#     # main()&lt;/span&gt;
+&lt;span class="c1"&gt;#     test()&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="c1"&gt;# import cv2&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;splitImage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;spx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;spy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+
+    &lt;span class="n"&gt;im&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# im = Image&lt;/span&gt;
+
+    &lt;span class="n"&gt;_imageWidth&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_imageHeight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;
+
+    &lt;span class="n"&gt;_eachHeight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_imageHeight&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;spy&lt;/span&gt;
+    &lt;span class="n"&gt;_eachWidth&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_imageWidth&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;spx&lt;/span&gt;
+
+    &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="n"&gt;_left&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="c1"&gt;# order = 0&lt;/span&gt;
+    &lt;span class="c1"&gt;# imagesList = Image[]&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;spx&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;xrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;spy&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;savepath&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;filepath&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.png&amp;quot;&lt;/span&gt;
+            &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crop&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;_left&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_left&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;_eachWidth&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;_eachHeight&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;savepath&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;_eachHeight&lt;/span&gt;
+            &lt;span class="k"&gt;pass&lt;/span&gt;
+        &lt;span class="n"&gt;_top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+        &lt;span class="n"&gt;_left&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;_left&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;_eachWidth&lt;/span&gt;
+
+
+    &lt;span class="c1"&gt;# print im.&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+
+    &lt;span class="n"&gt;args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt;
+
+    &lt;span class="n"&gt;splitImage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其实感觉实现的都一样，自己这里又运行了一下发现仍然没有alpha信息。&lt;br&gt;
+然后屌泽说了可能是pil版本问题&lt;br&gt;
+自己用的是官网上09年最新的1.1.7版本64位编译&lt;br&gt;
+而屌泽说他用的是pycharm内的2.4.0版本&lt;br&gt;
+WTF?!官方不是最新的才1.1.7嘛！&lt;br&gt;
+后来想想可能是原来的页面没有更新，其实PIL还在继续维护&lt;br&gt;
+后来的新版本修复了这个问题&lt;/p&gt;
+&lt;p&gt;直到现在。。又看了看当时的记录，他有一张截图出现的是pillow。一直不知道有pillow这东西，以为就只有pil，于是网上查了下，是一个替代pil的图像处理库，现在也基本上都用pillow来处理图像了。&lt;br&gt;
+从上面的代码也看得出，我用的import Image，而屌泽用的是form PIL import Image&lt;br&gt;
+他一直都是在用pillow，问了一下他他说他以为我说的pil就是pillow。。&lt;br&gt;
+行了现在也知道为什么他的版本会有2.4.0出来了&lt;br&gt;
+看来这问题最终还是pil的问题，而且一直没有更新才出现了pillow这个替代库并解决了这问题&lt;/p&gt;</content><category term="python"></category><category term="pil"></category><category term="图像处理"></category></entry><entry><title>旧电脑升级</title><link href="https://www.chinuno.com/blog/pc-upgrade" rel="alternate"></link><published>2015-04-19T00:03:35+08:00</published><updated>2015-04-19T00:03:35+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-04-19:/blog/pc-upgrade</id><summary type="html">&lt;h1&gt;0x01&lt;/h1&gt;
+&lt;p&gt;家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。&lt;br&gt;
+说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h1&gt;0x02&lt;/h1&gt;
+&lt;p&gt;最后决定是这样的配置了&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU:i5-4590&lt;/li&gt;
+&lt;li&gt;内存:金士顿8G 1600&lt;/li&gt;
+&lt;li&gt;主板：阿苏斯Z97M-PLUS（原来的机箱还他喵竟然是用中板的。。）&lt;/li&gt;
+&lt;li&gt;显卡：核显（核心显卡。。不是核显卡）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这三个配件到X宝上找，半个星期后到货。&lt;/p&gt;
+&lt;h1&gt;0x03&lt;/h1&gt;
+&lt;p&gt;把配件都装上后正常点亮，电源换了之前以为是电源故障去新买的450W电源，因为没有独立显卡所以足够用的。原来装系统的IDE接口硬盘无法接上主板后只能重新装新的系统了，把原来装xubuntu的硬盘格掉用于装新系统。本来就打算装的WIN8.1+UBUNTU双系统，因为MBR限制，硬盘分了4个主分区一个用于windows系统一个用于ubuntu一个用于存储数据一个windows隐藏分区，ubuntu只能只有一个分区挂载/了，连交换区都没有。（事实证明一开始这步就已经做错了）。&lt;/p&gt;
+&lt;h1&gt;0x04&lt;/h1&gt;
+&lt;p&gt;顺利装上win8.1并且从主板驱动光盘装完驱动后就只有读卡器跟前面板的耳机麦克风不能用以外其他工作正常。&lt;br&gt;
+进一步从U盘安装了ubuntu并且顺利进入ubuntu系统，在系统更新完毕，该配置的东西都配置好之后发现windows系统不管怎样都进不去了，而且硬盘其他NTFS分区都被锁定无法挂载了，这才想起来可能是因为win8.1的快速启动造成的问题。然而因为是MBR分区所以windows系统也进不去了，只能格掉重新安装了otl …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;0x01&lt;/h1&gt;
+&lt;p&gt;家里十几年前的电脑现在已经彻底不能用了，主板几乎所有的部件都坏了，所以就考虑说把这电脑升级一下然后就又满血复活了。&lt;br&gt;
+说是升级一下不过就目前状况几乎是相当于换了一台新机了，因为整块主板换掉包括CPU内存条这些全都要换了，就保留了个机箱显示器还有两个硬盘一个光驱（原来用于装系统的硬盘因为是IDE接口的已经不能在新主板上用了）。
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h1&gt;0x02&lt;/h1&gt;
+&lt;p&gt;最后决定是这样的配置了&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU:i5-4590&lt;/li&gt;
+&lt;li&gt;内存:金士顿8G 1600&lt;/li&gt;
+&lt;li&gt;主板：阿苏斯Z97M-PLUS（原来的机箱还他喵竟然是用中板的。。）&lt;/li&gt;
+&lt;li&gt;显卡：核显（核心显卡。。不是核显卡）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这三个配件到X宝上找，半个星期后到货。&lt;/p&gt;
+&lt;h1&gt;0x03&lt;/h1&gt;
+&lt;p&gt;把配件都装上后正常点亮，电源换了之前以为是电源故障去新买的450W电源，因为没有独立显卡所以足够用的。原来装系统的IDE接口硬盘无法接上主板后只能重新装新的系统了，把原来装xubuntu的硬盘格掉用于装新系统。本来就打算装的WIN8.1+UBUNTU双系统，因为MBR限制，硬盘分了4个主分区一个用于windows系统一个用于ubuntu一个用于存储数据一个windows隐藏分区，ubuntu只能只有一个分区挂载/了，连交换区都没有。（事实证明一开始这步就已经做错了）。&lt;/p&gt;
+&lt;h1&gt;0x04&lt;/h1&gt;
+&lt;p&gt;顺利装上win8.1并且从主板驱动光盘装完驱动后就只有读卡器跟前面板的耳机麦克风不能用以外其他工作正常。&lt;br&gt;
+进一步从U盘安装了ubuntu并且顺利进入ubuntu系统，在系统更新完毕，该配置的东西都配置好之后发现windows系统不管怎样都进不去了，而且硬盘其他NTFS分区都被锁定无法挂载了，这才想起来可能是因为win8.1的快速启动造成的问题。然而因为是MBR分区所以windows系统也进不去了，只能格掉重新安装了otl。&lt;/p&gt;
+&lt;h1&gt;0x05&lt;/h1&gt;
+&lt;p&gt;于是这次打算使用UEFI安装系统，使用UEFI进行系统的启动。把硬盘格掉后转换成GPT分区表，然后因为GPT分区表支持128个主分区所以也没有之前那4个主分区的限制了，除了ESP和MSR两个必须和分区外还能为ubuntu各个目录和交换区添加新的主分区了。&lt;/p&gt;
+&lt;h1&gt;0x06&lt;/h1&gt;
+&lt;p&gt;启动方式修改为仅UEFI后选择win8.1安装U盘，结果无论如何都无法从U盘启动。后来想了想是因为U盘分区表用的还是MBR，于是转换成GPT，因为原本U盘分区前后都没有其他空间供转换GPT使用因此只能删除分区后转换为GPT了。UEFI的启动方式是从第一个FAT32分区查找EFI文件进行启动而不是MBR那样读取前512字节，这样的话就好办多了，直接从安装盘镜像提取文件放到U盘上的FAT32分区即可。最后插到电脑上用UEFI方式启动成功。接着按照原来的步骤再把系统装一遍。&lt;/p&gt;
+&lt;h1&gt;0x07&lt;/h1&gt;
+&lt;p&gt;win8.1安装完之后第一件事就是把快速启动给关掉。然后把ubuntu安装U盘转换成GPT继续安装ubuntu。&lt;br&gt;
+在ubuntu安装完之后先试着重启看看能不能进入windows系统。在系统启动后进到grub界面，此时可以看到有一个windows boot manager选项，选择之后直接进入windows系统。重启后依然还是进到grub，选择ubuntu选项后进入到ubuntu系统，并且磁盘上的其他分区也能够自由挂载了。看来已经可以实现开机选择两个操作系统了。有人提到需要rEFInd才能进行开机选择两个操作系统应该是因为win8.1的快速启动吧。&lt;/p&gt;
+&lt;h1&gt;0x08&lt;/h1&gt;
+&lt;p&gt;&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1era7y5wkatj20sg0lc452.jpg"&gt;
+果然还是最喜欢NUMIX主题了,另外还看到过一个还在开发中的主题&lt;a href="http://snwh.org/paper/"&gt;PAPER&lt;/a&gt;看起来也不错
+&lt;img alt="" src="http://www.linuxidc.com/upload/2014_12/141222195368731.png"&gt;
+&lt;img alt="" src="http://snwh.org/paper/screenshots/9.png"&gt;
+有点可惜的是在unity上面显得有点难看了：(&lt;/p&gt;</content><category term="pc"></category><category term="升级"></category></entry><entry><title>Android Studio引用Library</title><link href="https://www.chinuno.com/blog/android-studio-add-library" rel="alternate"></link><published>2015-04-14T20:19:08+08:00</published><updated>2015-04-14T20:19:08+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-04-14:/blog/android-studio-add-library</id><content type="html">&lt;p&gt;使用微博sdk需要引入sdk的library，现在用的&lt;code&gt;Android Studio&lt;/code&gt;不知道该怎么引所以网上查了一下。好像基本上没人在说这个问题。先把它记录下来免得以后忘了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;点击&lt;code&gt;File-&amp;gt;Import Module&lt;/code&gt;&lt;br&gt;
+&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1er5ds0om4aj20bm06pdge.jpg"&gt;&lt;/li&gt;
+&lt;li&gt;填入路径next就行&lt;br&gt;
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1er5dyufhxzj215o0qo41g.jpg"&gt;&lt;/li&gt;
+&lt;li&gt;好了。添加进去了&lt;br&gt;
+&lt;img alt="" src="http://ww4.sinaimg.cn/large/4ec84d23gw1er5erwtnbyj20et09x0tg.jpg"&gt;&lt;/li&gt;
+&lt;li&gt;最后记得添加dependencies就行
+&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1er5eyvlvpdj20rv0940u3.jpg"&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;= =好吧今天这篇真是短。内容有用就行啦。
+嗯顺便清理了几篇比较羞耻的文章，感觉萌萌哒【【【。&lt;/p&gt;</content><category term="Android"></category><category term="Android Studio"></category></entry><entry><title>Surface Pro 3 购买参考与使用感受</title><link href="https://www.chinuno.com/blog/surface-pro-3" rel="alternate"></link><published>2015-04-06T16:36:57+08:00</published><updated>2015-04-06T16:36:57+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-04-06:/blog/surface-pro-3</id><summary type="html">&lt;h1&gt;缘由&lt;/h1&gt;
+&lt;p&gt;自己在几个月前入了Surface Pro 3，然后身边有人看到之后也买了个，自己就像把自己用了几个月的感受说一下方便各位在想买这机子的时候进行参考。&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;h1&gt;需求分析&lt;/h1&gt;
+&lt;p&gt;要买Surface Pro 3的话首先还是应该好好分析一下是不是一定要买这台机子，有没有其他更好的方案。毕竟SP3的价格还是很高的，如果不是真·土豪还真是没法买个当玩具玩的。&lt;br&gt;
+当时买SP3的时候考虑在学校没有一个笔电可以方便携带的，在很多时候真的很麻烦，SP3大小正合适，重量也不重，裸机大约&lt;code&gt;800+g&lt;/code&gt;,而加上Type Cover重量也大约&lt;code&gt;1kg&lt;/code&gt;,拿在手上对比了一下比ipad air还轻。&lt;br&gt;
+主要用来上课使用，记笔记有&lt;code&gt;压感笔&lt;/code&gt;加上Metro界面的onenote非常方便，手机用的撸妹，电脑上的笔记备忘录都可以自动跟手机进行同步。&lt;br&gt;
+学校的机房配置虽然说不差，不过不管什么东西都要跑在虚拟机里这就不能忍了。。特别是Android应用开发。。虚拟机里面再开个arm虚拟机，基本上虚拟机开机要开个十分钟，然后什么都做不了了。现在需要做的都在SP3上做了，去机房的时候带上就在那边做，做完直接提交。&lt;br&gt;
+电脑一直都是放在学校宿舍的，回来的时候电脑都要跟家人抢着用【【基本上能用到的时间基本没有。现在SP3携带也方便，放在包里都已经随身携带了。&lt;br&gt;
+主要用到的情况就是开发了，装个VS开发Windows程序游戏什么的，Python必备脚本环境，Android …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;缘由&lt;/h1&gt;
+&lt;p&gt;自己在几个月前入了Surface Pro 3，然后身边有人看到之后也买了个，自己就像把自己用了几个月的感受说一下方便各位在想买这机子的时候进行参考。&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;h1&gt;需求分析&lt;/h1&gt;
+&lt;p&gt;要买Surface Pro 3的话首先还是应该好好分析一下是不是一定要买这台机子，有没有其他更好的方案。毕竟SP3的价格还是很高的，如果不是真·土豪还真是没法买个当玩具玩的。&lt;br&gt;
+当时买SP3的时候考虑在学校没有一个笔电可以方便携带的，在很多时候真的很麻烦，SP3大小正合适，重量也不重，裸机大约&lt;code&gt;800+g&lt;/code&gt;,而加上Type Cover重量也大约&lt;code&gt;1kg&lt;/code&gt;,拿在手上对比了一下比ipad air还轻。&lt;br&gt;
+主要用来上课使用，记笔记有&lt;code&gt;压感笔&lt;/code&gt;加上Metro界面的onenote非常方便，手机用的撸妹，电脑上的笔记备忘录都可以自动跟手机进行同步。&lt;br&gt;
+学校的机房配置虽然说不差，不过不管什么东西都要跑在虚拟机里这就不能忍了。。特别是Android应用开发。。虚拟机里面再开个arm虚拟机，基本上虚拟机开机要开个十分钟，然后什么都做不了了。现在需要做的都在SP3上做了，去机房的时候带上就在那边做，做完直接提交。&lt;br&gt;
+电脑一直都是放在学校宿舍的，回来的时候电脑都要跟家人抢着用【【基本上能用到的时间基本没有。现在SP3携带也方便，放在包里都已经随身携带了。&lt;br&gt;
+主要用到的情况就是开发了，装个VS开发Windows程序游戏什么的，Python必备脚本环境，Android Studio开发Android的应用，SP3的i3版本已经基本上不用考虑了。  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果说是为了玩玩而已那么Android平板和ipad已经可以满足了，能玩的东西比SP3还多。&lt;/li&gt;
+&lt;li&gt;如果说是为了玩舰女人推GAL的话千元寨板完全可以满足，而且还性能过剩了&lt;/li&gt;
+&lt;li&gt;如果只是为了作为笔记本用而已那么买普通的笔电就行，同样的性能需要的价钱少得多，而且接口充足不需要用的这么纠结。&lt;/li&gt;
+&lt;li&gt;如果还有壕壕要性能要便携可以看看其他的超极本，可以变的花样也蛮多的(比如说壕壕你要不要买XPS13呢??&lt;/li&gt;
+&lt;li&gt;如果说是为了Surface特有的这些特性而不是拿来工作什么的，那么可以等Surface 3了，CPU要比国产寨板好些，屏幕也大点，价格不至于这么高而且mico usb充电就像普通平板一样可以用移动电源充电，这点SP3可做不到。。这是最均衡的选择了&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;型号选择&lt;/h1&gt;
+&lt;p&gt;如果认真分析之后觉得确实需要入SP3的话，那么就该考虑一下型号的选择了&lt;br&gt;
+i3版本不推荐入了，真有这个档位的需求可以入Surface 3
+我的机子是国行i5 128G的专业版，权衡经济实力后得到的结果。SP3在中国大陆以外的机子都是可以全球联保的，国内不保水货机子(真是一片神奇的大陆&lt;br&gt;
+如果要考虑保修方面的话那么买国行机子吧，水货机子可以到香港保修，比较麻烦。&lt;br&gt;
+国行机子有&lt;code&gt;中文版&lt;/code&gt;和&lt;code&gt;专业版&lt;/code&gt;两种版本，主要区别在  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;中文版预装了office2013学生版，永久授权的。而专业版只有一个月试用期的office365&lt;/li&gt;
+&lt;li&gt;中文版不能够安装其他语言的语言包，只能用中文。这点倒是无所谓吧。&lt;/li&gt;
+&lt;li&gt;专业版还包含”远程桌面链接”、“域加入”、”从VHD启动”和”客户端Hyper-V”等针对企业的软件和优化。如果说需要用来开发wp应用或者比较喜欢折腾的，需要这些功能的可以选择专业版。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;真的土豪或者真的需要高性能的话尽管选择高配版本吧:D&lt;/p&gt;
+&lt;h1&gt;其他的一些注意点&lt;/h1&gt;
+&lt;p&gt;在入SP3之前还有这么些地方需要注意一下&lt;/p&gt;
+&lt;h3&gt;机子外观&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1eqwa93haxcj21kw0w04i1.jpg"&gt;&lt;br&gt;
+这是机子平时使用的样子
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqwxu2qvb1j21kw0w0u00.jpg"&gt;
+正面
+&lt;img alt="" src="http://ww2.sinaimg.cn/large/4ec84d23gw1eqwxur5m70j21kw0w0e1v.jpg"&gt;
+背面。可能是因为使用方式不对背面掉漆不能看了&lt;/p&gt;
+&lt;h3&gt;屏幕&lt;/h3&gt;
+&lt;p&gt;手上的这台SP3屏幕有漏光，照片看起来没有这么明显，但是平时看起来就不能忍了
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqwxwmrqloj21kw0w0tlt.jpg"&gt;
+贴吧有人说屏幕太暖，黄黄的，要更新驱动才好一点，这里拍了张对比图片
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqwy19kl97j21kw0w0qao.jpg"&gt;
+&lt;img alt="" src="http://ww4.sinaimg.cn/large/4ec84d23gw1eqwy1r77k8j21kw0w07iv.jpg"&gt;
+左边SP3又上NEXUS 7 2013，右下左边NOTE2右边魅蓝NOTE。（我真不知道那NOTE2到底是怎么回事&lt;br&gt;
+SP3的屏幕可视角度也不够好，对于屏幕反光控制的效果也不是很好，简直就像个镜子一样。微软说漏光这个可以修，但是贴吧说返修回来机子更烂了所以感觉小问题的话还是谨慎返修。&lt;/p&gt;
+&lt;h3&gt;做工&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqwy83jty9j21kw0w0wrj.jpg"&gt;
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqwy9ia2mzj21kw0w017c.jpg"&gt;
+手上的机子在上方交接处发现了这个样子&lt;br&gt;
+右边还蛮正常的左边缝隙真jb大。想要把它压回去都做不到。&lt;br&gt;
+所以买机子的话最好还是能到实体店去挑&lt;/p&gt;
+&lt;h3&gt;首次开机&lt;/h3&gt;
+&lt;p&gt;首次开机就是首次使用的设置界面了，设置好使用习惯，连接网络，绑定微软账号，配对压感笔后就能开始使用了。推荐先经行一次系统的全面更新，有条件的把驱动更新一下。&lt;/p&gt;
+&lt;h3&gt;分辨率&lt;/h3&gt;
+&lt;p&gt;SP3分辨率比较高，屏幕也比较小，这就导致了很多地方字太小的问题。虽然windows有放大的设置方案不过许多软件支持还是不够的。这点就需要注意一下了&lt;/p&gt;
+&lt;h3&gt;Metro应用&lt;/h3&gt;
+&lt;p&gt;平时用的话推荐尽量都走Metro应用，相较于桌面应用较为省电，也更加适合触控操作。在桌面环境使用chrome的时候cpu占用特别多，频率也特别高，开不了多久看个网页什么的风扇声音就像直升机一样了。摸一摸机子简直可以直接做铁板烧。相比较下metro界面下的ie几乎不会有这样的情况发生。不过有点可惜的是奶牛去广告的方法对于ie来说不起作用，ie通过隐私保护屏蔽的广告效果也不太好，带端口的页面访问也不支持。&lt;/p&gt;
+&lt;h3&gt;输入法&lt;/h3&gt;
+&lt;p&gt;自己在Windows下面蛮喜欢小狼毫的输入法，不过到Win8.1后就有问题了。不像微软自己的输入法，微软给自己的输入法开了洞使得微软自己的输入法可以使用自己的服务来调整词库排序常用字词等。rime在metro应用中不能使用自己的服务，在metro应用中也会出现打字不显示或者应用打不开的问题，需要切换成其他输入法才行。rime作者给的说法是做不了，不支持。在SP3上主要也用metro应用，在metro应用中还是老老实实用微软的输入法吧，其实用起来感觉也不错的。&lt;/p&gt;
+&lt;h3&gt;hyper-v虚拟机&lt;/h3&gt;
+&lt;p&gt;SP3用Hyper-v的问题可以看&lt;a href="https://chinuno-usami.github.io/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/"&gt;这篇文章&lt;/a&gt;。需不需要这些特性还是看需求了。&lt;/p&gt;
+&lt;h3&gt;压感笔&lt;/h3&gt;
+&lt;p&gt;SP3的压感笔在sai上没有压感，这个问题是SP3原来的驱动不支持的问题，想要在sai上能够有压感的话可以到N-trig官网下载驱动解决这一问题。&lt;br&gt;
+SP3的笔在使用上感觉延迟比较严重，比较影响体验。在撸osu!的时候试了一下这延迟简直没眼看了。。直接上手指去点倒是没有延迟的问题。在onenote上写字画画也会感觉到延迟。&lt;/p&gt;
+&lt;h3&gt;触摸屏&lt;/h3&gt;
+&lt;p&gt;Windows从win7就已经加入对触摸屏的支持了，一直到win8.1也算做的不错的了(看看隔壁Mac。&lt;br&gt;
+现在SP3用久了让我用普通不带触摸屏的Win8.1本我都不会用了ww&lt;br&gt;
+在习惯了触摸操作之后真的比键鼠操作方便了许多。从左边划入是metro应用选择右边划入是charms。上下划入是metro应用的附加菜单···&lt;/p&gt;
+&lt;h3&gt;Type Cover&lt;/h3&gt;
+&lt;p&gt;SP3的话Type Cover已经是必备配件了。使用GPIO接口比较省电。三个档位的背光可以调节，不需要也可以关掉。键盘的手感特别不错，虚拟键盘的体验实在是太差了。&lt;br&gt;
+磁铁二段吸附对于打字时候的体验提升特别大，算是这一代最大的改进了吧。&lt;br&gt;
+在触摸板区域还有个贴心的小细节，左右向内划入就像直接在屏幕划入一样，切换metro应用和唤出charms。这功能在普通笔记本上没有的。虽然说可能多此一举，但是有时候打字打一半手就不想离开键盘区，稍微省了点力ww。
+手上的TC空格键中间弯下去，两边翘起来这不知道是故意这样设计的还是本身设计上的缺陷还是自己RP的问题。。&lt;/p&gt;
+&lt;h3&gt;QQ&lt;/h3&gt;
+&lt;p&gt;我觉得应该还有很多人想要在SP3上面运行QQ的，QQ的桌面端体验要好些，不过QQ为了降低对内存的使用对硬盘读写操作特别频繁(还有不知道在做什么的对磁盘文件的扫描((。频繁的读写文件对SSD的寿命影响特别大，QQ这样开着一天下来都不知道对SSD造成多大的伤害了，所以现在SP3上不运行QQ，全都在手机上开了。贴吧上看到有人在说开QQ的时候很经常出现假死现象，或许也应该注意一下。充电器上面还有个USB接口可以直接给手机供电，也不用太担心手机电量的问题。&lt;/p&gt;
+&lt;h3&gt;SD卡&lt;/h3&gt;
+&lt;p&gt;机子的存储空间是128G，实际上只有113G可用，去除系统所占的已经剩下不到一半了。还好SP3还提供了micro SD卡的扩展支持。&lt;br&gt;
+现在的使用中使用的工具尽量使用的免安装版本，放在SD卡上。一些文档，音乐，图片什么的也尽量放在卡上。SSD的空间则用于环境搭建，IDE安装之类的，比较常用而且开启速度快些。&lt;/p&gt;
+&lt;h3&gt;5Ghz&lt;/h3&gt;
+&lt;p&gt;SP3是支持5Ghz的wifi的。在平时宿舍使用的时候宿舍不是很大，而且周围开wifi的人多，在2.4Ghz频率上干扰严重，所以还是推荐买个双频路由器，在宿舍的时候使用5Ghz的wifi来保证速度。现在在宿舍手机，平板，SP3全都支持5Ghz，所以不太会有别人那些wifi速度慢的困扰lww&lt;/p&gt;
+&lt;h3&gt;其他操作系统&lt;/h3&gt;
+&lt;p&gt;SP3用的marvell方案，想要装linux或者黑苹果的话可能会有问题了&lt;br&gt;
+黑苹果的话youtube有人放了个视频，会有下面这些问题。所以SP3的话还是好好用windows吧，况且本身sp3就是专门为windows系统做的，搞那些有的没的那还是买其他机子吧。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内置wifi 蓝牙不可用，需买usb外置&lt;/li&gt;
+&lt;li&gt;触屏不可用&lt;/li&gt;
+&lt;li&gt;休眠死机&lt;/li&gt;
+&lt;li&gt;触摸板基本不可用&lt;/li&gt;
+&lt;li&gt;耳机插口&lt;/li&gt;
+&lt;li&gt;可正常工作的有小bug&lt;/li&gt;
+&lt;li&gt;QE/CI 硬件加速偶尔有小bug，改屏幕色彩有助于改善。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;最后再说点&lt;/h1&gt;
+&lt;p&gt;这篇文章是我昨天开始写的，没写完留到今天开始写。早上又听到有人想要买这机子了，说是为了装逼。。要装逼怎么不去买NMB啊，连接口都只留一个type-c的usb，这配置这价格不正好符合你装逼的目的。&lt;br&gt;
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqx0tod18kj21kw11x1kx.jpg"&gt;
+听着萌否电台边码字也是很舒服的体验~&lt;/p&gt;</content><category term="Surface Pro 3"></category><category term="Microsoft"></category></entry><entry><title>迁移到Github上了</title><link href="https://www.chinuno.com/blog/hexo" rel="alternate"></link><published>2015-04-05T10:10:58+08:00</published><updated>2015-04-05T10:10:58+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-04-05:/blog/hexo</id><summary type="html">&lt;h3&gt;0x00&lt;/h3&gt;
+&lt;p&gt;原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。&lt;/p&gt;
+&lt;h3&gt;0x01&lt;/h3&gt;
+&lt;p&gt;树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了
+所以直接在树莓派上面搞了个&lt;a href="http://hexo.io"&gt;hexo&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install hexo-cli -g
+npm install hexo --save
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;!--more--&gt;
+
+&lt;h3&gt;0x02&lt;/h3&gt;
+&lt;p&gt;路由器加了&lt;code&gt;DDNS&lt;/code&gt;和&lt;code&gt;ssh&lt;/code&gt;,&lt;code&gt;4000端口&lt;/code&gt;的端口轉發&lt;br&gt;
+這樣就可以在任何地方連接到樹莓派進行寫作和部署了&lt;/p&gt;
+&lt;h3&gt;0x03&lt;/h3&gt;
+&lt;p&gt;把该设置的东西设置好之后就把原来wordpress的文章给导过来
+要用到&lt;a href="https://github.com/hexojs/hexo-migrator-wordpress"&gt;hexo-migrator-wordpress&lt;/a&gt;  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ npm install hexo-migrator-wordpress --save
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在wordpress后台导出数据后就可以用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ hexo migrate wordpress &amp;lt;source&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;导入了&lt;br&gt;
+需要注意的是导入会把所有的文章页面全部导入，连已经删除放到回收站的都会被导进去，所以不要的文章页面还需要手动删除。&lt;br&gt;
+另外插件会把文章转换成markdown，有些地方还需要修改，比如&lt;a href="http://chinuno-usami.github.io/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/"&gt;关于vs2013宏&lt;/a&gt;的那篇文章中的/*...*/就没有转换好，正常情况需要转义字符来表示*而不是变成斜体文字&lt;br&gt;
+另外还有原来wordpress使用各种代码高亮插件，转换成markdown后不能正常使用 …&lt;/p&gt;</summary><content type="html">&lt;h3&gt;0x00&lt;/h3&gt;
+&lt;p&gt;原来放博客的地方这速度实在受不了所以干脆丢Github上来了，况且还是静态页面速度要快一点。&lt;/p&gt;
+&lt;h3&gt;0x01&lt;/h3&gt;
+&lt;p&gt;树莓派上面的nodejs天天检查更新终于昨天更新了个npm可以用的版本了
+所以直接在树莓派上面搞了个&lt;a href="http://hexo.io"&gt;hexo&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install hexo-cli -g
+npm install hexo --save
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;!--more--&gt;
+
+&lt;h3&gt;0x02&lt;/h3&gt;
+&lt;p&gt;路由器加了&lt;code&gt;DDNS&lt;/code&gt;和&lt;code&gt;ssh&lt;/code&gt;,&lt;code&gt;4000端口&lt;/code&gt;的端口轉發&lt;br&gt;
+這樣就可以在任何地方連接到樹莓派進行寫作和部署了&lt;/p&gt;
+&lt;h3&gt;0x03&lt;/h3&gt;
+&lt;p&gt;把该设置的东西设置好之后就把原来wordpress的文章给导过来
+要用到&lt;a href="https://github.com/hexojs/hexo-migrator-wordpress"&gt;hexo-migrator-wordpress&lt;/a&gt;  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ npm install hexo-migrator-wordpress --save
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在wordpress后台导出数据后就可以用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ hexo migrate wordpress &amp;lt;source&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;导入了&lt;br&gt;
+需要注意的是导入会把所有的文章页面全部导入，连已经删除放到回收站的都会被导进去，所以不要的文章页面还需要手动删除。&lt;br&gt;
+另外插件会把文章转换成markdown，有些地方还需要修改，比如&lt;a href="http://chinuno-usami.github.io/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/"&gt;关于vs2013宏&lt;/a&gt;的那篇文章中的/*...*/就没有转换好，正常情况需要转义字符来表示*而不是变成斜体文字&lt;br&gt;
+另外还有原来wordpress使用各种代码高亮插件，转换成markdown后不能正常使用。hexo可以使用&lt;a href="https://help.github.com/articles/github-flavored-markdown/"&gt;GitHub Flavored Markdown&lt;/a&gt;
+所以可以用&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;``` ruby&lt;br&gt;
+require 'redcarpet'&lt;br&gt;
+markdown = Redcarpet.new("Hello World!")&lt;br&gt;
+puts markdown.to_html &lt;br&gt;
+```&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这样的方式进行代码高亮，这些地方也需要手动修改&lt;/p&gt;
+&lt;h3&gt;0x04&lt;/h3&gt;
+&lt;p&gt;不得不说这初代树莓派的性能确实捉急，npm安装需要的东西时就觉得特别慢了，在&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ hexo server
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;的时候要等好久本地服务器才能起来，而查看页面的时候也是要等好久&lt;br&gt;
+还好在生成页面和部署的时候虽然也花了好长时间，不过速度不是很慢。对于没有vps的我来说已经是最好的方案了&lt;/p&gt;</content><category term="树莓派"></category><category term="hexo"></category><category term="Github"></category></entry><entry><title>坑爹的魅蓝note调试adb问题</title><link href="https://www.chinuno.com/blog/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98" rel="alternate"></link><published>2015-03-28T00:19:18+08:00</published><updated>2015-03-28T00:19:18+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-28:/blog/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98</id><content type="html">&lt;p&gt;要用电脑调试魅蓝note做开发的时候遇到了很蛋疼的问题，连接之后adb死活找不到手机，手机自带了驱动和说明书，自带的驱动无法通过验证装不了，按照说明书的方法修改.Android下面的ini配置文件也没法解决。最后强制指定google自己的adb驱动后总算是解决了这坑爹问题。。
+这驱动根本就没法安装你还丢手机你坑人做什么otl&lt;/p&gt;</content></entry><entry><title>树莓派炸了！</title><link href="https://www.chinuno.com/blog/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81" rel="alternate"></link><published>2015-03-27T23:07:15+08:00</published><updated>2015-03-27T23:07:15+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-27:/blog/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81</id><summary type="html">&lt;p&gt;一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。
+已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边后自己睡着了。今天开了sp3才发现机子自动休眠了，已经中断的putty窗口上面的东西还没滚完。回到家后又Syu滚了一次。
+然后蛋疼的事情来了，有个东西运行不太正常以为是机子的问题（（最后发现还是因为众所周知的原因【然后就reboot了。
+这下好了启动后发现所有的服务都不能正常运行了，又想起好像上次滚的时候自己也没有重启过。
+仔细看了看发现写操作都不能执行了，只能收到read-only file system的提示。
+然后检查了下mount列表，所有的目录都是已经挂载了rw。。这下真蛋疼了，问题出在哪都不知道了
+后来想想可能是fstab出问题了，所以想要找个原来的镜像来看看原来的fstab是怎样的。
+之前的镜像包早就被删了，于是到官网去想要下载一个，竟然发现Archlinux的镜像早就被撤下来了
+好吧，最后网上找了好久才找到一个14年的镜像。100+mb的zip包先下载下来了
+自己的想法是hyper-v开个虚拟机，用把镜像传入虚拟机中挂载后查看fstab的内容
+但是创建虚拟机后发现虚拟交换机根本就设置不了无法使用网络传输镜像了
+最后想了个曲线的方法，创建个10G的vhd挂载到win8.1宿主机上，把镜像解压出img放到vhd虚拟硬盘中然后再挂到虚拟机上挂载
+解压出来后1G+将近2G，不是很大w。mkdir /mnt/vhd创建挂载目录后mount /dev/sdb2 /mnt/vhd挂载上去（sda是虚拟机系统所在的磁盘 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。
+已经好几个月没有滚过了昨天突然想要滚一下然后就用SP3连着树莓派让他自己滚去了，77个包更新过程非常久，把它放一边后自己睡着了。今天开了sp3才发现机子自动休眠了，已经中断的putty窗口上面的东西还没滚完。回到家后又Syu滚了一次。
+然后蛋疼的事情来了，有个东西运行不太正常以为是机子的问题（（最后发现还是因为众所周知的原因【然后就reboot了。
+这下好了启动后发现所有的服务都不能正常运行了，又想起好像上次滚的时候自己也没有重启过。
+仔细看了看发现写操作都不能执行了，只能收到read-only file system的提示。
+然后检查了下mount列表，所有的目录都是已经挂载了rw。。这下真蛋疼了，问题出在哪都不知道了
+后来想想可能是fstab出问题了，所以想要找个原来的镜像来看看原来的fstab是怎样的。
+之前的镜像包早就被删了，于是到官网去想要下载一个，竟然发现Archlinux的镜像早就被撤下来了
+好吧，最后网上找了好久才找到一个14年的镜像。100+mb的zip包先下载下来了
+自己的想法是hyper-v开个虚拟机，用把镜像传入虚拟机中挂载后查看fstab的内容
+但是创建虚拟机后发现虚拟交换机根本就设置不了无法使用网络传输镜像了
+最后想了个曲线的方法，创建个10G的vhd挂载到win8.1宿主机上，把镜像解压出img放到vhd虚拟硬盘中然后再挂到虚拟机上挂载
+解压出来后1G+将近2G，不是很大w。mkdir /mnt/vhd创建挂载目录后mount /dev/sdb2 /mnt/vhd挂载上去（sda是虚拟机系统所在的磁盘，sdb是刚才的vhd磁盘，数据放在sdb2上
+因为img是整个磁盘的镜像，/目录是在p5上面所以不能直接挂载
+简单的方法，fdisk -lu blabla.img查看磁盘信息
+Units = sectors of 1 * 512 = 512 bytes &lt;br&gt;
+单位大小为512字节
+再乘上blabla.img5的Start算出位移
+然后就可以挂载分区了
+mkdir /mnt/archlinux_img
+最后使用mount -o loop,offset=niconico /mnt/vhd/blabla.img /mnt/archlinux_img/
+把分区挂载上去
+vim /mnt/archlinux_img/etc/fstab查看内容后发现
+里面的东西竟然是一样的！！！
+最后只能暂时每次开机后都运行一次
+mount -o remount,rw /来获取写入权限了（所以到底为什么remount后可以写入原来那样就不行？！！
+然后蛋疼的还要每次都创建一个作为交换分区的文件挂到交换分区上去，这样以后没事还不能乱重启了，一来这些操作麻烦又费事，二来sd还经不起这样的折腾不知道什么时候就挂掉了。。&lt;/p&gt;</content></entry><entry><title>surface pro中的hyper-v</title><link href="https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" rel="alternate"></link><published>2015-03-25T00:11:19+08:00</published><updated>2015-03-25T00:11:19+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-25:/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v</id><content type="html">&lt;p&gt;最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。
+另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。
+后来才看到这篇文章
+&lt;a href="http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby"&gt;http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby&lt;/a&gt;
+原来在开启了hyper-v后InstantGo就会被禁用，同时surface的电源管理多出来原来没有的节能和高性能两个设置
+关于cpu频率的问题网上说的是hyper-v和Intel的一些软件有兼容性问题，看来之前android的x86虚拟机提示cpu不支持虚拟化也极有可能是因为hyper-v产生的。如果不是特别需要的话果然还是把它关掉比较好，微软在开发wp应用的时候也要求打开hyper-v才可以。如果是开发wp应用这样不得不用的话那也没什么办法可以解决了。&lt;/p&gt;</content></entry><entry><title>Linux内核代码风格</title><link href="https://www.chinuno.com/blog/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc" rel="alternate"></link><published>2015-03-22T02:41:02+08:00</published><updated>2015-03-22T02:41:02+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-22:/blog/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc</id><summary type="html">&lt;p&gt;这学期有个Linux驱动开发的课程，所以看了Linux内核源代码中的Documentation中关于代码风格的部分
+发现关于缩进他说的是缩进使用八个字符，不能用空格缩进
+其中还有一句是这么说的：有些异端运动试图将缩进变为4（乃至2）个字符深，这几乎相当于尝试将圆周率的值定义为3。 
+其实自己平时都喜欢用空格四个字符来进行缩进的= =!
+vi默认的制表符就是8个字符不知道是制表符原来就是这样定义的还是说后面的编辑器因为4字符的缩进习惯流行起来而进行的改变
+现在让我看8字符的缩进真是特别难受了【【之前看google的代码都是两个空格缩进的感觉也是otl&lt;/p&gt;
+&lt;p&gt;关于大括号的时候，个人是习惯于左括号放在行尾右括号都放在行首单独一行，看到文档中的描述我又深深的觉得蛋要碎了。。
+一般情况下所有的非函数语句块（if、switch、for、while、do）。跟我平时的习惯一样，但是函数就要使用左括号另开一行的方式。。说好的代码风格统一呢！给出的理由也真是强词夺理的感觉&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_ADD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;add&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_REMOVE&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_CHANGE&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;change&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; 
+
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+    &lt;span class="p"&gt;{&lt;/span&gt; 
+        &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;function …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;这学期有个Linux驱动开发的课程，所以看了Linux内核源代码中的Documentation中关于代码风格的部分
+发现关于缩进他说的是缩进使用八个字符，不能用空格缩进
+其中还有一句是这么说的：有些异端运动试图将缩进变为4（乃至2）个字符深，这几乎相当于尝试将圆周率的值定义为3。 
+其实自己平时都喜欢用空格四个字符来进行缩进的= =!
+vi默认的制表符就是8个字符不知道是制表符原来就是这样定义的还是说后面的编辑器因为4字符的缩进习惯流行起来而进行的改变
+现在让我看8字符的缩进真是特别难受了【【之前看google的代码都是两个空格缩进的感觉也是otl&lt;/p&gt;
+&lt;p&gt;关于大括号的时候，个人是习惯于左括号放在行尾右括号都放在行首单独一行，看到文档中的描述我又深深的觉得蛋要碎了。。
+一般情况下所有的非函数语句块（if、switch、for、while、do）。跟我平时的习惯一样，但是函数就要使用左括号另开一行的方式。。说好的代码风格统一呢！给出的理由也真是强词夺理的感觉&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;action&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_ADD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;add&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_REMOVE&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nl"&gt;KOBJ_CHANGE&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;change&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; 
+
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+    &lt;span class="p"&gt;{&lt;/span&gt; 
+        &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;额。上面的代码其实缩进是8字符的制表符，因为代码高亮插件所以显示成4个空格
+语句剩余的部分还要紧接在右括号后面，放在typedef或者do-while里面上感觉蛮正常的，但是像这样&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+        &lt;span class="p"&gt;..&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+        &lt;span class="p"&gt;...&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+        &lt;span class="p"&gt;....&lt;/span&gt; 
+    &lt;span class="p"&gt;}&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;真的就觉得怪异了，到现在基本上还没见过有人用这样的风格写if-else的。。&lt;/p&gt;
+&lt;p&gt;在命名方面倒是看到了这么一句话：在函数名中包含函数类型（所谓的匈牙利命名法）是脑子出了问题——编译器知道那些类型而且能够检查那些类型，这样做只能把程序员弄糊涂了。难怪微软总是制造出有问题的程序。 
+嗯。先不管匈牙利命名法本意是什么，微软本身使用的时候就已经产生误解错误的使用了，这样的命名方式看起来用起来真的都特别累人，做windows下面的游戏开发已经看的太多这样的东西了otl估计这句话也就是整篇文档自己唯一能赞同的一句了吧&lt;/p&gt;
+&lt;p&gt;Linux的注释风格一律使用C89标准的/* ...*/不知道是不是为了和以前的代码统一风格
+而在微软的代码中看到的则是C99标准提倡的//注释&lt;/p&gt;
+&lt;p&gt;同样属GNU阵营的emacs都在文档里面被喷说格式化出来的都是他们之前说的异端，还要修改设置改成k&amp;amp;r要求的格式
+就连专门为k&amp;amp;r格式开出一个选项的indent不也是默认4字符缩进嘛，要8字符缩进还要另外加参数ヽ(｀⌒´)ノ
+为Linux的代码统一一个规范风格是很好，但是做到这种程度感觉真是神经病了&lt;/p&gt;
+&lt;p&gt;额。虽然Kernighan和Ritchie写了The C Programming Language哪里都能看到对这本书的称赞，但是感觉这东西并不能表示k&amp;amp;r风格就是最好的blabla。
+相信很多人学C也都是看这书来学的，自然就按照他们的风格来了。想想看国内多少看谭浩强的书学的C，绝大多数人码出来的代码还都是void main(){}这样的东西【说起来有的人说是因为当时谭浩强用的是旧标准所以才会有这样的东西，不过C99的确要求main()函数的返回值是int，但是c89也没有void main()这样的东西，最多也就main()这样而已。又不是说用在单片机或者什么特殊用途的地方才有void的main,况且那些编译器都还是特殊的编译器故意这样设计的。国内学校好像对标准这东西也不怎么重视，现在不还是一大片一大片的教科书都是void main()么，连用的IDE都还是TC或者VC6这样连C99标准都不支持的老古董。&lt;/p&gt;
+&lt;p&gt;他们写的书好坏是一回事。自己想说的是每个人刚开始接触的时候学到的是什么就认为该是怎么样，极力推崇或者有特别的好感，然后又去安利别人所以才。。。相信现在也不会有人喜欢匈牙利命名法吧，不过现在还有那么多人用这种方式写代码也是受了微软【MFC之类的。】的影响，一开始接触的是windows开发就觉得理所应当就是这种样子的。国外不还有某大牛14岁开始学了PHP后来大学CS课程学C的时候还一直困惑变量怎么可能不加$的么。&lt;/p&gt;
+&lt;p&gt;晚安。&lt;/p&gt;</content></entry><entry><title>最近的新想法</title><link href="https://www.chinuno.com/blog/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95" rel="alternate"></link><published>2015-03-22T01:06:26+08:00</published><updated>2015-03-22T01:06:26+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-22:/blog/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95</id><content type="html">&lt;p&gt;最近想要研究一下android系統，打算從源代碼編譯一下android，大概看了看編譯方法。
+他的要求是需要在64bit版本的Linux或者OS X上面才能進行編譯
+看了看手頭的機子，老電腦雖然跑著ubuntu但是cpu不支援64bit
+Surface Pro3存儲空間太小不夠用，使用虛擬機一個編譯效率也低，所以也不能考慮了
+剩下的只有宿舍的電腦了，本身用著openSUSE也是64bit的Linux系統，在環境搭建方面比起ubuntu麻煩點，剩餘的存儲空間也不知道夠不夠用，下個星期如果還記得的話看看能不能用咯&lt;/p&gt;
+&lt;p&gt;上次說過用於樹莓派的交叉編譯環境可能要坑了「「「。
+因為發現了其他好像能解決這個問題的方法不需要再交叉編譯了
+本身的想法是從源代碼開始自己配置編譯個個交叉環境的，看來暫時沒機會了「「「連自己都不信以後這坑能填上&lt;/p&gt;</content></entry><entry><title>VS2013利用宏添加函数注释</title><link href="https://www.chinuno.com/blog/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a" rel="alternate"></link><published>2015-03-18T19:00:10+08:00</published><updated>2015-03-18T19:00:10+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-18:/blog/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a</id><summary type="html">&lt;p&gt;使用vs2013码代码的时候觉得添加函数注释太麻烦所以就想说利用vs的宏功能来实现函数注释的添加
+然后发现微软在vs2013去掉了宏的功能，但是还是可以用插件添加回去
+&lt;a href="https://visualstudiogallery.msdn.microsoft.com/d3fbf133-e51b-41a2-b86f-9560a96ff62b"&gt;Macros for Visual Studio 2013 &lt;/a&gt;
+添加后发现宏不再是使用vb来写了，变成了javascript&lt;/p&gt;
+&lt;h1&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Record and playback active document operations and Visual Studio IDE commands&lt;/li&gt;
+&lt;li&gt;Playback multiple times&lt;/li&gt;
+&lt;li&gt;Manage and persist macros with a Macro Explorer&lt;/li&gt;
+&lt;li&gt;Assign keyboard bindings to any macro&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Macros recorded as JavaScript files that call VS DTE APIs&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Macro …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;使用vs2013码代码的时候觉得添加函数注释太麻烦所以就想说利用vs的宏功能来实现函数注释的添加
+然后发现微软在vs2013去掉了宏的功能，但是还是可以用插件添加回去
+&lt;a href="https://visualstudiogallery.msdn.microsoft.com/d3fbf133-e51b-41a2-b86f-9560a96ff62b"&gt;Macros for Visual Studio 2013 &lt;/a&gt;
+添加后发现宏不再是使用vb来写了，变成了javascript&lt;/p&gt;
+&lt;h1&gt;&lt;strong&gt;Features&lt;/strong&gt;&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Record and playback active document operations and Visual Studio IDE commands&lt;/li&gt;
+&lt;li&gt;Playback multiple times&lt;/li&gt;
+&lt;li&gt;Manage and persist macros with a Macro Explorer&lt;/li&gt;
+&lt;li&gt;Assign keyboard bindings to any macro&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Macros recorded as JavaScript files that call VS DTE APIs&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Macro editing in Visual Studio with DTE IntelliSense&lt;/li&gt;
+&lt;li&gt;Stop playback&lt;/li&gt;
+&lt;li&gt;Sample macros&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;新建如下的宏&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//-----------------------------------【()函数】--------------------------------------&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//    描述   ：&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//    参数   ：&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//    返回值 ：&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//    作者   ：Chinuno Usami&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//    创建日期：&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;dat&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;dat&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getDate&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;dat&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getMonth&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;dat&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getYear&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;toString&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="nx"&gt;dte&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ActiveDocument&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Selection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;NewLine&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="nx"&gt;Macro&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;InsertText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//----------------------------------------------------------------------------------------&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;执行后的效果是这样
+&lt;img alt="" src="http://ww1.sinaimg.cn/large/4ec84d23gw1eqa38f3pklj21hc0tednt.jpg"&gt;
+添加ctrl+m,1的快捷键就能快速添加了。
+最后的效果大概是这样的
+&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1eqa3hfpyzbj20sp09s40s.jpg"&gt;
+&lt;img alt="" src="http://ww4.sinaimg.cn/large/4ec84d23gw1eqa3i3imraj20f304rdgl.jpg"&gt;&lt;/p&gt;</content></entry><entry><title>随便写点什么</title><link href="https://www.chinuno.com/blog/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88" rel="alternate"></link><published>2015-03-11T23:32:25+08:00</published><updated>2015-03-11T23:32:25+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-11:/blog/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88</id><content type="html">&lt;p&gt;这学期开了Android开发的课。以前没开过的课教材用的外面随便买的一本Android开发xx天速成。。内容都好几年前的了- =真是一点营养也没有&lt;/p&gt;
+&lt;p&gt;搞个android开发环境，由于众所周知的原因- =整个过程真是生不如死，原来一直很有用的镜像服务器都不能用了，唯一能用的镜像只能下到x86的android系统镜像。surface pro3应该是支持VT-X的虚拟化的在其他虚拟机都能用，在任务管理器也看到虚拟化已经打开了但是HAXM就是装不上总是提示机子不支持虚拟化- =然后只能很无解的每次都接上NEXUS7实机调试了，，，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;=还有那啥。V2EX被墙了= -看着百毒那抓得满满的V2EX页面没有一个能开的= -真棒，你说说你国还有救？还想发展强大？吃翔去吧&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>分享大觸</title><link href="https://www.chinuno.com/blog/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8" rel="alternate"></link><published>2015-03-06T00:53:25+08:00</published><updated>2015-03-06T00:53:25+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-06:/blog/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8</id><content type="html">&lt;p&gt;在b站看到了這麼個視頻&lt;/p&gt;
+&lt;p&gt;&lt;embed height="452" width="544" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://share.acg.tv/flash.swf" flashvars="aid=2062604&amp;page=1" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"&gt;&lt;/embed&gt;&lt;/p&gt;
+&lt;p&gt;http://space.bilibili.com/637653 ←up的b站空間&lt;/p&gt;
+&lt;p&gt;雖然說自己也是學嵌入式的但是這方面確實不太懂，最多也就編編程，對於那些彙編代碼機器碼什麼的也只是看得懂而已，電子部分╮(╯_╰)╭自己實在無解，更別說焊板子之類的東西了，看都沒看過。&lt;/p&gt;
+&lt;p&gt;對自己不會的東西充滿憧憬之心本身不就是這樣的生物嘛，看到那個做觸盤的視頻後覺得自己也想試試看做個什麼東西，正好還有個樹莓派，雖然說在硬件擴展方面還是比不上Arduino不過能做的事情應該還是很多的。現在的問題是➀.自己都不知道想要做什麼(ˉ▽ˉ；)。➁.想要入手些什麼零件都特別困難，想想還是洗洗碎了吧「「「。&lt;/p&gt;</content></entry><entry><title>搭建arm交叉編譯環境Part.1</title><link href="https://www.chinuno.com/blog/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1" rel="alternate"></link><published>2015-03-04T18:03:39+08:00</published><updated>2015-03-04T18:03:39+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-04:/blog/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1</id><content type="html">&lt;p&gt;要搭建arm處理器的linux交叉編譯環境首先需要有個linux的host環境，環境是搭建在我的surface上面，因為是跑的win8.1所以要搭建環境可以使用cygwin進行環境的搭建，不過因為cygwin畢竟不是原生的linux環境怕會出些不好解決的問題，所以打算用win8自帶的虛擬機hyper-v裝個archlinux作為交叉編譯的系統平臺，然後使用ssh連接過去進行操作。archlinux可以除去不需要的東西做到最小化的編譯環境搭建。&lt;/p&gt;
+&lt;p&gt;首先到archlinux的官網從163的鏡像下載了最新的archlinux安裝鏡像archlinux-2015.03.01-dual.iso&lt;/p&gt;
+&lt;p&gt;啟用hyper-v並且重啟後hyper-v虛擬機就可以用了，在hyper-v管理器中新建虛擬交換機用於虛擬機跟外界的網路連接，然後新建archlinux的虛擬機
+&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptnvihf4aj20iq0hytcd.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;啟動虛擬機進行系統的安裝&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://ww2.sinaimg.cn/large/4ec84d23gw1eptuldez6fj20ut0m1aga.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;安裝完系統裝上必要的網路服務工具和openssh就能ssh到archlinux進行操作了，archlinux使用systemctl就能添加系統服務開機運行了還是很方便的。&lt;/p&gt;
+&lt;p&gt;archlinux的安裝花的時間不長，但是需要仔細一點，中間漏了某一步可能就需要重來了，最好還是跟著官方wiki上的步驟來做，在安裝環境的/root/下面也有一份簡易的安裝步驟。&lt;/p&gt;
+&lt;p&gt;這一p就先到這裡吧，更新下一p的時候再繼續後面的步驟。&lt;/p&gt;</content></entry><entry><title>入手極路由</title><link href="https://www.chinuno.com/blog/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1" rel="alternate"></link><published>2015-03-04T13:31:21+08:00</published><updated>2015-03-04T13:31:21+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-04:/blog/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1</id><content type="html">&lt;p&gt;現在手上的設備大部分都能用5G的wifi了，加上學校在使用的路由器在自動設置路由表有些問題早就想換了所以入了個極路由。開箱後是這樣的 &lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptm8trsjqj219c0pidqa.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;之前網上看人說電源特別大，實際到手之後感覺還行，不算大的。&lt;/p&gt;
+&lt;p&gt;在初始配置後能夠上網了
+&lt;img alt="" src="http://ww3.sinaimg.cn/large/4ec84d23gw1eptmfobzeqj20kr0hgdju.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;surface使用802.11ac連接，在學校宿舍各種干擾使用5g頻段還是很有必要的。&lt;/p&gt;
+&lt;p&gt;極路由的後臺界面挺美的，使用起來應該說還是很方便的，內置了幾大上網認證功能，所以才打算在學校使用極路由。&lt;/p&gt;
+&lt;p&gt;極路由宣傳的一個亮點是擴展插件，實際上那些插件除了標配的ddns，端口轉發其他都是用不上的，數量也不算多「話說之前貼吧看到過的ss插件怎麼沒有，難道要日更版才有？」&lt;/p&gt;
+&lt;p&gt;大約看了看極路由系統的信息之後發現。。這極路由的系統其實就是個openwrt。。。不過極路由團隊進行了web界面的美化加入了點遠程操作的功能，對於不太喜歡搞七搞八的人來說還是很方便的，現在智能手機的系統大部分不還是android自己改的嘛「「「&lt;/p&gt;
+&lt;p&gt;極路由的信號設置默認強的情況下隔著兩堵牆大約十米範圍2.4g頻段信號跟我原來使用的TPLINK路由器差不多，5G頻段信號只有一格，表現還行。&lt;/p&gt;
+&lt;p&gt;剛到手還不能看出有什麼問題，以後如果出現了網上人說的連接不穩定之類的再在這裡更新吧。&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;————————————————————————————————————&lt;/p&gt;
+&lt;p&gt;2015年3月8日更新。今天是把極路由帶到學校的第一天，結果在配置路由器的時候發生了蛋疼的事情。路由器通電之後過了大約三分鐘才開始亮燈能連wifi，然後過了大約兩分鐘才能進得去後臺。然後突然後臺進不去了w(ﾟДﾟ)w！！把手頭四臺設備全都試了一遍都進不去我蛋疼了，，重啟之後又是漫長的等待，還是沒能進去。。最後把它放置play蠻長一段時間後重新啟動路由器，忐忑的等了五分鐘終於能夠進去了。。當時整個人都要炸了。。。&lt;/p&gt;</content><category term="极路由"></category></entry><entry><title>明天的计划</title><link href="https://www.chinuno.com/blog/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92" rel="alternate"></link><published>2015-03-04T00:01:08+08:00</published><updated>2015-03-04T00:01:08+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-04:/blog/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92</id><content type="html">&lt;p&gt;为了编译树莓派上面运行的程序明天或许会搭建一个交叉编译环境。&lt;/p&gt;
+&lt;p&gt;用archlinux做server真是作死了。。好几个月没滚今天滚下看看还能不能活得成。&lt;/p&gt;
+&lt;p&gt;————————————————&lt;/p&gt;
+&lt;p&gt;成功滚完，这次更新的东西真多。暂时还没发现什么异常，就怕下次重启之后挂掉otl&lt;/p&gt;
+&lt;p&gt;晚安。&lt;/p&gt;</content></entry><entry><title>博客搬迁</title><link href="https://www.chinuno.com/blog/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81" rel="alternate"></link><published>2015-03-02T20:58:20+08:00</published><updated>2015-03-02T20:58:20+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-03-02:/blog/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81</id><content type="html">&lt;p&gt;今天博客搬迁，顺便换了个域名。&lt;/p&gt;
+&lt;p&gt;为了装逼学了ComboPinyin打字。这篇日志也是用ComboPinyin码出来的。&lt;/p&gt;
+&lt;p&gt;十秒码一个字- -!&lt;/p&gt;</content></entry><entry><title>Qpython执行需要root权限的脚本</title><link href="https://www.chinuno.com/blog/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac" rel="alternate"></link><published>2015-02-28T03:28:42+08:00</published><updated>2015-02-28T03:28:42+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2015-02-28:/blog/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac</id><content type="html">&lt;p&gt;既然这里搭好了就发篇文章吧&lt;/p&gt;
+&lt;p&gt;在更新到android5.0之后SL4A已经不能使用了，一执行脚本就会黑掉然后崩掉。Qpython原本也是会出问题的后来很快更新了新版本已经解决了5.0的问题了，倒是SL4A一直都没有更新的动作于是现在都用Qpython来运行python脚本了。
+之前写了个脚本用来进行自动更新某个app的配置，因此需要修改app目录下的配置文件，但是执行配置文件修改的操作需要获得root权限，因为是在Qpython中运行的脚本因此是无法获得root权限的，在shell中搭建好python环境后直接在模拟终端sudo运行应该是可以的不过操作实在是太繁琐了。后来看到配置文件中有个指定配置文件目录的字段，尝试修改了一下发现app照样读取原来目录下的配置文件，修改了config_file字段的路径一点作用也没有，于是到github上找了项目开源的代码来看了下，发现原来配置文件的路径都已经在源码中写死了otl。。给出了config_file的字段其实是个没用的接口(?
+既然路径是写死的那么就只能修改源码重新编译才能达到修改配置文件目录到不需root权限就能修改的路径去了。
+修改代码重新编译实在是麻烦（其实还是懒
+所以最后还是通过最懒的方法解决了这个问题。。直接用adb shell给su到root然后把配置文件权限配置为777这样就算不用取得root权限仍然可以达到修改配置文件的目的
+不知道还有什么办法能达到这样的目的，当然最希望的是Qpython以后能够加入以root权限运行脚本的功能。&lt;/p&gt;</content></entry></feed>

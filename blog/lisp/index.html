@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>还是近况</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/lisp" rel="canonical" />
+
+    <meta name="description" content="今天终于不是关于路由器的话题了。 再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已 lisp 突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="lisp">
+    <meta name="tags" content="cdn">
+    <meta name="tags" content="github">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="还是近况"/>
+<meta property="og:description" content="今天终于不是关于路由器的话题了。 再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已 lisp 突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/lisp"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-08-28 23:50:16+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="lisp"/>
+<meta property="article:tag" content="cdn"/>
+<meta property="article:tag" content="github"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="还是近况">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/lisp">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="今天终于不是关于路由器的话题了。 再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已 lisp 突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "还是近况",
+  "headline": "还是近况",
+  "datePublished": "2015-08-28 23:50:16+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/lisp",
+  "description": "今天终于不是关于路由器的话题了。 再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已 lisp 突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">还是近况</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="五 28 八月 2015">五 28 八月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>今天终于不是关于路由器的话题了。</p>
+<p>再过不久又要开学了，心累，2T的考研资料现在也只下载了500G而已</p>
+<h3>lisp</h3>
+<p>突然又对lisp有兴趣了，下载了个SBCL玩了下，遇到个比较奇怪的问题。
+直接在命令行中输入的话是没有问题的，而保存为文件后载入的话汉字就会乱码，按照一个直接一个字节来表示的。然后据说slime很好用，所以有特地搞了个emacs想来试试看。然而配置各种混乱，也搞不好。以前就已经有试过用了一次emacs，就已经玩不来了。果然还是vim才是真爱 </p>
+<h3>Github</h3>
+<p>前不久typcn研究出了个抓包修改签到地点的方法【怎么这么闲能搞到那种东西上面去。。然后自己也就写了个python程序来实现了一下。后来想着还是开源丢github上面去吧。</p>
+<p>正好想到试试看github的那个windows客户端，然后就去下载了</p>
+<p>然后傻逼了，下载地址在亚马逊s3服务器上，作为一个常年被GFW关照的地方不出意外的就是下载不下来。好不容易下载下来了。又不出意外的只是个下载程序，还要下载其他的数据，然后还是s3服务器还是下载不下来的东西。</p>
+<p>这些不说了，只是想说一下制定规则的人都是sb么，该墙的地方好好墙没事，乱七八糟的东西全tm墙掉还想要发展发展nmb啊。</p>
+<p>windows客户端其实还是蛮好看的，功能也够用【嗯，只是够用</p>
+<p>基本的操作都可以轻松完成，然而大部分的操作还是需要git shell来搞定。比如说要使用releases功能需要打tag，而windows客户端没有打tag的功能，只能开git shell输命令<code>git tag -a 'blabla' -m 'blabla'</code>来搞定。然后push的时候又来了，tag是不会被提交上去的，这时候又只能git shell来进行提交操作了【这样说来你客户端到底做了什么。。。</p>
+<p>原来也一直没用过releases功能，现在试了一下，但是感觉也是蛋疼。第一次上传时总是提示不支持的格式，后来无意中点到下载源码的按钮才发现它源码包的命名跟我要上传的一模一样。。改了个名字已经可以上传了（看到了进度条</p>
+<p>然而等了半天进度条就是没动。。又过了一会儿他竟然从头开始了！！</p>
+<p>没办法只能代理上传上去了，传完之后看了看下载地址！</p>
+<p>又是他喵的亚马逊s3服务器！难怪每次从releases页面下载的时候总觉得下载不下来。</p>
+<h3>CDN</h3>
+<p>最后说个有关这里的事情吧。</p>
+<p>这几天要开这里的时候发现总是载不出来,而直接从ip开的话则基本上秒开！</p>
+<p>看了看CDN的统计页面则发现基本上没有流量过去！【节省带宽1kbps,节省流量0.25mb】呵呵。。其实上个月看了一次就发现没有流量走那边了</p>
+<p>然后nslookup看了看自己的域名，解析到美国去了，我记得之前给的应该是香港的ip才对，又到cdn提供商设置页面看了看。他把我换到AWS去了！他喵难怪就是打不开！呵呵真尼玛神坑</p>
+<p>还有一个不知道是不是360的公共CDN炸了，直接ip开也会一直卡在请求360那边的资源上，同时还看到了CF的CDN资源也获取不到，不知道是不是也被墙了。</p>
+<p>哎。活的心累</p>
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=还是近况&amp;url=https://www.chinuno.com/blog/lisp" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/lisp" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/lisp" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/lisp">lisp</a><a href="https://www.chinuno.com/tag/cdn">cdn</a><a href="https://www.chinuno.com/tag/github">github</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/lisp';
+                    var disqus_url = 'https://www.chinuno.com/blog/lisp';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/lisp" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/sign">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">各种签到</h2>
+                            <p class="post-nav-excerpt">昨天的事情。今天来写了 TX的签到 才研究出来的改QQ签到地址的方法昨天被TX给封了 遗体在此，难得都更新到1.2.3版本了 贴吧签到...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/bridging">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">路由器桥接</h2>
+                            <p class="post-nav-excerpt">今天依然是折腾路由器。 家里的网络情况大概是这样 第一个路由器拨号上网下接树莓派客厅的电视和一台电脑，平时在客厅也用这个路由器的wifi。...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

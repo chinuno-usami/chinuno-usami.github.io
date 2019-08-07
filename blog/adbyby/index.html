@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>路由器去广告</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/adbyby" rel="canonical" />
+
+    <meta name="description" content="今天依然是折腾路由器。 均衡负载 刷了openwrt就想试试其他的东西 周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="路由器">
+    <meta name="tags" content="openwrt">
+    <meta name="tags" content="adbyby">
+    <meta name="tags" content="mwan3">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="路由器去广告"/>
+<meta property="og:description" content="今天依然是折腾路由器。 均衡负载 刷了openwrt就想试试其他的东西 周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/adbyby"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-07-28 00:24:06+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="路由器"/>
+<meta property="article:tag" content="openwrt"/>
+<meta property="article:tag" content="adbyby"/>
+<meta property="article:tag" content="mwan3"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="路由器去广告">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/adbyby">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="今天依然是折腾路由器。 均衡负载 刷了openwrt就想试试其他的东西 周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "路由器去广告",
+  "headline": "路由器去广告",
+  "datePublished": "2015-07-28 00:24:06+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/adbyby",
+  "description": "今天依然是折腾路由器。 均衡负载 刷了openwrt就想试试其他的东西 周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">路由器去广告</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="二 28 七月 2015">二 28 七月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>今天依然是折腾路由器。</p>
+<h3>均衡负载</h3>
+<p>刷了openwrt就想试试其他的东西</p>
+<p>周围就有一大把的无线wifi可以蹭，想着可以装个mwan3来同时使用自己的网和隔壁的网，实现带宽叠加，针对不同的网页也能走不同的线路。</p>
+<p>安装方式可以参考<a href="http://wiki.openwrt.org/doc/howto/mwan3">http://wiki.openwrt.org/doc/howto/mwan3</a>。</p>
+<p>本身也可以用opkg直接安装了。</p>
+<div class="highlight"><pre><span></span>opkg install mwan3
+opkg install luci-app-mwan3
+</pre></div>
+
+
+<p>通过luci设置一个客户端模式无线连接隔壁wifi加入wan。同时还能开热点给自己的设备用，这点是有点惊喜的。本来还以为连接隔壁wifi后自己就没有热点可以用了。</p>
+<p>配置一下接口，在ntework设置一下两个外网端口，都启用起来，这时不出意外的话就能在mwan3的luci界面看到两个接口都是绿色的，表示都在使用了。</p>
+<p>打开网页查询ip,是隔壁的线路。traceroute一下，也有从自己的线路出去。</p>
+<p>测试从度盘下载的时候发现速度特别慢。估计是因为度盘有验证ip的关系，没法两条线路都用上。</p>
+<p>随后用aria2开多个线程下载其他文件测速，确实已经有所叠加。然而隔壁网速最高也才600kb/s。</p>
+<h3>adbyby去广告</h3>
+<p>在上面这些东西都折腾完后已经没有任何空间可以使用了。「其实应该还是有一些可以用的吧，要调整可用分区大小还是要重新编译固件</p>
+<p>mwan3也是在很勉强的情况下才装下去的。</p>
+<p>于是最后决定不用mwan3做均衡负载了，反正没卵用，而且也比较危险。</p>
+<p>这次直接恢复设置，连中文的luci界面也不装了，就加个dnscrypt。然后再加个adbyby来去广告。<a href="http://www.adbyby.com/">官网在这</a>.</p>
+<p>可执行文件解压出来后已经有1.4M了。路由器还是塞不下。最后决定丢tmpfs上,而内存也还有好大一部分可以使用。</p>
+<p>经过直接下载运行后感觉效果还行，广告去的特别干净。然而感觉有点卡网。也不知道是不是因为路由器性能的关系「然而看cpu使用率也并不高。</p>
+<p>这时候发现一个神奇的问题。查看进程会发现生出了好多adbyby的进程。然后adbyby只要一后台运行，过一段时间后就会自己蹦掉。。</p>
+<p>不过每次开机都要手动下载配置运行adbyby实在是不现实，于是。没错，，又到了神奇的树莓派上场的时间了。把adbyby包放到树莓派上，然后开机自动获取运行。其实是有想过使用nfs的，然而树莓派上面的nfs服务器运行的时候总是有问题，所以只能这样解决了。</p>
+<p>添加开机脚本</p>
+<div class="highlight"><pre><span></span>mkdir /tmp/adbyby
+wget -P /tmp/adbyby <span class="m">192</span>.168.1.104/openwrt.tar.gz
+tar zxvf /tmp/adbyby/openwrt.tar.gz -C /tmp/adbyby/
+chmod <span class="m">777</span> /tmp/adbyby/bin/adbyby
+/tmp/adbyby/bin/adbyby <span class="p">&amp;</span>
+</pre></div>
+
+
+<p>开机后自动获取执行。亲测，效果拔群。而且也没有出现adbyby进程暴增的问题，也不会自己蹦掉啦。</p>
+<hr>
+<p>8月-15更新。因为发现懒得修改而直接在评论里面更新实在不是一个好习惯，所以把原来评论里的更新都更新到正文里面来了</p>
+<p>好了。我来自己打脸了。「而且也没有出现adbyby进程暴增的问题，也不会自己蹦掉啦。」这句是电脑的特技！因为开机脚本没有设置透明代理所以一直都没有流量走过滤..</p>
+<p>于是正常运行的时候那些问题又来了，过没多久就会自己崩掉，似乎有看到段错误的样子。没办法，只好自己写个守护程序在每次蹦掉的时候启动了。</p>
+<p>开机脚本加了这两条</p>
+<div class="highlight"><pre><span></span>iptables -t nat -A PREROUTING -p tcp --dport <span class="m">80</span> -j REDIRECT --to-ports <span class="m">8118</span>
+/root/b.sh &gt; /dev/null <span class="p">&amp;</span>
+</pre></div>
+
+
+<p>第一条设置透明代理</p>
+<p>第二条运行守护程序</p>
+<p>守护程序的内容如下</p>
+<div class="highlight"><pre><span></span><span class="ch">#! /bin/ash</span>
+<span class="k">while</span> <span class="nb">true</span>
+<span class="k">do</span>
+sleep <span class="m">5</span>
+<span class="k">if</span> <span class="o">[</span> <span class="sb">`</span>ps<span class="p">|</span>grep adbyby<span class="p">|</span>wc -l<span class="sb">`</span> -gt <span class="m">1</span> <span class="o">]</span>
+<span class="k">then</span>
+<span class="nb">echo</span> <span class="s2">&quot;normal&quot;</span>
+<span class="k">else</span>
+<span class="nb">echo</span> <span class="s2">&quot;bad&quot;</span>
+/tmp/adbyby/bin/adbyby <span class="p">&amp;</span>
+<span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+
+
+<p>每5s检查adbyby进程数，没有的话就自动运行。</p>
+<p>以上</p>
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=路由器去广告&amp;url=https://www.chinuno.com/blog/adbyby" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/adbyby" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/adbyby" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/lu-you-qi">路由器</a><a href="https://www.chinuno.com/tag/openwrt">openwrt</a><a href="https://www.chinuno.com/tag/adbyby">adbyby</a><a href="https://www.chinuno.com/tag/mwan3">mwan3</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/adbyby';
+                    var disqus_url = 'https://www.chinuno.com/blog/adbyby';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/adbyby" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/bridging">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">路由器桥接</h2>
+                            <p class="post-nav-excerpt">今天依然是折腾路由器。 家里的网络情况大概是这样 第一个路由器拨号上网下接树莓派客厅的电视和一台电脑，平时在客厅也用这个路由器的wifi。...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/openwrt">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">DNSCrypt解决污染问题</h2>
+                            <p class="post-nav-excerpt">之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

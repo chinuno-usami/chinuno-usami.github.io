@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>vim实现无插件的snippet</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/snippet" rel="canonical" />
+
+    <meta name="description" content="突然发现一年没更新了。更一个凑数（。 公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。 被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="linux">
+    <meta name="tags" content="vim">
+    <meta name="tags" content="m4">
+    <meta name="tags" content="snippet">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="vim实现无插件的snippet"/>
+<meta property="og:description" content="突然发现一年没更新了。更一个凑数（。 公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。 被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/snippet"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-07-19 09:27:06+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="linux"/>
+<meta property="article:tag" content="vim"/>
+<meta property="article:tag" content="m4"/>
+<meta property="article:tag" content="snippet"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="vim实现无插件的snippet">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/snippet">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="突然发现一年没更新了。更一个凑数（。 公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。 被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "vim实现无插件的snippet",
+  "headline": "vim实现无插件的snippet",
+  "datePublished": "2019-07-19 09:27:06+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/snippet",
+  "description": "突然发现一年没更新了。更一个凑数（。 公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。 被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">vim实现无插件的snippet</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="五 19 七月 2019">五 19 七月 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>突然发现一年没更新了。更一个凑数（。</p>
+<p>公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。<br>
+被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。<br>
+但是公司所有环境隔离，给vim装个snippet插件是不太好搞了，于是自己实现了个简单够用的snippet功能。  </p>
+<p>参考了<a href="https://www.reddit.com/r/vim/comments/7nm5fk/a_no_plugin_way_of_making_snippets/">reddit上这个讨论</a>, 结合m4来实现。<br>
+思路是:vim用map自动输入宏，补全参数，最后调用m4展开<br>
+首先是m4文件</p>
+<div class="highlight"><pre><span></span><span class="n">divert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">define</span><span class="p">(</span><span class="o">`</span><span class="n">FILEHEAD</span><span class="s1">&#39;, `/***********************************************************************</span>
+<span class="s1"> *  Copyright Xiamen Meiya Pico Information Co., Ltd. 2019-2020.      </span>
+<span class="s1"> *  All rights reserved.                           </span>
+<span class="s1"> *                                                                  </span>
+<span class="s1"> *  文件名称: &#39;</span><span class="err">$</span><span class="mi">1</span><span class="o">`</span> 
+ <span class="o">*</span>  <span class="err">功能描述</span><span class="p">:</span> <span class="s1">&#39;$2`</span>
+<span class="s1"> *  作    者: cirno</span>
+<span class="s1"> *  日    期: &#39;</span><span class="n">esyscmd</span><span class="p">(</span><span class="o">`</span><span class="nb">date</span>  <span class="o">+%</span><span class="n">Y</span><span class="p">.</span><span class="o">%</span><span class="n">m</span><span class="p">.</span><span class="o">%</span><span class="n">d</span><span class="s1">&#39;)dnl</span>
+<span class="s1">` *  修改记录:</span>
+<span class="s1"> *         1. 修改内容: 首次创建</span>
+<span class="s1"> *            日    期: &#39;</span><span class="n">esyscmd</span><span class="p">(</span><span class="o">`</span><span class="nb">date</span>  <span class="o">+%</span><span class="n">Y</span><span class="p">.</span><span class="o">%</span><span class="n">m</span><span class="p">.</span><span class="o">%</span><span class="n">d</span><span class="s1">&#39;)dnl</span>
+<span class="s1">` *            修 改 者: cirno</span>
+<span class="s1"> *************************************************************************/</span>
+<span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">define</span><span class="p">(</span><span class="o">`</span><span class="n">FUNCHEAD</span><span class="s1">&#39;, `/************************************************************************</span>
+<span class="s1"> * 函数名称：&#39;</span><span class="err">$</span><span class="mi">1</span><span class="o">`</span>
+ <span class="o">*</span> <span class="err">功能描述</span><span class="p">:</span> <span class="s1">&#39;$2`</span>
+<span class="s1"> * 输入参数：&#39;</span><span class="err">$</span><span class="mi">3</span><span class="o">`</span>
+ <span class="o">*</span> <span class="err">输出参数</span><span class="p">:</span> <span class="s1">&#39;$4`</span>
+<span class="s1"> * 返 回 值: &#39;</span><span class="err">$</span><span class="mi">5</span><span class="o">`</span>
+ <span class="o">*</span> <span class="err">修改记录</span><span class="p">:</span>
+ <span class="o">*</span>        <span class="mi">1</span><span class="p">.</span> <span class="err">修改内容</span><span class="p">:</span> <span class="err">首次创建</span>
+ <span class="o">*</span>           <span class="err">日</span>    <span class="err">期</span><span class="p">:</span> <span class="s1">&#39;esyscmd(`date  +%Y.%m.%d&#39;</span><span class="p">)</span><span class="n">dnl</span>
+<span class="o">`</span> <span class="o">*</span>           <span class="err">修</span> <span class="err">改</span> <span class="err">者</span><span class="p">:</span> <span class="n">cirno</span>
+ <span class="o">************************************************************************/</span><span class="err">&#39;</span><span class="p">)</span>
+<span class="n">divert</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+
+<p>把所有的snippet定义在m4文件内，日期可以调用date来插入<br>
+然后在.vimrc里面加入vim要做的操作  </p>
+<div class="highlight"><pre><span></span><span class="ss">&quot;没有插件情况下简易的snippet实现</span>
+<span class="ss">&quot;</span><span class="err">自己用的</span><span class="n">snippet</span><span class="err">，依靠</span><span class="n">m4实现</span>
+
+<span class="ss">&quot;跳到下一参数</span>
+<span class="ss">inoremap ;; &lt;ESC&gt;/{%[^%]*%&lt;cr&gt;v/%}&lt;cr&gt;&lt;right&gt;c</span>
+<span class="ss">&quot;&quot;执行展开</span>
+<span class="ss">nnoremap &lt;C-h&gt;e V:!m4&lt;Enter&gt;</span>
+<span class="ss">&quot;</span>
+<span class="ss">&quot;&quot;</span><span class="err">补全文件注释头</span>
+<span class="n">nnoremap</span> <span class="o">&lt;</span><span class="k">C</span><span class="o">-</span><span class="n">h</span><span class="o">&gt;</span><span class="n">h</span> <span class="n">iinclude</span><span class="p">(</span><span class="o">`/</span><span class="n">root</span><span class="o">/</span><span class="p">.</span><span class="n">snippets</span><span class="o">/</span><span class="n">snippets</span><span class="p">.</span><span class="n">m4</span><span class="s1">&#39;)FILEHEAD(`&lt;C-r&gt;%&#39;</span><span class="p">,</span><span class="o">`</span><span class="err">{</span><span class="o">%</span> <span class="o">&lt;</span><span class="k">desc</span><span class="o">&gt;</span> <span class="o">%</span><span class="err">}</span><span class="s1">&#39;)</span>
+<span class="s1">&quot;&quot;补全函数注释头</span>
+<span class="s1">nnoremap &lt;C-h&gt;f iinclude(`/root/.snippets/snippets.m4&#39;</span><span class="p">)</span><span class="n">FUNCHEAD</span><span class="p">(</span><span class="o">`</span><span class="err">{</span><span class="o">%</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">%</span><span class="err">}</span><span class="s1">&#39;,`{% &lt;desc&gt; %}&#39;</span><span class="p">,</span><span class="o">`</span><span class="err">{</span><span class="o">%</span> <span class="o">&lt;</span><span class="k">input</span> <span class="n">pram</span><span class="o">&gt;</span> <span class="o">%</span><span class="err">}</span><span class="s1">&#39;,`{% &lt;output parm&gt; %}&#39;</span><span class="p">,</span><span class="o">`</span><span class="err">{</span><span class="o">%</span> <span class="o">&lt;</span><span class="n">ret</span> <span class="n">val</span><span class="o">&gt;</span> <span class="o">%</span><span class="err">}</span><span class="s1">&#39;)&#39;</span><span class="o">`</span><span class="s1">&#39;`&#39;</span><span class="o">`</span><span class="s1">&#39;`&#39;</span><span class="o">`</span><span class="p">)</span><span class="err">&#39;</span><span class="p">)</span><span class="o">`</span><span class="p">)</span>
+</pre></div>
+
+
+<p>效果就是，按下ctrl+h h插入文件头宏，按;;补全描述，文件名就由vim自己填充了<br>
+按下ctl+h f插入函数头宏，一样用;;补全各个参数<br>
+最后按ctrl+h e执行展开  </p>
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=vim实现无插件的snippet&amp;url=https://www.chinuno.com/blog/snippet" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/snippet" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/snippet" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/linux">linux</a><a href="https://www.chinuno.com/tag/vim">vim</a><a href="https://www.chinuno.com/tag/m4">m4</a><a href="https://www.chinuno.com/tag/snippet">snippet</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/snippet';
+                    var disqus_url = 'https://www.chinuno.com/blog/snippet';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/snippet" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/raspberry-pi-streaming">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">树莓派串流游戏</h2>
+                            <p class="post-nav-excerpt">前不久入了新的xbox one手柄，体验还不错，多了蓝牙功能连手机和SP3比起有线方便一点。...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

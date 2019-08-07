@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>说说live usb吧</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/live-usb" rel="canonical" />
+
+    <meta name="description" content="之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而... linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。 目前把linux系统做到u盘里面就这么三种方法 1....">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="linux">
+    <meta name="tags" content="live usb">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="说说live usb吧"/>
+<meta property="og:description" content="之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而... linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。 目前把linux系统做到u盘里面就这么三种方法 1...."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/live-usb"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-06-27 00:23:05+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="linux"/>
+<meta property="article:tag" content="live usb"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="说说live usb吧">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/live-usb">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而... linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。 目前把linux系统做到u盘里面就这么三种方法 1....">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "说说live usb吧",
+  "headline": "说说live usb吧",
+  "datePublished": "2015-06-27 00:23:05+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/live-usb",
+  "description": "之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而... linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。 目前把linux系统做到u盘里面就这么三种方法 1...."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">说说live usb吧</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="六 27 六月 2015">六 27 六月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>之前看了Bloody Mondy。觉得把自己的系统放在u盘里随身携带蛮方便的，所以自己也想试着做一个。然而...
+<!--more-->
+linux的发行般基本上都有一个live cd模式，可以在不安装系统的情况下使用系统。
+目前把linux系统做到u盘里面就这么三种方法
+1. 直接把安装盘镜像写入u盘中，当成live cd使用，读写操作在内存中运行，关机之后数据不保留。
+2. 直接把u盘当成硬盘，把系统装在里面使用，就算重启数据也不会丢失。
+3. 使用ubuntu的启动盘创建器或者lili之类的工具做成live usb,关机之后仍然保留数据。</p>
+<p>既然要做成随身系统u盘，那第一种方法就不考虑了，关键时候用用还行，比如像前几天对树莓派sd卡做fsck的时候就只能掏出好几年前烧的ubuntu光碟进live cd去做了。</p>
+<p>之前有试过把openSUSE直接安装到u盘中用，然而开机就等了快20min，好不容易进入系统了却基本上什么都做不了，卡成poi。艰难的开了top看了一下wa,基本上都是在70~90+的范围内，估计就算勉强用下去了，过不了多久这u盘也该报废了（usb2.0的u盘，3.0应该不会有这样的问题吧，不过价格稍微高了些，用来这样烧感觉也是...）</p>
+<p>第三种做成live usb之前没有试过，原先认为的是，live usb进入系统后系统跟live cd一样是在内存中运行，而必要的修改才写入u盘或者关机的时候一起写入。然而事实证明我想多了。</p>
+<p>下载了个ubuntu14.04LTS来做live usb,用ubuntu 自带的启动盘制作工具来做。创建完毕后直接重启使用。跟live cd一样开始选单就那几样，试用，安装，内存测试...。开机时间也是特别长，我猜我已经知道是什么情况了。等了好长一段时间后进入桌面了。果然还是卡出翔。开了top查看wa。呵呵。70~90+。</p>
+<p>df查看了下目录挂载情况。除了tmpfs挂在/tmp以外就看到/cow on /。原来live usb是这样的。他创建了个casper-rw文件。查看类型是
+<code>casper-rw: Linux rev 1.0 ext3 filesystem data, UUID=eaf128a8-c26c-4cd8-8f59-5ab3999619ba (needs journal recovery) (large files)</code>
+系统启动后就挂载在根目录下，这样所有的读写操作都是在这个文件中进行的，相当于wubi一样，天了撸。live usb就是为usb的读写做了点优化，把/tmp放到内存中，挂载的时候加了个noatime不在读文件的时候写入访问时间这样而已。读写都还是在一个文件里面完成的。。起码文件系统也做成ext2的把，ext3的日志更加增加了u盘的写入量。</p>
+<p>最后想想，这种东西别太在意了。有个live cd急救用就行，电视剧始终是电视剧，在虚拟世界中追求真实感的人脑子一定有问题（阿虚脸）。真要做的话或许可以搞个移动硬盘或者ssd走起（前提还是要有usb3.0接口，否则浪费那些人身就太不值了）。另外随身携带一个树莓派或许是个不错的选择（或许不。树莓派的供电是个问题，况且万一遇到需要查看硬盘的<code>审计情况</code>呢？）））</p>
+<hr>
+<p>怎么总觉得总是在这个时间点更新博客呢
+2015年 06月 27日 星期六 01:17:09 CST
+<img alt="doge" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/doge_thumb.gif"></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=说说live usb吧&amp;url=https://www.chinuno.com/blog/live-usb" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/live-usb" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/live-usb" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/linux">linux</a><a href="https://www.chinuno.com/tag/live-usb">live usb</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/live-usb';
+                    var disqus_url = 'https://www.chinuno.com/blog/live-usb';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/live-usb" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/pifm">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">用树莓派进行广播FM以及SSH登录设置</h2>
+                            <p class="post-nav-excerpt">因为有两个内容想要写的，都是而且都不长所以都放在同一篇里面吧。 树莓派广播FM 刚玩了下用树莓派广播FM。用的是PiFm....</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/tmux">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">转用tmux替代screen</h2>
+                            <p class="post-nav-excerpt">在ssh连接到机器上时经常需要中断连接，但是执行一半的操作还需要继续运行下去。...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

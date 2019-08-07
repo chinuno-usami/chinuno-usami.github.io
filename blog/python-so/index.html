@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>python调用C++函数</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/python-so" rel="canonical" />
+
+    <meta name="description" content="其实。这个东西一年前就想记录下来了。就。现在才写。 之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="python">
+    <meta name="tags" content="C++">
+    <meta name="tags" content="so">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="python调用C++函数"/>
+<meta property="og:description" content="其实。这个东西一年前就想记录下来了。就。现在才写。 之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/python-so"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-07-20 00:24:06+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="C++"/>
+<meta property="article:tag" content="so"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="python调用C++函数">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/python-so">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="其实。这个东西一年前就想记录下来了。就。现在才写。 之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "python调用C++函数",
+  "headline": "python调用C++函数",
+  "datePublished": "2018-07-20 00:24:06+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/python-so",
+  "description": "其实。这个东西一年前就想记录下来了。就。现在才写。 之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">python调用C++函数</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="五 20 七月 2018">五 20 七月 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>其实。这个东西一年前就想记录下来了。就。现在才写。</p>
+<p>之前做某个项目的时候有个处理步骤用SSD检测效果比较好。本来想为了统一学习框架，用tensorflow版本的SSD来做。但是因为环境问题，无法一起使用。正好以前其他项目有用过C++写的caffe版本SSD，可以拿来用。</p>
+<p>那个时候用的还是Python写的项目，所以要想办法把C++的代码用到Python里面去。</p>
+<p>python调用C++的代码可以把C++代码封装成python模块，也可以编成动态库用FFI方式调用。因为只是研究性质的东西，所以怎么快怎么来了。</p>
+<p>一开始用了CFFI第三方模块，功能是能实现了，但是引入了第三方依赖又硬贴入一大坨C代码巨丑，后来用ctypes重新实现了。（其实原来一直以为CFFI就是python官方的FFI调用方式，忘了还有个叫ctypes的</p>
+<p>先把C++封装成C接口，这个就很简单了，一共就暴露出</p>
+<ul>
+<li>ssd_create</li>
+<li>ssd_caffe_det</li>
+<li>ssd_destroy</li>
+</ul>
+<p>3个接口,调用流程也就创建context，开始检测，销毁context。</p>
+<p>使用ctypes.CDLL参数为动态库文件(so,dll,dylib)可以dlopen方式加载需要调用的动态库。</p>
+<p>可以直接从打开的库对象调用导出的函数，名字也和c里面定义的一样。</p>
+<p>因为调用的是c的函数接口，所以交互不能直接使用python的数据结构，而是用ctypes里面定义的c数据类型。具体要查看相关文档了。</p>
+<p>c中的数组/指针在python中可以直接用[]获取对应位置的元素，结构体中的元素也可以直接用.获取，使用起来不算麻烦。</p>
+<p>下面就贴上完整的python代码吧。</p>
+<div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="k">class</span> <span class="nc">SSD</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;FFI调用caffe版SSD封装类</span>
+<span class="sd">    使用:</span>
+<span class="sd">        ssd = SSD() # 参数可加threshold,</span>
+<span class="sd">                    # 阈值，置信度大于阈值的结果才返回</span>
+<span class="sd">        res = ssd.ssd_caffe(img) # img,要识别的图片</span>
+<span class="sd">        # res 为结果list ,每个元素为一个结果</span>
+<span class="sd">        # [image,[x,y,w,h],score] image为截取出来的图像</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span> <span class="nc">RetVal</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+        <span class="n">_fields_</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;values&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">250</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;deploy512_small.prototxt&quot;</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="s2">&quot;models/car5_SSD_512x512_iter_5000.caffemodel&quot;</span><span class="p">):</span>
+        <span class="c1"># 阈值，置信度大于阈值的结果才返回</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="c1"># 加载so库</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">so</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="s2">&quot;./libssd_caffe.so&quot;</span><span class="p">)</span>
+        <span class="c1"># 创建SSD的handle</span>
+
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;u8&quot;</span><span class="p">)</span>
+        <span class="n">wei</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;u8&quot;</span><span class="p">)</span>
+
+        <span class="n">create_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="o">.</span><span class="n">ssd_create</span>
+        <span class="n">create_handle</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">create_handle</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">wei</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">set_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">th</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="k">def</span> <span class="nf">ssd_caffe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+        <span class="c1"># 加载图片</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,(</span><span class="mi">512</span><span class="p">,</span><span class="mi">512</span><span class="p">))</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ubyte</span><span class="p">))</span>
+
+        <span class="c1"># 申请存储返回值结构体</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">SSD</span><span class="o">.</span><span class="n">RetVal</span><span class="p">()</span>
+        <span class="n">pres</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">byref</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+        <span class="c1"># 开始检测</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="o">.</span><span class="n">ssd_caffe_det</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="p">]</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">score</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">th</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">xmin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">ymin</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">xmin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">xmin</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">ymin</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">xmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">ymax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">image</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">],[</span><span class="n">xmin</span><span class="p">,</span><span class="n">ymin</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span><span class="p">],</span><span class="n">score</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 释放handle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="o">.</span><span class="n">ssd_destroy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">)</span>
+</pre></div>
+
+
+<p>@</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=python调用C++函数&amp;url=https://www.chinuno.com/blog/python-so" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/python-so" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/python-so" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/python">python</a><a href="https://www.chinuno.com/tag/c">C++</a><a href="https://www.chinuno.com/tag/so">so</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/python-so';
+                    var disqus_url = 'https://www.chinuno.com/blog/python-so';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/python-so" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/find">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">find命令处理奇葩命名文件</h2>
+                            <p class="post-nav-excerpt">linux中的find命令十分好用，特别是在需要批量处理文件时，可以用配合其他命令使用。...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/oneplus-sb-ota">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">发现个一加家挺sb的问题</h2>
+                            <p class="post-nav-excerpt">2年前入了个一加2手机，还写了篇博文评论了一番，到现在2年了还一直用的这个机子.不得不说确实是个耐艹的千元机，到现在摔了不下5、6次，却只有边框稍微凹陷一点而已。而之前用的诺...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

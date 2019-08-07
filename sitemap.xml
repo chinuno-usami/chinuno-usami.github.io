@@ -1,134 +1,832 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/08/18/move/</loc>
-    <lastmod>2015-08-18T11:08:26.512Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/07/10/hosts/</loc>
-    <lastmod>2015-07-10T07:55:05.700Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/06/28/pifm/</loc>
-    <lastmod>2015-06-27T18:44:44.770Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/06/27/live-usb/</loc>
-    <lastmod>2015-06-26T17:19:54.794Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/06/14/tmux/</loc>
-    <lastmod>2015-06-13T17:45:22.682Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/06/13/overflow/</loc>
-    <lastmod>2015-06-13T17:32:10.362Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/05/23/pil/</loc>
-    <lastmod>2015-05-31T06:35:25.045Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/05/31/netease/</loc>
-    <lastmod>2015-05-31T06:35:23.495Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/about/index.html</loc>
-    <lastmod>2015-04-18T17:28:24.165Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/04/19/pc-upgrade/</loc>
-    <lastmod>2015-04-18T17:24:13.985Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/27/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81/</loc>
-    <lastmod>2015-04-18T15:57:23.725Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/04/14/android-studio-add-library/</loc>
-    <lastmod>2015-04-14T13:24:10.545Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/04/06/surface-pro-3/</loc>
-    <lastmod>2015-04-07T07:28:56.850Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/04/05/hexo/</loc>
-    <lastmod>2015-04-05T03:54:35.980Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/18/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a/</loc>
-    <lastmod>2015-04-04T19:15:37.960Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/22/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc/</loc>
-    <lastmod>2015-04-04T16:56:06.200Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/25/surface-pro-e4-b8-ad-e7-9a-84hyper-v/</loc>
-    <lastmod>2015-04-04T13:08:38.010Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/28/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98/</loc>
-    <lastmod>2015-04-04T13:08:38.010Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/22/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/11/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/04/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/02/28/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/04/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/06/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/04/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92/</loc>
-    <lastmod>2015-04-04T13:08:38.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://chinuno-usami.github.io/2015/03/02/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81/</loc>
-    <lastmod>2015-04-04T13:08:37.990Z</lastmod>
-  </url>
-  
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+<loc>https://www.chinuno.com/</loc>
+<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/archives.html</loc>
+<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tags.html</loc>
+<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/About</loc>
+<lastmod>2015-02-28T14:59:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/snippet</loc>
+<lastmod>2019-07-19T09:27:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/raspberry-pi-streaming</loc>
+<lastmod>2018-12-05T14:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/find</loc>
+<lastmod>2018-07-23T10:26:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/python-so</loc>
+<lastmod>2018-07-20T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/oneplus-sb-ota</loc>
+<lastmod>2017-11-13T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/graduation-project</loc>
+<lastmod>2016-06-04T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/adbyby-android</loc>
+<lastmod>2016-05-01T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pypi</loc>
+<lastmod>2016-03-24T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/svn</loc>
+<lastmod>2016-03-12T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/game2</loc>
+<lastmod>2016-02-21T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/game</loc>
+<lastmod>2016-01-27T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/vsgit</loc>
+<lastmod>2016-01-15T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/vnc</loc>
+<lastmod>2016-01-04T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/driver</loc>
+<lastmod>2015-12-12T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/git</loc>
+<lastmod>2015-12-06T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/oneplus2</loc>
+<lastmod>2015-11-16T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pi</loc>
+<lastmod>2015-11-16T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/sign</loc>
+<lastmod>2015-09-02T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/lisp</loc>
+<lastmod>2015-08-28T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/bridging</loc>
+<lastmod>2015-08-21T23:50:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/adbyby</loc>
+<lastmod>2015-07-28T00:24:06+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/openwrt</loc>
+<lastmod>2015-07-26T18:23:16+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/zsh</loc>
+<lastmod>2015-07-25T18:34:05+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pelican</loc>
+<lastmod>2015-07-19T16:09:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/hosts</loc>
+<lastmod>2015-07-10T15:05:20+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pifm</loc>
+<lastmod>2015-06-28T01:15:23+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/live-usb</loc>
+<lastmod>2015-06-27T00:23:05+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/tmux</loc>
+<lastmod>2015-06-14T00:45:08+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/overflow</loc>
+<lastmod>2015-06-13T22:03:15+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/netease</loc>
+<lastmod>2015-05-31T13:28:54+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pil</loc>
+<lastmod>2015-05-23T12:38:40+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/pc-upgrade</loc>
+<lastmod>2015-04-19T00:03:35+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/android-studio-add-library</loc>
+<lastmod>2015-04-14T20:19:08+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/surface-pro-3</loc>
+<lastmod>2015-04-06T16:36:57+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/hexo</loc>
+<lastmod>2015-04-05T10:10:58+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e5-9d-91-e7-88-b9-e7-9a-84-e9-ad-85-e8-93-9dnote-e8-b0-83-e8-af-95adb-e9-97-ae-e9-a2-98</loc>
+<lastmod>2015-03-28T00:19:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81</loc>
+<lastmod>2015-03-27T23:07:15+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v</loc>
+<lastmod>2015-03-25T00:11:19+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc</loc>
+<lastmod>2015-03-22T02:41:02+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e6-9c-80-e8-bf-91-e7-9a-84-e6-96-b0-e6-83-b3-e6-b3-95</loc>
+<lastmod>2015-03-22T01:06:26+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/vs2013-e5-88-a9-e7-94-a8-e5-ae-8f-e6-b7-bb-e5-8a-a0-e5-87-bd-e6-95-b0-e6-b3-a8-e9-87-8a</loc>
+<lastmod>2015-03-18T19:00:10+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e9-9a-8f-e4-be-bf-e5-86-99-e7-82-b9-e4-bb-80-e4-b9-88</loc>
+<lastmod>2015-03-11T23:32:25+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e5-88-86-e4-ba-ab-e5-a4-a7-e8-a7-b8</loc>
+<lastmod>2015-03-06T00:53:25+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e6-90-ad-e5-bb-baarm-e4-ba-a4-e5-8f-89-e7-b7-a8-e8-ad-af-e7-92-b0-e5-a2-83part-1</loc>
+<lastmod>2015-03-04T18:03:39+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e5-85-a5-e6-89-8b-e6-a5-b5-e8-b7-af-e7-94-b1</loc>
+<lastmod>2015-03-04T13:31:21+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e6-98-8e-e5-a4-a9-e7-9a-84-e8-ae-a1-e5-88-92</loc>
+<lastmod>2015-03-04T00:01:08+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/e5-8d-9a-e5-ae-a2-e6-90-ac-e8-bf-81</loc>
+<lastmod>2015-03-02T20:58:20+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/qpython-e6-89-a7-e8-a1-8c-e9-9c-80-e8-a6-81root-e6-9d-83-e9-99-90-e7-9a-84-e8-84-9a-e6-9c-ac</loc>
+<lastmod>2015-02-28T03:28:42+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/category/blog</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/linux</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/vim</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/m4</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/snippet</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/raspberrypi</loc>
+<lastmod>2018-12-05T14:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/shu-mei-pai</loc>
+<lastmod>2018-12-05T14:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/chuan-liu</loc>
+<lastmod>2018-12-05T14:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/moonlight</loc>
+<lastmod>2018-12-05T14:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/find</loc>
+<lastmod>2018-07-23T10:26:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/xargs</loc>
+<lastmod>2018-07-23T10:26:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/exec</loc>
+<lastmod>2018-07-23T10:26:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/python</loc>
+<lastmod>2018-07-20T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/c</loc>
+<lastmod>2018-07-20T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/so</loc>
+<lastmod>2018-07-20T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/ota</loc>
+<lastmod>2017-11-13T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/android</loc>
+<lastmod>2017-11-13T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/yi-jia</loc>
+<lastmod>2017-11-13T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/bi-she</loc>
+<lastmod>2016-06-04T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/you-xi</loc>
+<lastmod>2016-06-04T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/adbyby</loc>
+<lastmod>2016-05-01T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pypi</loc>
+<lastmod>2016-03-24T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/svn</loc>
+<lastmod>2016-03-12T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/kai-fa</loc>
+<lastmod>2016-02-21T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/visual-studio</loc>
+<lastmod>2016-01-15T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/git</loc>
+<lastmod>2016-01-15T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/vps</loc>
+<lastmod>2016-01-04T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/vnc</loc>
+<lastmod>2016-01-04T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/ssh</loc>
+<lastmod>2016-01-04T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/jiao-cha-bian-yi</loc>
+<lastmod>2015-12-12T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/qu-dong</loc>
+<lastmod>2015-12-12T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/arm</loc>
+<lastmod>2015-12-12T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/shou-ji</loc>
+<lastmod>2015-11-16T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/qian-dao</loc>
+<lastmod>2015-09-02T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/lisp</loc>
+<lastmod>2015-08-28T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/cdn</loc>
+<lastmod>2015-08-28T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/github</loc>
+<lastmod>2015-08-28T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/lu-you-qi</loc>
+<lastmod>2015-08-21T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/openwrt</loc>
+<lastmod>2015-08-21T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/qiao-jie</loc>
+<lastmod>2015-08-21T23:50:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/mwan3</loc>
+<lastmod>2015-07-28T00:24:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/dnscrypt</loc>
+<lastmod>2015-07-26T18:23:16+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/tmux</loc>
+<lastmod>2015-07-25T18:34:05+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/zsh</loc>
+<lastmod>2015-07-25T18:34:05+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pelican</loc>
+<lastmod>2015-07-19T16:09:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/centos</loc>
+<lastmod>2015-07-19T16:09:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/hosts</loc>
+<lastmod>2015-07-10T15:05:20+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/dnsmasq</loc>
+<lastmod>2015-07-10T15:05:20+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/fm</loc>
+<lastmod>2015-06-28T01:15:23+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/putty</loc>
+<lastmod>2015-06-28T01:15:23+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/live-usb</loc>
+<lastmod>2015-06-27T00:23:05+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pwn</loc>
+<lastmod>2015-06-13T22:03:15+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/overflow</loc>
+<lastmod>2015-06-13T22:03:15+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/dui-zhan-yi-chu</loc>
+<lastmod>2015-06-13T22:03:15+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/wang-yi-yun-yin-le</loc>
+<lastmod>2015-05-31T13:28:54+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/ming-ling-xing</loc>
+<lastmod>2015-05-31T13:28:54+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pil</loc>
+<lastmod>2015-05-23T12:38:40+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/tu-xiang-chu-li</loc>
+<lastmod>2015-05-23T12:38:40+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pc</loc>
+<lastmod>2015-04-19T00:03:35+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/sheng-ji</loc>
+<lastmod>2015-04-19T00:03:35+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/android-studio</loc>
+<lastmod>2015-04-14T20:19:08+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/surface-pro-3</loc>
+<lastmod>2015-04-06T16:36:57+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/microsoft</loc>
+<lastmod>2015-04-06T16:36:57+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/hexo</loc>
+<lastmod>2015-04-05T10:10:58+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/ji-lu-you</loc>
+<lastmod>2015-03-04T13:31:21+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/author/chinuno-usami</loc>
+<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
 </urlset>

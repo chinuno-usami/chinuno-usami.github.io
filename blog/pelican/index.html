@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>转用pelican</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/pelican" rel="canonical" />
+
+    <meta name="description" content="新地址 买了个VPS，接下来一年的更新都放这上面了 原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久 新地址： www.chinuno.ml 环境搭建...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="pelican">
+    <meta name="tags" content="python">
+    <meta name="tags" content="centos">
+    <meta name="tags" content="vps">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="转用pelican"/>
+<meta property="og:description" content="新地址 买了个VPS，接下来一年的更新都放这上面了 原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久 新地址： www.chinuno.ml 环境搭建..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/pelican"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-07-19 16:09:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="pelican"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="centos"/>
+<meta property="article:tag" content="vps"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="转用pelican">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/pelican">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="新地址 买了个VPS，接下来一年的更新都放这上面了 原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久 新地址： www.chinuno.ml 环境搭建...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "转用pelican",
+  "headline": "转用pelican",
+  "datePublished": "2015-07-19 16:09:00+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/pelican",
+  "description": "新地址 买了个VPS，接下来一年的更新都放这上面了 原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久 新地址： www.chinuno.ml 环境搭建..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">转用pelican</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="日 19 七月 2015">日 19 七月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <h3>新地址</h3>
+<p>买了个VPS，接下来一年的更新都放这上面了
+原先用的树莓派跑hexo更新到Github上面，生成部署速度简直了。。十几分钟才能生完，部署也要等好久
+新地址： <a href="http://www.chinuno.ml/" title="Gensokyo">www.chinuno.ml</a> </p>
+<h3>环境搭建</h3>
+<p>VPS上跑的centos6,搭了个ss查资料用，yum了一个nginx用来显示页面。
+第一次不懂事直接<code>easy_install</code>了一个vurtualenv，然后直接下载pelican安装。后来才发现系统本身的python版本是2.6的。
+然后是直接下载python2.7的源码自己编译。然而使用<code>easy_install</code>的时候仍然是2.6版本的。没办法只好再用python2.7重新配置一个了。配置好的python2.7的<code>easy_install</code>却不能正常使用。一查发现是编译环境少了几个需要的东西，重新装上后再重新编译了一次python2.7。「其实少了好多东西，编译了好几次才完整
+折腾好之后安装完pelican进行配置。pelican的配置文件也是相当的简单易懂，根据自己的主题进行一些修改后就没什么大问题了，相比之下hexo要复杂不少。</p>
+<h3>迁移</h3>
+<p>pelican可以使用markdown进行写作，于是把原先用于hexo的markdown文件都搬过来了，然后才发现两个的元数据格式不一样，于是用sed修改了一下。</p>
+<h3>部署</h3>
+<p>pelican使用makefile来进行部署，速度非常快，不知道是不是因为这次不是在树莓派上面的关系，不过效率应该还是比hexo要高上不少的。
+起先直接把nginx的/设置到output目录上去，然后发现403了。目录比较沉，权限问题没法解决。最后修改pelican的output目录直接生成到nginx目录上。
+页面打开的速度非常快，除了有三个google获取的字体拖慢了打开速度。这个问题在添加了CDN加速后已经解决了。</p>
+<h3>不足</h3>
+<p>有个比较遗憾的地方是，似乎pelican对markdown的语法支持有点问题？或许是主题的问题？用` `包含起来的文字并没有高亮。像上文的<code>easy_install</code>。
+或许文章的语法还要重新学了。</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=转用pelican&amp;url=https://www.chinuno.com/blog/pelican" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/pelican" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/pelican" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/pelican">pelican</a><a href="https://www.chinuno.com/tag/python">python</a><a href="https://www.chinuno.com/tag/centos">centos</a><a href="https://www.chinuno.com/tag/vps">vps</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/pelican';
+                    var disqus_url = 'https://www.chinuno.com/blog/pelican';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/pelican" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/zsh">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">生命不息 折腾不止</h2>
+                            <p class="post-nav-excerpt">一天不折腾点什么就不舒服233 近况 键盘...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/hosts">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">把hosts塞进路由器</h2>
+                            <p class="post-nav-excerpt">把hosts塞进路由器实现那啥的。 路由器型号TP-Link TL-WR841ND v7，刷的DD-WRT v24-sp2 (06/14/11) std (SVN...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>surface pro中的hyper-v</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" rel="canonical" />
+
+    <meta name="description" content="最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。 另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。...">
+
+    <meta name="author" content="chinuno-usami">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="surface pro中的hyper-v"/>
+<meta property="og:description" content="最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。 另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-03-25 00:11:19+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="surface pro中的hyper-v">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。 另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "surface pro中的hyper-v",
+  "headline": "surface pro中的hyper-v",
+  "datePublished": "2015-03-25 00:11:19+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v",
+  "description": "最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。 另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">surface pro中的hyper-v</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="三 25 三月 2015">三 25 三月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>最近发现surface pro3在查看任务管理器的时候cpu频率总是显示为2.4Ghz，即使什么都不开也不会降下来。而以前刚入手的时候记得频率都降得很低的。
+另外发现InstantGo功能竟然没了，只要一盖上键盘都直接休眠了，要按下电源键等待几秒才能再开。
+后来才看到这篇文章
+<a href="http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby">http://winsupersite.com/mobile-devices/surface-pro-3-tip-hyper-v-vs-connected-standby</a>
+原来在开启了hyper-v后InstantGo就会被禁用，同时surface的电源管理多出来原来没有的节能和高性能两个设置
+关于cpu频率的问题网上说的是hyper-v和Intel的一些软件有兼容性问题，看来之前android的x86虚拟机提示cpu不支持虚拟化也极有可能是因为hyper-v产生的。如果不是特别需要的话果然还是把它关掉比较好，微软在开发wp应用的时候也要求打开hyper-v才可以。如果是开发wp应用这样不得不用的话那也没什么办法可以解决了。</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=surface pro中的hyper-v&amp;url=https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v';
+                    var disqus_url = 'https://www.chinuno.com/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/surface-pro-e4-b8-ad-e7-9a-84hyper-v" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/e6-a0-91-e8-8e-93-e6-b4-be-e5-87-ba-e9-97-ae-e9-a2-98-e4-ba-86-ef-bc-9f-ef-bc-81">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">树莓派炸了！</h2>
+                            <p class="post-nav-excerpt">一直都在用树莓派跑着Archlinux当成服务器做一些自动化的事情，平时也确实帮了不少忙。因为有ddns所以就算在外面也能ssh连接到树莓派中进行操作。...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/linux-e5-86-85-e6-a0-b8-e4-bb-a3-e7-a0-81-e9-a3-8e-e6-a0-bc">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Linux内核代码风格</h2>
+                            <p class="post-nav-excerpt">这学期有个Linux驱动开发的课程，所以看了Linux内核源代码中的Documentation中关于代码风格的部分 发现关于缩进他说的是缩进使用八个字符，不能用空格缩进...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>DNSCrypt解决污染问题</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="https://www.chinuno.com/" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="https://www.chinuno.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Full Atom Feed" />
+          <link href="https://www.chinuno.com/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Gensokyo Categories Atom Feed" />
+
+  <link href="https://www.chinuno.com/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://www.chinuno.com/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+    <!-- CSS specified by the user -->
+
+
+    <link href="https://www.chinuno.com/assets/css/myblog.css" type="text/css" rel="stylesheet" />
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+  <link href="https://www.chinuno.com/blog/openwrt" rel="canonical" />
+
+    <meta name="description" content="之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。 然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。...">
+
+    <meta name="author" content="chinuno-usami">
+
+    <meta name="tags" content="openwrt">
+    <meta name="tags" content="DNSCrypt">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Gensokyo"/>
+<meta property="og:title" content="DNSCrypt解决污染问题"/>
+<meta property="og:description" content="之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。 然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/openwrt"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-07-26 18:23:16+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
+<meta property="article:section" content="blog"/>
+<meta property="article:tag" content="openwrt"/>
+<meta property="article:tag" content="DNSCrypt"/>
+<meta property="og:image" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@chinuno_usami">
+    <meta name="twitter:title" content="DNSCrypt解决污染问题">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/openwrt">
+
+        <meta name="twitter:image:src" content="https://www.chinuno.com/theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。 然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "DNSCrypt解决污染问题",
+  "headline": "DNSCrypt解决污染问题",
+  "datePublished": "2015-07-26 18:23:16+08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "chinuno-usami",
+    "url": "https://www.chinuno.com/author/chinuno-usami"
+  },
+  "image": "https://www.chinuno.com/theme/images/post-bg.jpg",
+  "url": "https://www.chinuno.com/blog/openwrt",
+  "description": "之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。 然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="archives.html" role="presentation">文章列表</a></li>
+          <li><a href="tags.html" role="presentation">标签</a></li>
+
+              <li role="presentation"><a href="https://www.chinuno.com/About">ABOUT</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://www.chinuno.com/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">DNSCrypt解决污染问题</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
+            | <time datetime="日 26 七月 2015">日 26 七月 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>之前路由器刷的别人加入mentohust编译的ddwrt，然后就发现这个版本的ddwrt无法启用jffs，基本上没什么可以玩的。</p>
+<p>然后今天就想着刷个openwrt配合ChinaDns解决一下污染问题，这样也没必要一直更新hosts了。</p>
+<p>首先还是先去官网下载对应的openwrt固件。这sb路由器的型号是TP-Link TL-WR841ND v7，相关信息可以在这里看到<a href="http://wiki.openwrt.org/toh/tp-link/tl-wr841nd">http://wiki.openwrt.org/toh/tp-link/tl-wr841nd</a></p>
+<div class="highlight"><pre><span></span>mkdir openwrt
+<span class="nb">cd</span> openwrt
+aria2c http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin
+</pre></div>
+
+
+<p>新建文件夹，以后要用到的东西就都丢这里面了。
+因为之前已经刷了ddwrt，所以ssh到路由器上用命令刷写固件。</p>
+<div class="highlight"><pre><span></span>mv openwrt-ar71xx-generic-tl-wr841nd-v7-squashfs-factory.bin openwrt.bin
+scp openwrt.bin root@192.168.2.1:/tmp/
+</pre></div>
+
+
+<p>用scp把固件传到路由器上。
+ssh到路由器进行刷机操作</p>
+<div class="highlight"><pre><span></span>mtd erase nvram <span class="c1">#清除nvram</span>
+mtd -r write /tmp/openwrt.bin linux <span class="c1">#写入openwrt</span>
+</pre></div>
+
+
+<p>等他重启之后openwrt就写进去了。默认地址是192.168.1.1
+已经集成了luci，可以从网页进行管理。进去之后第一件事还是修改密码
+因为192.168.1.1和上级网关冲突所以先改成192.168.2.1，这个时候因为电脑自动分配到的ip已经跟路由器不在同一个网段里面了，可以</p>
+<div class="highlight"><pre><span></span>ifconfig eth0 <span class="m">192</span>.168.2.111
+</pre></div>
+
+
+<p>先设置在一起然后进行下一步操作。
+也可以重新连接，让他再次分配正常使用「这点在linux上面的操作真是太方便了，windows每次重连都糊我一脸</p>
+<p>luci界面是英文的，如果想改成中文可以这样设置</p>
+<div class="highlight"><pre><span></span>opkg update
+opkg install luci-i18n-chinese
+</pre></div>
+
+
+<p>之后在system-&gt;system-&gt;language里面修改成中文</p>
+<p>chinadns可以从<a href="https://github.com/clowwindy/ChinaDNS">https://github.com/clowwindy/ChinaDNS</a>获取，也有另外一个专门为openwrt移植的chinadns项目，网上说的大多是用那个。</p>
+<p>scp到路由器上，然后opkg install安装就行。
+设置运行后感觉还是应该跟ss配合才能用。然后在试图装ss的依赖时发现存储空间不够用。本来剩下的空间也就几百k而已了。要扩展存储空间的话只能
+1. 更换flash，这个还需要编程器写入数据。做不到
+2. wiki上面说支持usb1.1，可以插u盘扩展。但是路由器没有usb接口，需要魔改加上去，实在不想再折腾
+3. TYPCN说的mount一个NFS应该也是个可以的解决方法，正好有树莓派可以开一个nfs服务器。</p>
+<p>最后还是放弃Chinadns的方案，试试TYPCN说的DNSCrypt。其实原先就用过openDNS的那个客户端，加密传输我觉得应该是不会污染，但是服务器的连接总是特别弹疼，大部分时间都是连不上的。</p>
+<p>DNSCrypt的HP在这<a href="http://dnscrypt.org/#dnscrypt-routers">http://dnscrypt.org/#dnscrypt-routers</a></p>
+<p>按照<a href="https://github.com/black-roland/exOpenWrt">README</a>或者<a href="http://wiki.openwrt.org/inbox/dnscrypt">openwrt的wiki</a>来安装设置没什么大问题。</p>
+<p>获取到的结果确实没污染。然而google之流的还是不能够直接访问。看来还是要靠hosts。然而现在的我依然是靠着之前的hosts列表来正常的上网- =</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=DNSCrypt解决污染问题&amp;url=https://www.chinuno.com/blog/openwrt" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/openwrt" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/openwrt" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://www.chinuno.com/tag/openwrt">openwrt</a><a href="https://www.chinuno.com/tag/dnscrypt">DNSCrypt</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://avatars0.githubusercontent.com/u/6437705?s=460&v=4" alt="Chinuno Usami" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a></h4>
+                            <p class="post-author-about">什么都不懂的小学生一枚，Python/C/C++/Rust，Android开发,独立游戏开发者。ruby/nodejs/golang学习中。东方project，不定时补补番，不会画画。</p>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Gensokyo</span>
+                            <span class="post-author-website"><a href="https://www.chinuno.com"><i class="ic ic-link"></i> Website</a></span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/chinuno-usami"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+                <script type="text/javascript">
+                    var disqus = 'gensokyo';
+                    var disqus_shortname = 'gensokyo';
+                    var disqus_identifier = '/blog/openwrt';
+                    var disqus_url = 'https://www.chinuno.com/blog/openwrt';
+                </script>
+                <noscript>Please enable JavaScript to view the comments.</noscript>
+                <section class="post-comments">
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/openwrt" >Show Comments</a>
+                    <div id="disqus_thread"></div>
+                </section>
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="https://www.chinuno.com/blog/adbyby">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">路由器去广告</h2>
+                            <p class="post-nav-excerpt">今天依然是折腾路由器。 均衡负载 刷了openwrt就想试试其他的东西...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/zsh">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">生命不息 折腾不止</h2>
+                            <p class="post-nav-excerpt">一天不折腾点什么就不舒服233 近况 键盘...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">&copy; 2019</span>
+          <span class="credits-software">Published by <a href="https://github.com/chinuno-usami">Chinuno Usami</a>. All right reversed</span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://www.chinuno.com/theme/js/script.js"></script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'gensokyo';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

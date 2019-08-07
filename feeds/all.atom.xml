@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Gensokyo</title><link href="https://www.chinuno.com/" rel="alternate"></link><link href="https://www.chinuno.com/feeds/all.atom.xml" rel="self"></link><id>https://www.chinuno.com/</id><updated>2019-07-19T09:27:06+08:00</updated><subtitle>・－・・ －－－ ・・・－ ・</subtitle><entry><title>vim实现无插件的snippet</title><link href="https://www.chinuno.com/blog/snippet" rel="alternate"></link><published>2019-07-19T09:27:06+08:00</published><updated>2019-07-19T09:27:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-07-19:/blog/snippet</id><summary type="html">&lt;p&gt;突然发现一年没更新了。更一个凑数（。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Gensokyo</title><link href="https://www.chinuno.com/" rel="alternate"></link><link href="https://www.chinuno.com/feeds/all.atom.xml" rel="self"></link><id>https://www.chinuno.com/</id><updated>2019-08-07T10:38:00+08:00</updated><subtitle>・－・・ －－－ ・・・－ ・</subtitle><entry><title>又用回Github pages了</title><link href="https://www.chinuno.com/blog/back-to-github-pages" rel="alternate"></link><published>2019-08-07T10:38:00+08:00</published><updated>2010-12-05T19:30:00+08:00</updated><author><name>Chinuno Usami</name></author><id>tag:www.chinuno.com,2019-08-07:/blog/back-to-github-pages</id><summary type="html">&lt;p&gt;原来放blog的机器没了，所以用回Github pages了。&lt;/p&gt;</summary><content type="html">&lt;h1&gt;干嘛要换&lt;/h1&gt;
+&lt;p&gt;之所以换回来是因为。之前有个年付$10的搬瓦工ovz的vps，因为便宜，而且$10的套餐已经被取消了
+所以一直养着只用来放blog。&lt;br&gt;
+现在搬瓦工撤掉了所有ovz的机器，所以就放回Github Pages了。&lt;/p&gt;
+&lt;h1&gt;重整&lt;/h1&gt;
+&lt;p&gt;原来的主题挺喜欢的。不过在移动端体验可太差了，所以另外找了个主题换掉了。&lt;br&gt;
+最早Github pages上用的是hexo生成的页面，但后来在vps上用的是pelcian，&lt;br&gt;
+所以就把原来的页面都清掉换成pelcian生成了。&lt;/p&gt;
+&lt;h1&gt;自定义域名&lt;/h1&gt;
+&lt;p&gt;现在Github pages自定义域名挺方便的，加一个CNAME过来就行。至于https支持，&lt;br&gt;
+在Github上提示说我的域名不支持https。不过走cf的cdn变相支持https也一样。&lt;/p&gt;
+&lt;p&gt;@&lt;/p&gt;</content><category term="pelican"></category><category term="github pages"></category></entry><entry><title>vim实现无插件的snippet</title><link href="https://www.chinuno.com/blog/snippet" rel="alternate"></link><published>2019-07-19T09:27:06+08:00</published><updated>2019-07-19T09:27:06+08:00</updated><author><name>chinuno-usami</name></author><id>tag:www.chinuno.com,2019-07-19:/blog/snippet</id><summary type="html">&lt;p&gt;突然发现一年没更新了。更一个凑数（。&lt;/p&gt;
 &lt;p&gt;公司一直要求写代码要求加文件头注释和函数头注释，但是做当前这个项目的时候一直没加。&lt;br&gt;
 被发现后屌了一顿，在补注释的时候发现这种机械性的操作还是需要snippet来做比较方便。&lt;br&gt;
 但是公司所有环境隔离，给vim装个snippet插件是不太好搞了，于是自己实现了个简单够用的snippet功能。  &lt;/p&gt;

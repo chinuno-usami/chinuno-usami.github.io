@@ -5,21 +5,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/</loc>
-<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<lastmod>2019-08-07T11:06:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/archives.html</loc>
-<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<lastmod>2019-08-07T11:06:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tags.html</loc>
-<lastmod>2019-08-07T09:30:16-00:00</lastmod>
+<lastmod>2019-08-07T11:06:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -27,6 +27,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/About</loc>
 <lastmod>2015-02-28T14:59:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/back-to-github-pages</loc>
+<lastmod>2010-12-05T19:30:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -369,7 +376,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/category/blog</loc>
-<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<lastmod>2019-08-07T10:38:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/pelican</loc>
+<lastmod>2019-08-07T10:38:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/github-pages</loc>
+<lastmod>2019-08-07T10:38:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -676,13 +697,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://www.chinuno.com/tag/pelican</loc>
-<lastmod>2015-07-19T16:09:00+08:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://www.chinuno.com/tag/centos</loc>
 <lastmod>2015-07-19T16:09:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -824,7 +838,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/author/chinuno-usami</loc>
-<lastmod>2019-07-19T09:27:06+08:06</lastmod>
+<lastmod>2019-08-07T10:38:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

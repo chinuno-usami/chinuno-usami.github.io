@@ -149,12 +149,9 @@
         <article class="post">
         <div class="inner">
             <section class="post-content">
-                <div class="highlight"><pre><span></span><span class="ss">`RocksDB`</span><span class="err">存数据的时候只能用</span><span class="n">Slice类型存储</span><span class="err">，将</span><span class="ss">`std::string`</span><span class="err">转成</span><span class="ss">`Slice`</span><span class="err">再</span><span class="n">Put写进去</span><span class="err">。</span>
-</pre></div>
-
-
-<p>但是经常遇到需要存储的类型不是字符串，可能需要存储bool类型或int,float类型的数据。其实从<code>Slice</code>类型的本质去理解就可以想办法存储其他类型的数据了。<br>
-<code>Slice</code>本质是一个指针指向存储的数据内存地址，同时记录下数据的长度。因此不管数据是什么类型，只要内存数据原封不动的存起来，取的时候就能还原为特定类型的数据。<br>
+                <p><code>RocksDB</code>存数据的时候只能用Slice类型存储，将<code>std::string</code>转成<code>Slice</code>再Put写进去。<br>
+但是经常遇到需要存储的类型不是字符串，可能需要存储bool类型或int,float类型的数据。其实从<code>Slice</code>类型的本质去理解就可以想办法存储其他类型的数据了。  </p>
+<p><code>Slice</code>本质是一个指针指向存储的数据内存地址，同时记录下数据的长度。因此不管数据是什么类型，只要内存数据原封不动的存起来，取的时候就能还原为特定类型的数据。<br>
 具体操作代码如下，因为操作语句比较长，所以用宏来进行替换。  </p>
 <div class="highlight"><pre><span></span><span class="c1">// 将数据封装成Slice对象</span>
 <span class="cp">#define TO_SLICE(type, value) \</span>
@@ -190,10 +187,7 @@
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="err">至于其他类型作为</span><span class="n">key来用</span><span class="err">，理论上也是一样的，不过正常应该不会有这种需求吧。</span>
-</pre></div>
-
-
+<p>至于其他类型作为key来用，理论上也是一样的，不过正常应该不会有这种需求吧。</p>
 <p>@</p>
             </section>
 

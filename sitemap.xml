@@ -5,21 +5,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/</loc>
-<lastmod>2019-12-05T19:29:11-00:00</lastmod>
+<lastmod>2019-12-21T08:54:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/archives.html</loc>
-<lastmod>2019-12-05T19:29:11-00:00</lastmod>
+<lastmod>2019-12-21T08:54:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tags.html</loc>
-<lastmod>2019-12-05T19:29:11-00:00</lastmod>
+<lastmod>2019-12-21T08:54:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -27,6 +27,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/About</loc>
 <lastmod>2015-02-28T14:59:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/servertan</loc>
+<lastmod>2019-12-21T08:29:48+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -397,7 +404,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/category/blog</loc>
-<lastmod>2019-12-05T19:22:00+08:06</lastmod>
+<lastmod>2019-12-21T08:29:48+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/wechat</loc>
+<lastmod>2019-12-21T08:29:48+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/servertan</loc>
+<lastmod>2019-12-21T08:29:48+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -908,7 +929,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/author/chinuno-usami</loc>
-<lastmod>2019-12-05T19:22:00+08:06</lastmod>
+<lastmod>2019-12-21T08:29:48+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

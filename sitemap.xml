@@ -5,21 +5,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/</loc>
-<lastmod>2019-12-21T08:59:21-00:00</lastmod>
+<lastmod>2020-01-20T11:11:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/archives.html</loc>
-<lastmod>2019-12-21T08:59:21-00:00</lastmod>
+<lastmod>2020-01-20T11:11:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tags.html</loc>
-<lastmod>2019-12-21T08:59:21-00:00</lastmod>
+<lastmod>2020-01-20T11:11:40-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -27,6 +27,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/About</loc>
 <lastmod>2015-02-28T14:59:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/thread-name</loc>
+<lastmod>2020-01-20T10:59:49+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -404,7 +411,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/category/blog</loc>
-<lastmod>2019-12-21T08:29:48+08:06</lastmod>
+<lastmod>2020-01-20T10:59:49+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/linux</loc>
+<lastmod>2020-01-20T10:59:49+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/thread</loc>
+<lastmod>2020-01-20T10:59:49+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -489,13 +510,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/tag/github-pages</loc>
 <lastmod>2019-08-07T11:13:00+08:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://www.chinuno.com/tag/linux</loc>
-<lastmod>2019-07-19T09:27:06+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -929,7 +943,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/author/chinuno-usami</loc>
-<lastmod>2019-12-21T08:29:48+08:06</lastmod>
+<lastmod>2020-01-20T10:59:49+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

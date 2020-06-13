@@ -184,6 +184,14 @@
 其中<code>server</code>和<code>port</code>为privoxy的ip(一般监听127.0.0.1就够了)和端口.<code>user</code>和<code>pass</code>为空的情况下可以去掉。  </p>
 <p>Clash的设置中将termux设置黑名单，不将termux的流量进行过滤，否则会造成流量传输死循环。<br>
 运行Clash后将规则模式设置为全局，否则国内流量将直接发送不走广告过滤流程。  </p>
+<h3>为什么不直接Adgurad+梯子或者Adgurad-&gt;privoxy呢</h3>
+<p>梯子本身没有国内外路由规则，单纯所有流量都走梯子。<br>
+国内外网站路由要靠privoxy来实现，而Adgurad-&gt;privoxy有个问题。<br>
+Adgurad对于出去的代理是不带原始网站信息的，也就是说所有网页访问Adguard都会自己做dns解析，然后流量都以ip:port形式去请求出口代理。<br>
+这样privoxy由于收到的请求没有携带原始信息而无法做任何路由规则，所有流量一样都走梯子了。<br>
+对于国内外分流gfwlist内容其实不太全，很多国外网站需要走梯子的情况覆盖不到，所以根据国内外ip分流是比较理想的路由规则。  </p>
+<p>跟原来一样Adguard-&gt;privoxy，以请求的ip判断是否国内流量理论上是可以实现的（根据AS号分配表生成匹配规则之类）。<br>
+但是这个表更新或许比gfwlist还频繁，处理也要另外程序处理。试了一下单纯表下载花了5分钟，过滤出国内分配的网段8521条。不太能行</p>
 <p>@</p>
             </section>
 

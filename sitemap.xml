@@ -5,21 +5,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/</loc>
-<lastmod>2020-06-28T15:51:13-00:00</lastmod>
+<lastmod>2020-07-27T20:10:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/archives.html</loc>
-<lastmod>2020-06-28T15:51:13-00:00</lastmod>
+<lastmod>2020-07-27T20:10:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tags.html</loc>
-<lastmod>2020-06-28T15:51:13-00:00</lastmod>
+<lastmod>2020-07-27T20:10:23-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -34,6 +34,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/RBQ</loc>
 <lastmod>2020-03-18T19:48:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/ummcs</loc>
+<lastmod>2020-07-27T19:43:02+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -439,14 +446,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/category/blog</loc>
-<lastmod>2020-06-28T14:18:16+08:06</lastmod>
+<lastmod>2020-07-27T19:43:02+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tag/c</loc>
-<lastmod>2020-06-28T14:18:16+08:06</lastmod>
+<lastmod>2020-07-27T19:43:02+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/qq</loc>
+<lastmod>2020-07-27T19:43:02+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/bot</loc>
+<lastmod>2020-07-27T19:43:02+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -992,7 +1013,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/author/chinuno-usami</loc>
-<lastmod>2020-06-28T14:18:16+08:06</lastmod>
+<lastmod>2020-07-27T19:43:02+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

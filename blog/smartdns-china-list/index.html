@@ -162,10 +162,12 @@
 但是由于dnsmasq的实现问题，对于大量的域名规则都是遍历查询。所以在请求量稍大点的时候就会发现树莓派的cpu使用几乎要满了，查询速度也比较慢。  </p>
 <h2>smartdns</h2>
 <p>dnsmasq-china-list的维护者已经在<a href="https://github.com/felixonmars/dnsmasq-china-list/issues/227">#227</a>中表示换用smartdns了，所以我也换成smartdns试了一下。<br>
-没怎么说明smartdns的配置，所以这里简单记录一下<br>
-1. 从<a href="https://github.com/felixonmars/dnsmasq-china-list">github</a>获取项目内容
-2. <code>make smartdns SERVER=china</code>生成配置文件
-3. 修改smartdns的配置，指定默认上游服务器和china组的上游服务器，添加生成的smartdns配置到配置文件 </p>
+没怎么说明smartdns的配置，所以这里简单记录一下  </p>
+<ol>
+<li>从<a href="https://github.com/felixonmars/dnsmasq-china-list">github</a>获取项目内容  </li>
+<li><code>make smartdns SERVER=china</code>生成配置文件  </li>
+<li>修改smartdns的配置，指定默认上游服务器和china组的上游服务器，添加生成的smartdns配置到配置文件 </li>
+</ol>
 <div class="highlight"><pre><span></span><span class="n">conf</span><span class="o">-</span><span class="n">file</span> <span class="n">accelerated</span><span class="o">-</span><span class="n">domains</span><span class="p">.</span><span class="n">china</span><span class="p">.</span><span class="n">smartdns</span><span class="p">.</span><span class="n">conf</span>
 <span class="n">conf</span><span class="o">-</span><span class="n">file</span> <span class="n">apple</span><span class="p">.</span><span class="n">china</span><span class="p">.</span><span class="n">smartdns</span><span class="p">.</span><span class="n">conf</span>
 <span class="n">conf</span><span class="o">-</span><span class="n">file</span> <span class="n">google</span><span class="p">.</span><span class="n">china</span><span class="p">.</span><span class="n">smartdns</span><span class="p">.</span><span class="n">conf</span>

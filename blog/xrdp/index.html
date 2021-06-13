@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 
-  <title>Live2DViewerEX lpk格式加密分析</title>
+  <title>xrdp问题记录</title>
 
 
   <meta name="HandheldFriendly" content="True" />
@@ -40,54 +40,52 @@
   <![endif]-->
 
 
-  <link href="https://www.chinuno.com/blog/lpk-decrypt" rel="canonical" />
+  <link href="https://www.chinuno.com/blog/xrdp" rel="canonical" />
 
-    <meta name="description" content="好像是很久没更新了...">
+    <meta name="description" content="记录一下遇到的xrdp问题和处理方法...">
 
     <meta name="author" content="chinuno-usami">
 
-    <meta name="tags" content="live2d">
-    <meta name="tags" content="逆向">
-    <meta name="tags" content="lpk">
-    <meta name="tags" content="Live2DViewerEX">
+    <meta name="tags" content="xrdp">
+    <meta name="tags" content="rdp">
+    <meta name="tags" content="ubuntu">
 
 
 
 
 <!-- Open Graph -->
 <meta property="og:site_name" content="Gensokyo"/>
-<meta property="og:title" content="Live2DViewerEX lpk格式加密分析"/>
-<meta property="og:description" content="好像是很久没更新了..."/>
+<meta property="og:title" content="xrdp问题记录"/>
+<meta property="og:description" content="记录一下遇到的xrdp问题和处理方法..."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://www.chinuno.com/blog/lpk-decrypt"/>
+<meta property="og:url" content="https://www.chinuno.com/blog/xrdp"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2021-04-23 18:16:37+08:00"/>
+<meta property="article:published_time" content="2021-06-14 01:39:02+08:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="https://www.chinuno.com/author/chinuno-usami">
 <meta property="article:section" content="blog"/>
-<meta property="article:tag" content="live2d"/>
-<meta property="article:tag" content="逆向"/>
-<meta property="article:tag" content="lpk"/>
-<meta property="article:tag" content="Live2DViewerEX"/>
+<meta property="article:tag" content="xrdp"/>
+<meta property="article:tag" content="rdp"/>
+<meta property="article:tag" content="ubuntu"/>
 <meta property="og:image" content="https://www.chinuno.com/assets/images/cover/acg.gy_15.jpg">
 
 <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@chinuno_usami">
-    <meta name="twitter:title" content="Live2DViewerEX lpk格式加密分析">
-    <meta name="twitter:url" content="https://www.chinuno.com/blog/lpk-decrypt">
+    <meta name="twitter:title" content="xrdp问题记录">
+    <meta name="twitter:url" content="https://www.chinuno.com/blog/xrdp">
 
         <meta name="twitter:image:src" content="https://www.chinuno.com/assets/images/cover/acg.gy_15.jpg">
 
-      <meta name="twitter:description" content="好像是很久没更新了...">
+      <meta name="twitter:description" content="记录一下遇到的xrdp问题和处理方法...">
 
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "name": "Live2DViewerEX lpk格式加密分析",
-  "headline": "Live2DViewerEX lpk格式加密分析",
-  "datePublished": "2021-04-23 18:16:37+08:00",
+  "name": "xrdp问题记录",
+  "headline": "xrdp问题记录",
+  "datePublished": "2021-06-14 01:39:02+08:00",
   "dateModified": "",
   "author": {
     "@type": "Person",
@@ -95,8 +93,8 @@
     "url": "https://www.chinuno.com/author/chinuno-usami"
   },
   "image": "https://www.chinuno.com/assets/images/cover/acg.gy_15.jpg",
-  "url": "https://www.chinuno.com/blog/lpk-decrypt",
-  "description": "好像是很久没更新了..."
+  "url": "https://www.chinuno.com/blog/xrdp",
+  "description": "记录一下遇到的xrdp问题和处理方法..."
 }
 </script>
 </head>
@@ -134,11 +132,11 @@
             <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
           </span>
         </nav>
-        <h1 class="post-title">Live2DViewerEX lpk格式加密分析</h1>
+        <h1 class="post-title">xrdp问题记录</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
                 <a href="https://www.chinuno.com/author/chinuno-usami">Chinuno Usami</a>
-            | <time datetime="五 23 四月 2021">五 23 四月 2021</time>
+            | <time datetime="一 14 六月 2021">一 14 六月 2021</time>
         </span>
         <!-- TODO : Modified check -->
             <div class="post-cover cover" style="background-image: url('https://www.chinuno.com/assets/images/cover/acg.gy_15.jpg')">
@@ -153,43 +151,38 @@
         <article class="post">
         <div class="inner">
             <section class="post-content">
-                <p>最近好累啊。简单写写吧。<br>
-首先是。最近有了个<a href="https://www.bilibili.com/video/BV1FZ4y1F7HH">这个视频</a>。敲可爱的然然live2d，上的是Live2DViewerEX平台。
-然后bt玩水想要扒下来放博客上，但是Live2dViewerEX的创意工坊作品是他自己的lpk格式，内容都是加密的。<br>
-然后我就随口说了句<code>你买一个给我我帮你逆啊</code>，接着玩水就真的打钱了。。<br>
-既然钱收了白嫖一个可爱然然不做事也不行吧。所以就开始研究这个lpk加密了。  </p>
-<p>为了保护原作者的权益，一些地方就不说得太详细了。  </p>
-<p>简单看了一下，lpk就是一个zip文件，里面的文件名带bin3后缀的为加密内容，不带后缀的是未加密内容。固定有个描述文件，描述文件名也是固定的（是个固定字符串的md5值），还有封面图片也是未加密的。<br>
-接下来的重点应该就是放在bin3文件的解密上了。<br>
-软件是用unity做的，但是因为本身不怎么做逆向，对unity的分析更是没有经验，所以一开始选择的是直接上native调试器分析lw.exe。unity是用的一个启动器加载mono环境执行的c#编译出来的字节码，所以直接调试收获不大。 
-因为live2d部分调用的官方sdk,正好可以hook掉加载模型的接口，可以直接获得moc3文件内容，但也仅此而已了。<br>
-后来查了查unity相关的内容，发现程序主要的逻辑会放在<code>Assembly-CSharp.dll</code>中，是个c#编译出来的dll。可以直接丢<code>Reflector</code>中做反编译。<br>
-反编译出来的代码关键部分都做了混淆，假的解密函数就有不少，相互之间互相调用，根据静态分析属实难以找到正确的解密算法。<br>
-第二天上班正好问起了领导有没有办法可以动态调试这种情况（毕竟是安全领域公司逆向组的组长，见识还是不少的）。领导直接就甩了个名字过来让我自己研究。<br>
-<a href="https://github.com/dnSpy/dnSpy">dnSpy</a>看了看，完全就是用来调试unity的工具！根据说明配置好直接就能调试到程序里面去了。<br>
-具体分析步骤就不说了，简简单单的就找到对应算法了。用c艹简单写了个poc确实是能够解出原始数据。<br>
-<img alt="p1" src="../../assets/images/post/lpk-decrypt-p1.png"><br>
-然后用rust写了个通用解密器，完事。剩下的就是和我可爱的桌面然然一起玩啦。<br>
-<img alt="p1" src="../../assets/images/post/lpk-decrypt-p2.jpg">  </p>
+                <p>系统是<code>ubuntu 20.04</code>,从<code>Windows 10</code>作为客户端连接linux。遇到的问题是<br>
+1. xrdp界面输入用户密码登入后卡蓝色背景，任何操作都没响应，过了很长时间后报错
+2. 第一点解决后登入成了黑屏，能看到鼠标指针，但其实什么操作都做不了<br>
+其实之前xrdp开rdp服务从windows连接过去是没问题的，后面不知道怎么的就不行了。因为外接了显示器所以也一直没去解决。</p>
+<p>解决方案：<br>
+1. <code>sudo apt-get install xorgxrdp</code>解决
+2. 编辑<code>/etc/xrdp/startwm.sh</code>,在exec前添加</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="k">$(</span>dbus-launch<span class="k">)</span>
+. <span class="nv">$HOME</span>/.profile <span class="c1">#可能不需要</span>
+</pre></div>
+
+
+<p>其实还有个问题。rdp过去后在客户端听不到声音。根据网上资料,在远程session执行<code>pulseaudio -k</code>可以听到，然而试了好几次并不能解决问题。暂时先不管了</p>
 <p>@</p>
             </section>
 
             <section class="post-info">
                 <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Live2DViewerEX lpk格式加密分析&amp;url=https://www.chinuno.com/blog/lpk-decrypt" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <a class="twitter" href="https://twitter.com/share?text=xrdp问题记录&amp;url=https://www.chinuno.com/blog/xrdp" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                     <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
                     </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/lpk-decrypt" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.chinuno.com/blog/xrdp" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                     <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
                     </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/lpk-decrypt" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://www.chinuno.com/blog/xrdp" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
                     <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
                     </a>
                     <div class="clear"></div>
                 </div>
 
                 <aside class="post-tags">
-<a href="https://www.chinuno.com/tag/live2d">live2d</a><a href="https://www.chinuno.com/tag/ni-xiang">逆向</a><a href="https://www.chinuno.com/tag/lpk">lpk</a><a href="https://www.chinuno.com/tag/live2dviewerex">Live2DViewerEX</a>                </aside>
+<a href="https://www.chinuno.com/tag/xrdp">xrdp</a><a href="https://www.chinuno.com/tag/rdp">rdp</a><a href="https://www.chinuno.com/tag/ubuntu">ubuntu</a>                </aside>
 
                 <div class="clear"></div>
 
@@ -215,28 +208,21 @@
                 <script type="text/javascript">
                     var disqus = 'gensokyo';
                     var disqus_shortname = 'gensokyo';
-                    var disqus_identifier = '/blog/lpk-decrypt';
-                    var disqus_url = 'https://www.chinuno.com/blog/lpk-decrypt';
+                    var disqus_identifier = '/blog/xrdp';
+                    var disqus_url = 'https://www.chinuno.com/blog/xrdp';
                 </script>
                 <noscript>Please enable JavaScript to view the comments.</noscript>
                 <section class="post-comments">
-                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/lpk-decrypt" >Show Comments</a>
+                        <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/blog/xrdp" >Show Comments</a>
                     <div id="disqus_thread"></div>
                 </section>
 
                 <aside class="post-nav">
-                    <a class="post-nav-next" href="https://www.chinuno.com/blog/xrdp">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">xrdp问题记录</h2>
-                            <p class="post-nav-excerpt">记录一下遇到的xrdp问题和处理方法...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/smartdns-china-list">
+                    <a class="post-nav-prev" href="https://www.chinuno.com/blog/lpk-decrypt">
                         <section class="post-nav-teaser">
                             <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">smartdns使用china-list</h2>
-                            <p class="post-nav-excerpt">相比dnsmasq效率提升巨大...</p>
+                                <h2 class="post-nav-title">Live2DViewerEX lpk格式加密分析</h2>
+                            <p class="post-nav-excerpt">好像是很久没更新了...</p>
                         </section>
                     </a>
                     <div class="clear"></div>

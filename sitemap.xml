@@ -5,21 +5,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/</loc>
-<lastmod>2021-04-23T20:32:19-00:00</lastmod>
+<lastmod>2021-06-14T02:01:10-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/archives.html</loc>
-<lastmod>2021-04-23T20:32:19-00:00</lastmod>
+<lastmod>2021-06-14T02:01:10-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://www.chinuno.com/tags.html</loc>
-<lastmod>2021-04-23T20:32:19-00:00</lastmod>
+<lastmod>2021-06-14T02:01:10-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -34,6 +34,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://www.chinuno.com/RBQ</loc>
 <lastmod>2020-03-18T19:48:18+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/blog/xrdp</loc>
+<lastmod>2021-06-14T01:39:02+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -460,7 +467,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/category/blog</loc>
-<lastmod>2021-04-23T18:16:37+08:06</lastmod>
+<lastmod>2021-06-14T01:39:02+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/xrdp</loc>
+<lastmod>2021-06-14T01:39:02+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/rdp</loc>
+<lastmod>2021-06-14T01:39:02+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://www.chinuno.com/tag/ubuntu</loc>
+<lastmod>2021-06-14T01:39:02+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -1069,7 +1097,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://www.chinuno.com/author/chinuno-usami</loc>
-<lastmod>2021-04-23T18:16:37+08:06</lastmod>
+<lastmod>2021-06-14T01:39:02+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
